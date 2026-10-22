@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0a09">
+<script>var SEVORA_WA="";</script>
+</head>
+<body>
+<title>Business Autopilot — SEVORA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Geist:wght@400..650&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: SEVORA dark world. One business day, replayed: a control room (clock + agent network) on the left, the owner's phone (approvals, today's numbers) and the activity feed on the right, curveballs underneath, then tonight's report, how it works, pricing and FAQ. Single dark look by choice. */
+:root{color-scheme:dark;
+--ink:#0b0a09;--ink2:#131210;--card:#171512;--card2:#1c1a16;--line:rgba(239,233,223,.1);--line2:rgba(239,233,223,.2);--bone:#efe9df;--bone2:#d8d0c4;--mute:#a39b90;--dim:#77706a;
+--gold:#d9a85f;--gold2:#f0c987;--sage:#8fbfa6;--ember:#f2895a;--sky:#8fb3d9;--plum:#c39bd3;--teal:#7fc4c0;--rose:#e79bb0;--sand:#d8c08a;
+--display:'Fraunces',Georgia,serif;--sans:'Geist',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace}
+[hidden]{display:none!important}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--ink);color:var(--bone);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{background:none;border:0;cursor:pointer;color:inherit;font:inherit}
+a{color:inherit}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1260px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border-radius:999px;border:1px solid var(--line2);font-size:14.5px;font-weight:500;transition:background .2s,border-color .2s,color .2s;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--gold);color:var(--gold2)}
+.btn.primary{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn.primary:hover{background:var(--gold2);color:var(--ink)}
+.btn.sm{padding:7px 12px;font-size:12.5px}
+.btn .play{width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--gold);display:grid;place-items:center;font-size:9px;padding-left:2px}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes glow{0%,100%{opacity:.35}50%{opacity:.9}}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-block:18px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:12px;text-decoration:none}
+.brand b{font-family:var(--display);font-weight:400;letter-spacing:.32em;font-size:15px}
+.brand span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.bar .right{display:flex;align-items:center;gap:10px}
+
+.hero{padding-block:42px 24px;display:grid;grid-template-columns:1.35fr 1fr;gap:34px;align-items:end}
+h1{font-family:var(--display);font-weight:330;font-size:clamp(36px,5vw,64px);line-height:1.01;letter-spacing:-.02em;margin-top:10px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--gold2)}
+.sub{color:var(--mute);max-width:620px;margin-top:14px;font-size:16px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.proof{display:grid;gap:12px;border-left:1px solid var(--line2);padding-left:22px}
+.proof div{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.proof b{font-family:var(--display);font-weight:340;font-size:24px;color:var(--gold2);min-width:84px}
+.proof p{font-size:13.5px;color:var(--bone2)}
+
+.pick{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.pick small{color:var(--mute);font-size:13px;margin-right:4px}
+.pick button{padding:9px 15px;border-radius:999px;border:1px solid var(--line2);font-size:14px;color:var(--bone2)}
+.pick button[aria-pressed="true"]{background:var(--bone);color:var(--ink);border-color:var(--bone);font-weight:550}
+
+.stage{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:16px;align-items:start}
+.room{background:radial-gradient(ellipse at 50% 55%,rgba(217,168,95,.07),transparent 60%),var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;min-width:0}
+.rtop{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.clock{font-family:var(--display);font-weight:330;font-size:46px;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.clock small{font-size:18px;color:var(--mute);margin-left:4px}
+.phase{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.ctl{margin-left:auto;display:flex;gap:8px;align-items:center}
+.ctl .btn{padding:9px 14px;font-size:13.5px}
+.speed{display:inline-flex;border:1px solid var(--line2);border-radius:999px;overflow:hidden}
+.speed button{padding:8px 11px;font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+.speed button[aria-pressed="true"]{background:var(--bone);color:var(--ink)}
+.track{position:relative;height:6px;border-radius:6px;background:rgba(239,233,223,.08);margin:16px 0 4px}
+.track i{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:6px;transition:width .25s linear}
+.track b{position:absolute;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:var(--ink2);border:1px solid var(--line2)}
+.track b.done{background:var(--gold);border-color:var(--gold)}
+.track b.q{border-color:var(--ember)}.track b.q.done{background:var(--ember)}
+.tlabels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.06em}
+.net{width:100%;height:auto;display:block;margin-top:6px}
+.net .edge{stroke:rgba(239,233,223,.09);stroke-width:1}
+.net .edge.on{stroke:rgba(240,201,135,.5);stroke-width:1.6}
+.net .hand{fill:none;stroke-width:1.8;stroke-dasharray:4 5;opacity:.85}
+.net .node circle.bg{fill:#1b1916;stroke:rgba(239,233,223,.18);stroke-width:1.2;transition:stroke .3s,fill .3s}
+.net .node circle.halo{fill:none;stroke-width:10;opacity:0;transition:opacity .4s}
+.net .node.on circle.bg{fill:#26221c}
+.net .node.on circle.halo{opacity:.28}
+.net .node text.g{font-family:var(--mono);font-size:13px;font-weight:500;text-anchor:middle;dominant-baseline:central;letter-spacing:.04em}
+.net .node text.l{font-family:var(--sans);font-size:12.5px;fill:var(--bone2);text-anchor:middle}
+.net .node text.s{font-family:var(--mono);font-size:9.5px;fill:var(--dim);text-anchor:middle;letter-spacing:.04em}
+.net .node.mgr circle.bg{stroke:rgba(217,168,95,.55)}
+.net .dot{filter:drop-shadow(0 0 6px currentColor)}
+.now{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;border-top:1px solid var(--line);padding-top:14px;margin-top:4px;min-height:64px}
+.now .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid currentColor;white-space:nowrap;margin-top:2px}
+.now p{font-size:15px;color:var(--bone);line-height:1.45;animation:pop .3s both}
+.now p small{display:block;color:var(--mute);font-size:12.5px;margin-top:3px}
+
+.side{display:grid;gap:14px;min-width:0}
+.owner{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px;display:grid;gap:12px;min-width:0}
+.ohead{display:flex;align-items:center;gap:12px}
+.oav{width:40px;height:40px;border-radius:12px;background:linear-gradient(140deg,#3a2f1f,#6b5430);display:grid;place-items:center;font-family:var(--display);color:#f6e6c8;font-size:19px}
+.ohead b{display:block;font-family:var(--display);font-weight:380;font-size:20px;line-height:1.15}
+.ohead small{color:var(--mute);font-size:12.5px}
+.taps{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.06em;text-align:right}
+.taps b{font-family:var(--display);font-size:22px;color:var(--gold2);font-weight:340;display:block;line-height:1}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.kpis>div{background:var(--ink2);padding:11px 13px}
+.kpis b{display:block;font-family:var(--display);font-weight:340;font-size:24px;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpis small{font-size:11.5px;color:var(--mute)}
+.ask{border:1px solid rgba(242,137,90,.45);background:linear-gradient(180deg,rgba(242,137,90,.09),rgba(242,137,90,.03));border-radius:16px;padding:14px;animation:pop .3s both}
+.ask .h{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ember)}
+.ask .h i{width:7px;height:7px;border-radius:50%;background:var(--ember);animation:glow 1s infinite}
+.ask .h span{margin-left:auto;color:var(--mute);letter-spacing:.04em;text-transform:none}
+.ask b{display:block;font-size:15.5px;font-weight:550;margin-top:8px;line-height:1.35}
+.ask p{font-size:13.5px;color:var(--bone2);margin-top:5px}
+.ask .row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.ask .row .btn{padding:9px 16px;font-size:13.5px}
+.calm{border:1px dashed var(--line2);border-radius:16px;padding:14px;color:var(--mute);font-size:13.5px}
+.calm b{color:var(--bone2);font-weight:500}
+.feed{background:var(--ink2);border:1px solid var(--line);border-radius:20px;padding:14px 16px;min-width:0}
+.feed .ph{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.feed h2{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.feed .ph span{font-size:12px;color:var(--dim)}
+.flist{max-height:380px;overflow-y:auto;display:grid;scrollbar-width:thin}
+.fi{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid var(--line);animation:pop .3s both;font-size:13.5px;color:var(--bone2)}
+.fi time{font-family:var(--mono);font-size:11px;color:var(--dim);padding-top:2px}
+.fi .ag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;display:block}
+.fi .ag em{font-style:normal;color:var(--dim)}
+.fi .tag{display:inline-block;margin-top:4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--mute)}
+.fi .tag.g{color:var(--sage);border-color:rgba(143,191,166,.45)}.fi .tag.e{color:var(--ember);border-color:rgba(242,137,90,.45)}.fi .tag.y{color:var(--gold2);border-color:rgba(217,168,95,.45)}
+
+.curve{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.curve .t b{display:block;font-family:var(--display);font-weight:380;font-size:19px}
+.curve .t small{color:var(--mute);font-size:13px}
+.cbs{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.cbs button{padding:9px 14px;border-radius:999px;border:1px solid rgba(242,137,90,.35);color:#f6cdb7;font-size:13.5px;transition:background .2s}
+.cbs button:hover{background:rgba(242,137,90,.1)}
+.cbs button:disabled{opacity:.4;cursor:default}
+
+section.sec{padding-block:72px 0}
+.sec h2.t{font-family:var(--display);font-weight:330;font-size:clamp(28px,3.4vw,44px);line-height:1.07;letter-spacing:-.012em;margin-top:8px;text-wrap:balance;max-width:780px}
+.sec h2.t em{font-style:italic;color:var(--gold2)}
+.sec .lede{color:var(--mute);max-width:660px;margin-top:10px}
+.rep{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:22px;margin-top:26px;align-items:start}
+.wa{background:#0b141a;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:16px;box-shadow:0 30px 70px -40px rgba(0,0,0,.9)}
+.wa .wh{display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:12px}
+.wa .wh i{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,var(--gold),#8a6a36);display:grid;place-items:center;font-style:normal;font-family:var(--display);color:var(--ink);font-size:15px}
+.wa .wh b{font-size:14.5px;font-weight:550}.wa .wh small{display:block;color:#8696a0;font-size:12px}
+.msg{background:#1f2c34;border-radius:4px 14px 14px 14px;padding:12px 14px;font-size:14px;line-height:1.55;color:#e9edef}
+.msg h3{font-size:14.5px;font-weight:600;margin-bottom:6px}
+.msg .r{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed rgba(255,255,255,.08);padding:4px 0}
+.msg .r span:last-child{font-variant-numeric:tabular-nums;color:#fff;text-align:right}
+.msg p{margin-top:8px}
+.msg .tm{display:block;text-align:right;font-size:11px;color:#8696a0;margin-top:6px}
+.did{display:grid;gap:0;border-top:1px solid var(--line)}
+.did div{display:grid;grid-template-columns:minmax(0,1fr) 150px 80px;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--bone2);align-items:baseline}
+.did div span:nth-child(2){font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.did div span:last-child{font-family:var(--mono);font-size:12px;color:var(--gold2);text-align:right}
+.did .hd{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.did .tot{color:var(--bone);font-weight:550}
+.flash{animation:flash 1.6s ease 2}
+@keyframes flash{50%{box-shadow:0 0 0 3px rgba(217,168,95,.5)}}
+
+.agents{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:26px}
+.agc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.agc i{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.08em;display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;border:1px solid currentColor}
+.agc b{display:block;font-family:var(--display);font-weight:380;font-size:19px;margin-top:10px}
+.agc p{font-size:13.5px;color:var(--mute);margin-top:4px}
+.agc small{display:block;font-family:var(--mono);font-size:10.5px;color:var(--dim);margin-top:8px;letter-spacing:.04em}
+.guard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:22px}
+.guard div{border-top:1px solid var(--line2);padding-top:12px}
+.guard b{display:block;font-size:15px;font-weight:550}
+.guard p{font-size:13.5px;color:var(--mute);margin-top:4px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.stp{border-top:1px solid var(--line2);padding-top:14px}
+.stp i{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--gold)}
+.stp b{display:block;font-family:var(--display);font-weight:360;font-size:21px;margin-top:6px}
+.stp p{font-size:14px;color:var(--mute);margin-top:6px}
+.price{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line2);border-radius:20px;overflow:hidden}
+.price>div{padding:24px}
+.price .l{background:var(--card)}
+.price .amt{font-family:var(--display);font-weight:330;font-size:40px;line-height:1.05;margin-top:8px}
+.price .amt small{font-size:15px;color:var(--mute);font-family:var(--sans)}
+.price p{color:var(--mute);margin-top:8px;font-size:14px}
+.price ul{list-style:none;display:grid;gap:9px;font-size:14px;color:var(--bone2)}
+.price li::before{content:"✓";color:var(--sage);margin-right:10px}
+.faq{margin-top:22px;display:grid;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:16px 30px 16px 0;font-size:16px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:13px;font-size:20px;color:var(--gold);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{color:var(--mute);padding:0 0 18px;max-width:740px;font-size:14.5px}
+.final{margin-block:72px 60px;padding:44px 28px;border-radius:24px;border:1px solid var(--line2);text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(217,168,95,.16),transparent 65%),var(--ink2)}
+.final h2{font-family:var(--display);font-weight:330;font-size:clamp(30px,3.6vw,46px);line-height:1.06;text-wrap:balance}
+.final h2 em{font-style:italic;color:var(--gold2)}
+.final p{color:var(--mute);margin:12px auto 22px;max-width:560px}
+.final .ctas{justify-content:center}
+.final .num{margin-top:14px;font-family:var(--mono);font-size:12.5px;color:var(--mute)}
+footer{padding-bottom:40px;font-size:12px;color:var(--dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:1020px){.stage{grid-template-columns:1fr}.agents,.guard{grid-template-columns:1fr 1fr}.rep{grid-template-columns:1fr}}
+@media(max-width:860px){.hero{grid-template-columns:1fr}.proof{border-left:0;padding-left:0;border-top:1px solid var(--line2);padding-top:18px}.curve{grid-template-columns:1fr}.cbs{justify-content:flex-start}.steps,.price{grid-template-columns:1fr}}
+@media(max-width:620px){#allDemos,.bar .brand span{display:none!important}.bar .btn.primary{padding:10px 14px;font-size:13.5px}.clock{font-size:36px}.ctl{margin-left:0;width:100%}.agents,.guard{grid-template-columns:1fr}.did div{grid-template-columns:minmax(0,1fr) 64px}.did div span:nth-child(2){display:none}.room{padding:14px}.net .node text.s{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="wrap bar">
+  <a class="brand" href="../automations.html#demos" id="homeLink"><b>SEVORA</b><span>Business Autopilot</span></a>
+  <div class="right"><a class="btn" id="allDemos" href="../automations.html#demos">All demos</a><a class="btn primary" href="#contact">Get this for your business</a></div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Agent network · the whole business, end to end</p>
+      <h1>Your whole business, <em>running itself.</em></h1>
+      <p class="sub">Eight AI agents run a full day like a real team. They take orders and calls, restock before you run out, cover sick staff, chase payments, close the books and win back unhappy customers, passing work to each other as they go. You approve three things from your phone.</p>
+      <div class="ctas">
+        <button class="btn primary" type="button" id="playHero"><span class="play">▶</span>Watch a full day · 90 sec</button>
+        <a class="btn" href="#report">Skip to tonight’s report</a>
+      </div>
+    </div>
+    <div class="proof">
+      <div><b>8 agents</b><p>Each with one job, coordinated by a manager agent that decides what needs you.</p></div>
+      <div><b>3 taps</b><p>Everything else runs inside the limits you set: spend, refunds, overtime.</p></div>
+      <div><b id="pHours">7 hours</b><p>Of admin, calls and follow-ups taken off the owner and manager, every day.</p></div>
+    </div>
+  </div>
+
+  <div class="pick" id="pick" role="group" aria-label="Choose a business"><small>Pick a business:</small>
+    <button type="button" data-b="cafe" aria-pressed="true">Café · Kaapi Theory</button>
+    <button type="button" data-b="clinic" aria-pressed="false">Dental clinic · Aligna Dental</button>
+  </div>
+
+  <div class="stage" id="stage">
+    <section class="room" aria-label="Control room">
+      <div class="rtop">
+        <div><div class="clock" id="clock">6:00<small>AM</small></div><div class="phase" id="phase">Before opening</div></div>
+        <div class="ctl">
+          <button class="btn primary" type="button" id="playBtn"><span class="play" id="playI">▶</span><span id="playL">Play the day</span></button>
+          <div class="speed" role="group" aria-label="Speed"><button type="button" data-x="1" aria-pressed="true">1×</button><button type="button" data-x="2" aria-pressed="false">2×</button><button type="button" data-x="4" aria-pressed="false">4×</button></div>
+        </div>
+      </div>
+      <div class="track" id="track" aria-hidden="true"><i id="trackFill"></i></div>
+      <div class="tlabels"><span id="tl0">6 AM</span><span>noon</span><span id="tl1">11:30 PM</span></div>
+      <svg class="net" id="net" viewBox="0 0 640 430" role="img" aria-label="Eight agents passing work to each other"></svg>
+      <div class="now" id="now"><span class="who" style="color:var(--gold)">Manager</span><p>Ready. Press <b>Play the day</b> and watch each agent pick up its work.<small>Lines light up when one agent hands work to another.</small></p></div>
+    </section>
+
+    <div class="side">
+      <section class="owner" aria-label="The owner's phone">
+        <div class="ohead"><span class="oav" id="oav">K</span><div><b id="oname">Kaapi Theory</b><small>Owner’s phone · today</small></div><div class="taps"><b id="tapN">0 / 3</b>your taps</div></div>
+        <div id="askBox"><div class="calm"><b>Nothing needs you.</b> When an agent needs your approval, it appears here with the numbers.</div></div>
+        <div class="kpis">
+          <div><b id="kRev">₹0</b><small>revenue today</small></div>
+          <div><b id="kOrd">0</b><small id="kOrdL">orders</small></div>
+          <div><b id="kProb">0</b><small>problems caught early</small></div>
+          <div><b id="kHrs">0 h 00 m</b><small>work done for you</small></div>
+        </div>
+      </section>
+      <section class="feed" aria-label="Activity">
+        <div class="ph"><h2>What the agents did</h2><span id="feedN">newest first</span></div>
+        <div class="flist" id="flist" aria-live="polite"></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="curve">
+    <div class="t"><b>Throw it a curveball.</b><small>Real days go wrong. Watch the agents re-plan.</small></div>
+    <div class="cbs" id="cbs"></div>
+  </div>
+
+  <section class="sec" id="report">
+    <p class="eyebrow">11:30 PM · on the owner’s WhatsApp</p>
+    <h2 class="t">One message tells you <em>how the day went.</em></h2>
+    <p class="lede">No dashboards to check. When the day closes, the manager agent sends a short report: the numbers, what went wrong and how it was handled, and what tomorrow needs from you.</p>
+    <div class="rep">
+      <div class="wa" id="wa"></div>
+      <div><div class="did" id="did"></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="team">
+    <p class="eyebrow">The team</p>
+    <h2 class="t">Eight agents. <em>One job each.</em></h2>
+    <p class="lede">Specialists work better than one assistant trying to do everything. Each agent connects to the tools you already use, and the manager agent coordinates them.</p>
+    <div class="agents" id="agents"></div>
+    <div class="guard">
+      <div><b>Limits you set</b><p>Spend, refunds, discounts and overtime each have a ceiling. Above it, the agent asks you.</p></div>
+      <div><b>Ask, tell, or just do</b><p>Choose per area: ask me first, tell me after, or just handle it.</p></div>
+      <div><b>Every action logged</b><p>Who did what, when, and why. You can check any decision later.</p></div>
+      <div><b>Take over any time</b><p>Pause one agent or all of them. Your staff can always step in.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <p class="eyebrow">How it goes live</p>
+    <h2 class="t">Built in stages, <em>so it pays for itself early.</em></h2>
+    <p class="lede">Nobody switches on eight agents on day one. We start with the two or three that save you the most time, prove it, and add the rest.</p>
+    <div class="steps">
+      <div class="stp"><i>WEEK 1</i><b>Map your day</b><p>We sit with you and your manager, list every repeated task, and set the limits: what agents may do alone and what needs you.</p></div>
+      <div class="stp"><i>WEEKS 2–3</i><b>First agents live</b><p>Usually the front desk, orders and accounts. Connected to your POS, WhatsApp, payments and books.</p></div>
+      <div class="stp"><i>WEEKS 4–8</i><b>The full network</b><p>Stock, staff, reviews and the manager agent join. You get the nightly report and approve from your phone.</p></div>
+    </div>
+    <div class="price">
+      <div class="l"><p class="eyebrow">Business Autopilot</p><div class="amt">Pilot first. <small>Then monthly.</small></div><p>A paid 6-week pilot with the first agents, then a monthly fee based on how many agents and systems you connect. Most businesses land between ₹15,000 and ₹40,000 a month, far less than the staff hours it frees. Quoted after a first call.</p></div>
+      <div><ul><li>Up to eight coordinated agents</li><li>Works with your POS, WhatsApp, payments, Tally or Zoho Books</li><li>Limits and approvals you control</li><li>Nightly WhatsApp report</li><li>Voice agent for your phone line, if you want one</li><li>Monthly review call with SEVORA</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <p class="eyebrow">Questions owners ask</p>
+    <div class="faq">
+      <details><summary>Will it spend my money without asking?</summary><p>Only inside limits you set. For example: supplier orders up to ₹5,000, refunds up to ₹500, overtime up to ₹1,000. Anything above a limit waits for your tap, with the numbers in front of you.</p></details>
+      <details><summary>Do I need new software?</summary><p>Usually not. We connect what you already use: your POS or billing software, WhatsApp Business, Razorpay or your UPI provider, Tally or Zoho Books, Google reviews, Swiggy and Zomato, Google Calendar or your clinic software.</p></details>
+      <details><summary>What if an agent gets something wrong?</summary><p>Every action is logged with the reason, so mistakes are easy to spot and undo. During the pilot we review the log with you every week and tighten the rules until you trust it.</p></details>
+      <details><summary>Will it replace my staff?</summary><p>It takes the repetitive work off them: messages, reminders, stock counts, reconciliations, follow-ups. Your team spends that time on customers and patients instead.</p></details>
+      <details><summary>Is this real, or just a demo?</summary><p>The day here is a replay with demo numbers so you can see the whole picture in 90 seconds. Every piece in it, from WhatsApp orders and calls to stock alerts, reconciliation and review replies, is something we build today with real tools.</p></details>
+      <details><summary>Is my data safe?</summary><p>Your data stays in your own accounts and a private workspace for your business. It isn’t used to train public models, and you can disconnect anything at any time.</p></details>
+    </div>
+  </section>
+
+  <section class="final" id="contact">
+    <h2>Give your business <em>its own team of agents.</em></h2>
+    <p>Message us. In a 30-minute call we’ll map your day and show you which agents would save you the most time first.</p>
+    <div class="ctas"><a class="btn primary" id="waBtn" target="_blank" rel="noopener">Message SEVORA on WhatsApp</a><a class="btn" href="decision.html">See Decision Desk</a></div>
+    <p class="num" id="waNum"></p>
+  </section>
+  <footer><span>SEVORA · AI automations and agents</span><span>Demo businesses, people and numbers.</span></footer>
+</main>
+
+<script>
+window.SEV_CONTACT={whatsapp:SEVORA_WA};
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const hm=m=>`${Math.floor(m/60)} h ${String(m%60).padStart(2,'0')} m`;
+const t12=m=>{const h=Math.floor(m/60),mm=m%60,ap=h>=12?'PM':'AM',hh=((h+11)%12)+1;return [`${hh}:${String(mm).padStart(2,'0')}`,ap]};
+const T=s=>{const [a,b]=s.split(':').map(Number);return a*60+b};
+
+/* =====================================================================
+   Agents: same eight seats, different jobs per business.
+   Seat 0 is the manager in the centre; 1–7 sit around it.
+   ===================================================================== */
+const COL=['var(--gold)','var(--sage)','var(--ember)','var(--sky)','var(--plum)','var(--teal)','var(--sand)','var(--rose)'];
+const HEX=['#d9a85f','#8fbfa6','#f2895a','#8fb3d9','#c39bd3','#7fc4c0','#d8c08a','#e79bb0'];
+
+const BIZ={
+cafe:{name:'Kaapi Theory',letter:'K',start:'6:00',end:'23:30',ordL:'orders',
+ agents:[
+  ['MG','Manager','plans · decides',"Plans the day from sales, weather and events, hands out work, and decides what needs you.",'Sales history · weather · calendar'],
+  ['FD','Front desk','WhatsApp · calls',"Answers WhatsApp, Instagram and phone calls. Books tables, takes orders, handles questions.",'WhatsApp Business · phone line · Instagram'],
+  ['OR','Orders','POS · apps',"Runs every order from the counter, WhatsApp, Swiggy and Zomato to the kitchen, and watches wait times.",'POS · Swiggy · Zomato · kitchen display'],
+  ['IN','Stock','par levels',"Tracks stock from every sale, predicts when things run out, and spots food that will go to waste.",'POS recipes · daily counts'],
+  ['PU','Purchasing','suppliers',"Orders from suppliers inside your limits, checks deliveries against bills, and compares prices.",'Supplier WhatsApp · email'],
+  ['ST','Staff','shifts',"Plans shifts, covers sick calls, and asks before paying overtime above your limit.",'Roster sheet · WhatsApp'],
+  ['AC','Accounts','money · GST',"Matches UPI, card and cash to the POS, chases missing money, logs bills and prepares GST.",'Razorpay · bank · Tally / Zoho Books'],
+  ['RV','Reviews','reviews · offers',"Replies to reviews, wins back unhappy customers, and sends offers to regulars.",'Google · Swiggy · Zomato · WhatsApp lists']],
+ events:[
+  {t:'6:30',a:0,to:[3,5],x:"Morning plan: Saturday, 31°C, a cricket match at 7:30 PM. Expecting about 410 orders (12% above a normal Saturday), with cold brew up.",s:'Sent the plan to Stock and Staff.',m:15},
+  {t:'6:42',a:3,to:[4],x:"Milk runs out by 4 PM at today’s pace: 38 litres left, 52 needed. Oat milk down to 3 cartons.",m:10},
+  {t:'6:44',a:4,to:[0],x:"Ordered 20 L milk and 6 oat cartons from Heritage for 9 AM: ₹2,340. Inside your ₹5,000 limit, so it’s done.",tag:['Stock-out prevented','g'],p:1,m:10},
+  {t:'7:15',a:5,to:[0],x:"Ravi (8 AM barista) called in sick. Asked three off-duty baristas on WhatsApp; Sameer can come in.",m:25,p:1,ask:{b:'Bring Sameer in for Ravi’s shift?',d:'8 AM–4 PM, ₹600 overtime. Your limit for overtime without asking is ₹500.',yes:"Sameer confirmed for 8 AM. Roster updated.",no:"Okay. Moved a floor staffer to the bar and paused table service until 10 AM.",who:5}},
+  {t:'8:00',a:2,to:[],x:"Doors open. 46 WhatsApp pre-orders from last night are ready and already paid.",rev:14720,ord:46,m:20},
+  {t:'9:05',a:4,to:[6],x:"Heritage delivered. Checked the bill against the order: it matches. Bill saved for GST.",m:15},
+  {t:'10:20',a:1,to:[2,6],x:"Zenith Labs ordered 40 coffees and 15 croissants for Monday 10 AM on WhatsApp. ₹9,500; 50% advance paid.",tag:['New corporate client','g'],m:10},
+  {t:'11:40',a:7,to:[0],x:"2-star Google review: “Waited 25 minutes for a cappuccino.” Matched it to the 11:05 AM queue spike.",p:1,m:15,ask:{b:'Post this reply and send a ₹200 voucher?',d:'“Sorry, Arjun. Saturday mornings got the better of us. We’ve added a second barista at peak hours. Your next coffee is on us.”',yes:"Reply posted. Voucher sent on WhatsApp.",no:"Okay. Posted a plain apology without the voucher.",who:7}},
+  {t:'13:00',a:2,to:[0],x:"Lunch rush done: 164 orders since 8 AM, average wait 6 minutes.",rev:58900,ord:164,m:10},
+  {t:'13:10',a:2,to:[1],x:"Swiggy order #4471 is 20 minutes late at pickup. Told the customer before they asked and added a free cookie.",tag:['Bad rating avoided','g'],p:1,m:10},
+  {t:'14:00',a:3,to:[7],x:"22 croissants will be left at close at today’s pace. Suggested a 3-for-2 offer after 6 PM.",s:'Reviews sent the offer to 180 regulars who buy croissants.',p:1,m:20},
+  {t:'15:20',a:6,to:[0],x:"Matched UPI and card payments to the POS: ₹78,240 matches. One UPI refund of ₹1,180 never reached the customer, so a complaint was raised with the bank.",tag:['₹1,180 recovered','g'],p:1,m:45},
+  {t:'16:45',a:1,to:[2],x:"Booked 6 tables for tonight on WhatsApp and calls, including a birthday for 8 with a cake.",rev:31600,ord:86,m:30},
+  {t:'17:30',a:0,to:[5],x:"Evening forecast up 18% for the match. Priya will stay 2 hours longer.",s:'₹450 overtime, inside your limit: done, and noted for you.',m:10},
+  {t:'18:15',a:4,to:[0],x:"Blue Tokai beans go up 9% next week. Kumbakonam Roasters sells the same grade for 6% less than today’s price.",p:1,m:30,ask:{b:'Switch next week’s bean order to Kumbakonam Roasters?',d:'Saves about ₹4,200 a month. A 1 kg sample arrives tomorrow for a taste test first.',yes:"Switch scheduled after tomorrow’s taste test.",no:"Okay. Staying with Blue Tokai at the new price.",who:4}},
+  {t:'21:00',a:2,to:[0],x:"Match night: 142 orders from 6 to 9 PM. The croissant offer sold 21 of 22.",rev:59680,ord:142,m:10},
+  {t:'21:20',a:7,to:[],x:"4 new 5-star reviews. Thanked each customer by name.",m:15},
+  {t:'22:00',a:1,to:[0],x:"Front desk total: 37 WhatsApp chats and 12 calls answered. Only 2 needed a person.",m:90},
+  {t:'22:40',a:3,to:[4],x:"Closing stock worked out from sales. Tomorrow’s supplier order drafted: ₹6,980, sending at 6 AM.",m:30},
+  {t:'23:10',a:6,to:[0],x:"Day closed: 438 bills with GST, supplier bills logged, cash and UPI matched to the POS to the rupee.",m:45},
+  {t:'23:30',a:0,to:[],x:"Tonight’s report sent to your WhatsApp.",report:1}],
+ curve:[
+  {l:'Sudden rain',ev:[
+   {a:0,to:[2,7],x:"Heavy rain in the next hour. On rainy Saturdays walk-ins drop about 30% and delivery rises about 40%."},
+   {a:2,to:[5],x:"Moved 2 staff from the floor to delivery packing. Paused the patio tables."},
+   {a:7,to:[],x:"Sent “Rainy day: free cookie with any delivery” to 1,200 customers within 4 km.",tag:['+31 delivery orders','g'],rev:9300,ord:31},
+   {a:3,to:[4],x:"Cut 8 L milk from tomorrow’s order to match the lower footfall.",p:1}]},
+  {l:'Espresso machine breaks',ev:[
+   {a:2,to:[0],x:"Espresso machine error. Espresso drinks paused on Swiggy, Zomato and WhatsApp within a minute; filter kaapi and cold brew pushed to the top."},
+   {a:4,to:[],x:"Booked the technician for 4 PM. It’s under the service contract, so no charge.",tag:['Downtime: 1 h 50 m','y']},
+   {a:1,to:[],x:"Told the 3 waiting customers and offered cold brew at the same price. All 3 took it.",p:1}]},
+  {l:'60-coffee office order',ev:[
+   {a:1,to:[2],x:"An IT team down the road wants 60 coffees at 3 PM today."},
+   {a:2,to:[5],x:"Kitchen can do it if one more barista starts 40 minutes early."},
+   {a:5,to:[],x:"Priya agreed to start at 2:20 PM. ₹170 extra, inside your limit."},
+   {a:6,to:[],x:"Sent a ₹12,600 invoice; the 50% advance is already paid.",tag:['+₹12,600','g'],rev:12600,ord:1}]},
+  {l:'1-star review',ev:[
+   {a:7,to:[0],x:"1-star review: “Found a hair in my sandwich.” Matched it to bill #2211 at 12:42 PM.",ask:{b:'Refund ₹340 and post a personal apology?',d:'“We’re really sorry, Neha. That’s not our standard. We’ve refunded your sandwich and retrained the kitchen today.”',yes:"Refunded and replied. The customer edited the review to 4 stars an hour later.",no:"Okay. Replied with an apology only.",who:7}},
+   {a:5,to:[],x:"Reminded the kitchen team about hairnets and logged it for the weekly review.",p:1}]}],
+ report:{title:'Kaapi Theory · Saturday',rows:[['Revenue','₹1,64,900 (+9% vs last Sat)'],['Orders','438 · avg wait 6 min'],['Best sellers','Cold brew 96 · Filter kaapi 88'],['Problems handled','7, none reached a customer'],['Waste','1 croissant (usually 20+)']],
+  tom:'Tomorrow: about 380 orders, 4 baristas rostered, stock order of ₹6,980 goes at 6 AM. Bean sample arrives 11 AM for your taste test.'},
+ did:[['Answered 37 chats and 12 calls, booked 6 tables','Front desk',120],['Restocked before anything ran out, checked bills','Stock · Purchasing',65],['Handled reviews, a late order and a waste offer','Reviews · Orders',60],['Matched every payment, found ₹1,180','Accounts',45],['Closed the books and GST','Accounts',45],['Ran pre-orders and watched wait times','Orders',40],['Won a corporate client, found cheaper beans','Front desk · Purchasing',40],['Planned the day and the evening rush','Manager',25],['Covered a sick barista','Staff',25]]},
+
+clinic:{name:'Aligna Dental',letter:'A',start:'7:00',end:'21:00',ordL:'bookings made by agents',
+ agents:[
+  ['MG','Manager','plans · decides',"Plans the day from the appointment book, staff and weather, hands out work, and decides what needs you.",'Appointment book · calendar · weather'],
+  ['FD','Front desk','calls · WhatsApp',"Answers calls and WhatsApp, books and moves appointments, and sends urgent cases to the on-call dentist.",'Phone line · WhatsApp Business · Instagram'],
+  ['SC','Scheduling','calendar · waitlist',"Keeps every chair full: fills cancellations from the waitlist and re-plans when things change.",'Clinic software · Google Calendar'],
+  ['PC','Patient care','reminders · follow-ups',"Sends reminders, checks on patients after treatment, and brings back patients due for a cleaning.",'WhatsApp · patient records'],
+  ['IN','Supplies','stock · orders',"Tracks consumables from each procedure and orders before anything runs out.",'Procedure log · distributor email'],
+  ['ST','Staff','rota',"Covers absences, calls in part-timers, and asks before extra costs above your limit.",'Rota sheet · WhatsApp'],
+  ['BL','Billing','payments · insurance',"Collects payments, sets up EMIs, files insurance claims and fixes rejected ones, and prepares GST.",'Razorpay · bank · Tally / Zoho Books'],
+  ['RV','Reviews','reviews · growth',"Replies to reviews, follows up on unhappy patients, and answers new enquiries from ads.",'Google · Practo · Instagram']],
+ events:[
+  {t:'7:30',a:0,to:[3,2],x:"Day plan: 34 appointments across 3 dentists, 2 implant surgeries with Dr. Sanjana. Rain is likely after 4 PM, so late cancellations are likely too.",m:15},
+  {t:'7:45',a:3,to:[2],x:"Reminders sent to all 34 patients with “confirm” and “move” buttons. 29 confirmed by 9 AM.",m:30},
+  {t:'8:10',a:5,to:[2,0],x:"Hygienist Neha is sick. Two of her four cleanings moved into Dr. Arjun’s free slots.",p:1,m:25,ask:{b:'Call in Kavya, the part-time hygienist, for 4 hours?',d:'Covers the other 2 cleanings plus walk-ins. ₹2,400. Your limit without asking is ₹1,500.',yes:"Kavya confirmed for 11 AM. Both patients kept their times.",no:"Okay. Offered those 2 patients new times with one tap.",who:5}},
+  {t:'9:00',a:1,to:[2],x:"Morning calls: 9 answered, 3 new bookings, and a toothache sent to Dr. Meher at 10:30.",ord:3,m:15},
+  {t:'9:40',a:2,to:[3],x:"Mr. Rao cancelled his 11:30 root canal. Offered the slot to 3 people on the waitlist; filled in 6 minutes.",tag:['Empty chair refilled','g'],ord:1,p:1,m:15},
+  {t:'10:30',a:4,to:[0],x:"Implant kits: 2 left after today’s surgeries, and delivery takes 5 days. Monday has 2 more implants booked.",p:1,m:20,ask:{b:'Order 4 implant kits for ₹38,400?',d:'From your usual distributor, arriving Thursday. Your limit for supply orders without asking is ₹10,000.',yes:"Ordered. Arrives Thursday, before Monday’s surgeries.",no:"Okay. Asked the distributor to hold 4 kits for 48 hours instead.",who:4}},
+  {t:'11:15',a:6,to:[],x:"Morning collections: ₹42,600 (UPI ₹28,100, card ₹14,500). Every bill has GST and is ready for insurance.",rev:42600,m:20},
+  {t:'12:30',a:6,to:[0],x:"Star Health rejected Mrs. Lakshmi’s claim: the X-ray report was missing. Attached it from her records and resubmitted.",tag:['Claim saved: ₹18,000','g'],p:1,m:30},
+  {t:'13:00',a:3,to:[0],x:"Checked on yesterday’s 2 implant patients by WhatsApp. One reports more swelling than expected, so photos were sent to Dr. Sanjana.",tag:['Seen at 3 PM','y'],p:1,m:15},
+  {t:'14:20',a:7,to:[2],x:"Aligner enquiry from Instagram: booked a free 3D smile scan for Saturday.",ord:1,m:10},
+  {t:'15:00',a:7,to:[0],x:"1-star review: “Billing was confusing.” Matched it to a patient whose EMI wasn’t explained.",p:1,m:15,ask:{b:'Post this reply and book a call-back from the clinic manager?',d:'“We’re sorry, Mr. Varma. You should have had a clear breakdown. Our manager will call you today to walk you through it.”',yes:"Reply posted. Call-back booked for 6 PM.",no:"Okay. Posted a short apology only.",who:7}},
+  {t:'16:10',a:2,to:[1],x:"Rain started. Patients from 4:30 to 6 PM got a “come in, or move with one tap” message. 3 moved; their slots were filled from the waitlist.",tag:['No empty chairs','g'],ord:3,p:1,m:20},
+  {t:'17:00',a:6,to:[],x:"Afternoon collections: ₹61,800. An aligner patient set up 0% EMI: ₹90,000 over 6 months.",rev:61800,m:15},
+  {t:'18:30',a:3,to:[2],x:"46 patients are due for their 6-month cleaning. Each got a personal WhatsApp; 9 have booked already.",ord:9,m:40},
+  {t:'19:15',a:4,to:[],x:"Gloves, composite and anaesthetic counted from today’s procedures. Weekly order drafted: ₹6,450, inside your limit, sends Monday.",m:20},
+  {t:'20:00',a:6,to:[0],x:"Day closed: 33 bills, GST done, ₹1,04,400 collected and matched to the bank. ₹18,000 claim pending.",m:45},
+  {t:'20:30',a:7,to:[],x:"5 new 5-star reviews today. Thanked each patient.",m:10},
+  {t:'21:00',a:0,to:[],x:"Tonight’s report sent to your WhatsApp.",report:1}],
+ curve:[
+  {l:'Dentist calls in sick',ev:[
+   {a:5,to:[2],x:"Dr. Arjun is out today. 9 patients are affected."},
+   {a:2,to:[1],x:"Moved 5 into Dr. Sanjana’s free slots. The other 4 got new days to pick with one tap.",ord:5},
+   {a:1,to:[],x:"Called the 2 patients who didn’t reply. Both rebooked."},
+   {a:0,to:[],x:"Locum dentist suggested for tomorrow.",ask:{b:'Book a locum dentist for 4 hours tomorrow (₹6,000)?',d:'Clears the backlog of Dr. Arjun’s aligner reviews.',yes:"Dr. Kiran booked for 10 AM to 2 PM tomorrow.",no:"Okay. The backlog spreads over next week.",who:5},p:1}]},
+  {l:'Patient running late',ev:[
+   {a:2,to:[1],x:"The 11:30 patient hasn’t arrived. Called at 11:40: she’s 25 minutes away."},
+   {a:2,to:[],x:"Swapped her with the 12:00 patient, who was already in the waiting room. Nobody waited.",tag:['Chair kept busy','g'],p:1},
+   {a:3,to:[],x:"Added a rule: patients get a “running late?” message 30 minutes before their slot."}]},
+  {l:'Power cut',ev:[
+   {a:0,to:[2],x:"Power cut. The inverter covers 2 hours, but the X-ray machine isn’t on backup."},
+   {a:2,to:[1],x:"Moved the 2 appointments that need X-rays to after 3 PM."},
+   {a:1,to:[],x:"Messaged both patients; both confirmed the new time.",p:1}]},
+  {l:'Bad review',ev:[
+   {a:7,to:[0],x:"2-star review: “Waited 40 minutes past my time.” Matched it to Tuesday’s overrun after an emergency.",ask:{b:'Post this reply and offer a free cleaning?',d:'“We’re sorry, Ms. Iyer. An emergency ran long that evening. We should have told you. Your next cleaning is on us.”',yes:"Replied. She booked her free cleaning for Friday.",no:"Okay. Replied with an apology only.",who:7}},
+   {a:3,to:[],x:"New rule: if a dentist runs 15+ minutes late, waiting patients get a WhatsApp update.",p:1}]}],
+ report:{title:'Aligna Dental · Saturday',rows:[['Collected','₹1,04,400 (₹18,000 claim pending)'],['Patients seen','34 · 0 empty chairs'],['New bookings','17 made by agents'],['Problems handled','7, none left waiting'],['Reviews','5 new 5-star · 1 answered']],
+  tom:'Monday: 31 appointments, 2 implants (kits arrive Thursday), Kavya on standby. 6 more recall patients likely to book.'},
+ did:[['Closed the books and GST','Billing',45],['Brought back 9 recall patients','Patient care',40],['Ordered supplies before running out','Supplies',40],['Filled every cancellation and rain gap','Scheduling',35],['Collected payments, set up an EMI','Billing',35],['Reminded 34 patients, 29 confirmed','Patient care',30],['Fixed a rejected insurance claim','Billing',30],['Answered calls, enquiries and reviews','Front desk · Reviews',50],['Covered a sick hygienist','Staff',25],['Planned the day, checked on post-op patients','Manager · Patient care',30]]}};
+
+/* ---------- network drawing ---------- */
+const NS='http://www.w3.org/2000/svg';
+let POS=[],CX=320,CY=205,NARROW=false,RR=30;
+function layout(){NARROW=innerWidth<620;const [w,h]=NARROW?[400,480]:[640,430];CX=w/2;CY=NARROW?232:205;RR=NARROW?27:30;$('#net').setAttribute('viewBox',`0 0 ${w} ${h}`);
+  POS=[[CX,CY]];for(let i=0;i<7;i++){const a=-Math.PI/2+i*2*Math.PI/7;POS.push([CX+Math.cos(a)*(NARROW?148:238),CY+Math.sin(a)*(NARROW?178:158)])}}
+function el(n,a,p){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.append(e);return e}
+let svg,edges=[],nodes=[],layer;
+function drawNet(){layout();svg=$('#net');svg.innerHTML='';edges=[];nodes=[];
+  const ge=el('g',{},svg);for(let i=1;i<8;i++)edges[i]=el('line',{class:'edge',x1:CX,y1:CY,x2:POS[i][0],y2:POS[i][1]},ge);
+  layer=el('g',{},svg);
+  BZ.agents.forEach((ag,i)=>{const [x,y]=POS[i];const g=el('g',{class:'node'+(i===0?' mgr':''),transform:`translate(${x},${y})`},svg);
+    const r=i===0?RR+8:RR;el('circle',{class:'halo',r:r+6,stroke:HEX[i]},g);el('circle',{class:'bg',r},g);
+    const tg=el('text',{class:'g',fill:HEX[i],y:0},g);tg.textContent=ag[0];
+    const tl=el('text',{class:'l',y:r+17},g);tl.textContent=ag[1];
+    const ts=el('text',{class:'s',y:r+30},g);ts.textContent=ag[2];nodes[i]=g})}
+function lightNode(i,ms){const n=nodes[i];if(!n)return;n.classList.add('on');if(i&&edges[i])edges[i].classList.add('on');clearTimeout(n._t);n._t=setTimeout(()=>{n.classList.remove('on');if(i&&edges[i])edges[i].classList.remove('on')},ms)}
+function hand(a,b,dur){return new Promise(res=>{const [x1,y1]=POS[a],[x2,y2]=POS[b];
+  const qx=(x1+x2)/2+(CX-(x1+x2)/2)*.45,qy=(y1+y2)/2+(CY-(y1+y2)/2)*.45;
+  const path=el('path',{class:'hand',d:`M${x1},${y1} Q${qx},${qy} ${x2},${y2}`,stroke:HEX[a]},layer);
+  const dot=el('circle',{class:'dot',r:5,fill:HEX[a],style:`color:${HEX[a]}`},layer);
+  const L=path.getTotalLength();if(RM){dot.remove();setTimeout(()=>{path.remove();res()},dur);return}
+  const t0=performance.now();(function f(now){const k=Math.min(1,(now-t0)/dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;const p=path.getPointAtLength(L*e);dot.setAttribute('cx',p.x);dot.setAttribute('cy',p.y);
+    if(k<1)requestAnimationFrame(f);else{lightNode(b,1400);dot.remove();path.style.transition='opacity .6s';path.style.opacity=0;setTimeout(()=>path.remove(),650);res()}})(t0)})}
+
+/* ---------- state ---------- */
+let key='cafe',BZ=BIZ.cafe,S,run=0,playing=false,speed=1,started=false,pendingAsk=null;
+function fresh(){S={i:0,min:T(BZ.start),rev:0,ord:0,prob:0,mins:0,taps:0,asked:0,done:false,feed:0}}
+const span=()=>T(BZ.end)-T(BZ.start);
+function setClock(m){S.min=m;const [a,b]=t12(Math.round(m));$('#clock').innerHTML=`${a}<small>${b}</small>`;
+  const h=m/60;$('#phase').textContent=S.done?'Day closed':h<(key==='cafe'?8:9)?'Before opening':h<12?'Morning':h<16?'Afternoon':h<19?'Evening':'Night';
+  $('#trackFill').style.width=Math.max(0,Math.min(100,(m-T(BZ.start))/span()*100))+'%'}
+function kpis(){$('#kRev').textContent=inr(S.rev);$('#kOrd').textContent=S.ord;$('#kProb').textContent=S.prob;$('#kHrs').textContent=hm(S.mins);$('#tapN').textContent=`${S.taps} / ${Math.max(3,S.asked)}`}
+function track(){const tr=$('#track');tr.querySelectorAll('b').forEach(b=>b.remove());BZ.events.forEach((e,i)=>{const b=document.createElement('b');b.style.left=((T(e.t)-T(BZ.start))/span()*100)+'%';if(e.ask)b.classList.add('q');b.dataset.i=i;tr.append(b)})}
+function markTrack(i){const b=$(`#track b[data-i="${i}"]`);if(b)b.classList.add('done')}
+function nowLine(e,time){const a=BZ.agents[e.a];$('#now').innerHTML=`<span class="who" style="color:${COL[e.a]}">${esc(a[1])}</span><p>${esc(e.x)}${e.s?`<small>${esc(e.s)}</small>`:''}</p>`}
+function feed(e,time,extra){S.feed++;const a=BZ.agents[e.a];const to=(e.to||[]).map(j=>BZ.agents[j][1]).join(', ');
+  const item=document.createElement('div');item.className='fi';
+  item.innerHTML=`<time>${esc(time)}</time><div><span class="ag" style="color:${COL[e.a]}">${esc(a[1])}${to?` <em>→ ${esc(to)}</em>`:''}</span>${esc(e.x)}${e.s?' '+esc(e.s):''}${extra||''}${e.tag?`<br><span class="tag ${e.tag[1]}">${esc(e.tag[0])}</span>`:''}</div>`;
+  $('#flist').prepend(item);$('#feedN').textContent=`${S.feed} actions · newest first`}
+function apply(e){if(e.rev)S.rev+=e.rev;if(e.ord)S.ord+=e.ord;if(e.p)S.prob+=e.p;if(e.m)S.mins+=e.m;kpis()}
+
+/* ---------- approvals ---------- */
+function showAsk(e,timeStr,auto){return new Promise(res=>{const q=e.ask;S.asked++;kpis();
+  let left=auto?6:0;const box=$('#askBox');
+  box.innerHTML=`<div class="ask" role="alert"><div class="h"><i></i>Needs you<span id="askT">${auto?`auto-approves in ${left}s (demo)`:''}</span></div><b>${esc(q.b)}</b><p>${esc(q.d)}</p><div class="row"><button class="btn primary" type="button" data-y="1">Approve</button><button class="btn" type="button" data-y="0">Not now</button></div></div>`;
+  if(innerWidth<1020&&playing){}/* don't yank the page on phones */
+  let iv=null;const done=yes=>{clearInterval(iv);pendingAsk=null;S.taps+=yes?1:0;kpis();
+    box.innerHTML=`<div class="calm"><b>${yes?'Approved':'Declined'} from your phone.</b> ${esc(yes?q.yes:q.no)}</div>`;
+    feed({a:q.who,to:[],x:yes?q.yes:q.no,tag:[yes?'You approved':'You said not now',yes?'g':'y']},timeStr);res(yes)};
+  pendingAsk={done};
+  box.querySelectorAll('button').forEach(b=>b.onclick=()=>done(b.dataset.y==='1'));
+  if(auto)iv=setInterval(()=>{if(!playing)return;left--;const t=$('#askT');if(t)t.textContent=`auto-approves in ${left}s (demo)`;if(left<=0)done(true)},1000)})}
+
+/* ---------- playback ---------- */
+async function fire(e,id,fast){const [a,b]=t12(T(e.t));const time=`${a} ${b}`;
+  lightNode(e.a,fast?400:1800);nowLine(e,time);
+  if(!fast&&e.to&&e.to.length){await Promise.all(e.to.map((j,k)=>wait(k*180).then(()=>hand(e.a,j,900/speed))))}
+  if(id!==run)return false;feed(e,time);apply(e);markTrack(S.i);
+  if(e.ask){if(fast){S.asked++;S.taps++;kpis();feed({a:e.ask.who,to:[],x:e.ask.yes,tag:['You approved','g']},time)}else{await showAsk(e,time,true);if(id!==run)return false}}
+  if(e.report)finishDay(fast);return true}
+let looping=false;
+async function play(){if(S.done){reset();}if(looping&&!S.done){playing=true;btn();return}playing=true;started=true;btn();const id=run;looping=true;
+  while(S.i<BZ.events.length){if(id!==run)return;if(!playing){await wait(150);continue}
+    const e=BZ.events[S.i],target=T(e.t),from=S.min,gap=target-from;
+    const dur=Math.max(500,Math.min(2200,gap*20))/speed,t0=performance.now();
+    while(true){if(id!==run){return}if(!playing){await wait(120);continue}const k=Math.min(1,(performance.now()-t0)/dur);setClock(from+gap*k);if(k>=1)break;await wait(40)}
+    const ok=await fire(e,id,false);if(!ok)return;S.i++;await wait(900/speed)}
+  looping=false;playing=false;btn()}
+function skipToEnd(){started=true;run++;looping=false;playing=false;if(pendingAsk)pendingAsk.done(true);const id=run;
+  while(S.i<BZ.events.length){const e=BZ.events[S.i];fire(e,id,true);S.i++}setClock(T(BZ.end));btn()}
+function finishDay(fast){S.done=true;setClock(T(BZ.end));playing=false;btn();renderReport(true);$('#askBox').innerHTML=`<div class="calm"><b>Day closed.</b> Tonight’s report is on your WhatsApp. ${S.taps} tap${S.taps===1?'':'s'} from you, all day.</div>`;
+  if(!fast){setTimeout(()=>{$('#wa').classList.remove('flash');void $('#wa').offsetWidth;$('#wa').classList.add('flash')},300)}}
+function btn(){$('#playL').textContent=S.done?'Replay the day':playing?'Pause':(S.i>0||S.min>T(BZ.start))?'Resume':'Play the day';$('#playI').textContent=playing?'❚❚':'▶';$$('#cbs button').forEach(b=>b.disabled=false)}
+function reset(){run++;looping=false;playing=false;pendingAsk=null;fresh();$('#flist').innerHTML='';$('#feedN').textContent='newest first';
+  $('#askBox').innerHTML='<div class="calm"><b>Nothing needs you.</b> When an agent needs your approval, it appears here with the numbers.</div>';
+  $('#now').innerHTML=`<span class="who" style="color:var(--gold)">Manager</span><p>Ready. Press <b>Play the day</b> and watch each agent pick up its work.<small>Lines light up when one agent hands work to another.</small></p>`;
+  setClock(T(BZ.start));kpis();track();btn();renderReport(false)}
+
+/* ---------- curveballs ---------- */
+let cbBusy=false;
+async function curveball(c){if(cbBusy||pendingAsk)return;cbBusy=true;$$('#cbs button').forEach(b=>b.disabled=true);
+  const wasPlaying=playing;playing=false;btn();const time=t12(Math.round(S.min));const ts=`${time[0]} ${time[1]}`;
+  feed({a:0,to:[],x:`Curveball: ${c.l}.`,tag:['Re-planning','e']},ts);
+  for(const e of c.ev){lightNode(e.a,1600);nowLine(e,ts);if(e.to&&e.to.length)await Promise.all(e.to.map((j,k)=>wait(k*180).then(()=>hand(e.a,j,850))));else await wait(700);
+    feed(e,ts);apply(e);if(e.ask){await showAsk(e,ts,false)}await wait(650)}
+  cbBusy=false;$$('#cbs button').forEach(b=>b.disabled=false);if(wasPlaying){playing=true;btn()}}
+
+/* ---------- report + team ---------- */
+function renderReport(final){const R=BZ.report,tot=BZ.did.reduce((s,d)=>s+d[2],0);
+  $('#wa').innerHTML=`<div class="wh"><i>${BZ.letter}</i><div><b>${esc(BZ.name)} · Manager agent</b><small>${final?'today':'every night'} · WhatsApp</small></div></div>
+   <div class="msg"><h3>${esc(R.title)}${final?'':' (sample)'}</h3>${R.rows.map(r=>`<div class="r"><span>${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join('')}
+   <p>${esc(R.tom)}</p><p>Needs you: nothing tonight. ${final?`You tapped ${S.taps} time${S.taps===1?'':'s'} today.`:'Usually 2–3 taps a day.'}</p><span class="tm">${t12(T(BZ.end)).join(' ')} ✓✓</span></div>`;
+  $('#did').innerHTML=`<div class="hd"><span>What the agents took off your plate</span><span>Agent</span><span>Time</span></div>`+BZ.did.map(d=>`<div><span>${esc(d[0])}</span><span>${esc(d[1])}</span><span>${hm(d[2]).replace(' h 00 m',' h').replace(/^0 h /,'')}</span></div>`).join('')+`<div class="tot"><span>Total, one day</span><span></span><span>${hm(tot)}</span></div>`;
+  $('#pHours').textContent=`${Math.floor(tot/60)}+ hours`}
+function renderTeam(){$('#agents').innerHTML=BZ.agents.map((a,i)=>`<div class="agc"><i style="color:${COL[i]}">${esc(a[0])}</i><b>${esc(a[1])}</b><p>${esc(a[3])}</p><small>${esc(a[4])}</small></div>`).join('')}
+
+function setBiz(k){key=BIZ[k]?k:'cafe';BZ=BIZ[key];$$('#pick button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.b===key));
+  $('#oav').textContent=BZ.letter;$('#oname').textContent=BZ.name;$('#kOrdL').textContent=BZ.ordL;
+  $('#tl0').textContent=t12(T(BZ.start)).join(' ').replace(':00','');$('#tl1').textContent=t12(T(BZ.end)).join(' ').replace(':00','');
+  $('#cbs').innerHTML=BZ.curve.map((c,i)=>`<button type="button" data-c="${i}">${esc(c.l)}</button>`).join('');
+  drawNet();renderTeam();reset();
+  try{const u=new URL(location.href);if(key==='cafe')u.searchParams.delete('biz');else u.searchParams.set('biz',key);history.replaceState(null,'',u)}catch(e){}}
+
+/* ---------- wiring ---------- */
+$('#pick').onclick=e=>{const b=e.target.closest('button');if(b&&b.dataset.b!==key){setBiz(b.dataset.b);if(started)setTimeout(play,300)}};
+$('#playBtn').onclick=()=>{if(playing){playing=false;btn()}else play()};
+$('#playHero').onclick=()=>{$('#stage').scrollIntoView({behavior:'smooth',block:'start'});started=true;if(!playing)setTimeout(play,450)};
+$$('.speed button').forEach(b=>b.onclick=()=>{speed=+b.dataset.x;$$('.speed button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+$('#cbs').onclick=e=>{const b=e.target.closest('button');if(b)curveball(BZ.curve[+b.dataset.c])};
+$('a[href="#report"]').addEventListener('click',()=>{if(!S.done)skipToEnd()});
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if((innerWidth<620)!==NARROW)drawNet()},200)});
+function contact(){const W=window.SEV_CONTACT||{};const msg=encodeURIComponent('Hi SEVORA, I saw the Business Autopilot demo and would like to know more.');
+  if(W.whatsapp){$('#waBtn').href=`https://wa.me/${W.whatsapp}?text=${msg}`;$('#waNum').textContent='WhatsApp: +'+W.whatsapp.replace(/^(\d{2})(\d{5})(\d+)/,'$1 $2 $3')}else{$('#waBtn').removeAttribute('href');$('#waNum').textContent='WhatsApp number coming soon'}}
+let k0='cafe';try{k0=new URL(location.href).searchParams.get('biz')||'cafe'}catch(e){}
+setBiz(k0);contact();
+/* start the day on its own the first time the control room is properly in view */
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting&&!started){started=true;setTimeout(()=>{if(S.i===0&&!playing)play()},500);io.disconnect()}})},{threshold:.45});io.observe($('#stage'))}
+})();
+</script>
+
+</body>
+</html>

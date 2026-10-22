@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0a09">
+<script>var SEVORA_WA="";</script>
+</head>
+<body>
+<title>Decision Desk — SEVORA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Geist:wght@400..650&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: SEVORA dark world. A command centre: the agent network and what runs on its own on the left, the owner's decision inbox on the right, then trust (track record, autonomy), how it works and pricing. Single dark look by choice. */
+:root{color-scheme:dark;
+--ink:#0b0a09;--ink2:#131210;--card:#171512;--card2:#1c1a16;--line:rgba(239,233,223,.1);--line2:rgba(239,233,223,.2);--bone:#efe9df;--bone2:#d8d0c4;--mute:#a39b90;--dim:#77706a;
+--gold:#d9a85f;--gold2:#f0c987;--sage:#8fbfa6;--ember:#f2895a;--sky:#8fb3d9;--plum:#c39bd3;
+--display:'Fraunces',Georgia,serif;--sans:'Geist',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace}
+[hidden]{display:none!important}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--ink);color:var(--bone);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{background:none;border:0;cursor:pointer;color:inherit;font:inherit}
+input{font:inherit;color:inherit}
+a{color:inherit}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border-radius:999px;border:1px solid var(--line2);font-size:14.5px;font-weight:500;transition:background .2s,border-color .2s,color .2s;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--gold);color:var(--gold2)}
+.btn.primary{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn.primary:hover{background:var(--gold2);color:var(--ink)}
+.btn.sm{padding:8px 13px;font-size:13px}
+.btn .play{width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--gold);display:grid;place-items:center;font-size:9px;padding-left:2px}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.bar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-block:18px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:12px;text-decoration:none}
+.brand b{font-family:var(--display);font-weight:400;letter-spacing:.32em;font-size:15px}
+.brand span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.bar .right{display:flex;align-items:center;gap:10px}
+.mode{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line2);border-radius:999px;padding:6px 11px}
+.mode i{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.mode.live i{background:var(--sage);box-shadow:0 0 8px var(--sage)}
+
+.hero{padding-block:40px 26px;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:end}
+h1{font-family:var(--display);font-weight:330;font-size:clamp(34px,4.6vw,60px);line-height:1.02;letter-spacing:-.018em;margin-top:10px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--gold2)}
+.sub{color:var(--mute);max-width:600px;margin-top:14px;font-size:16px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.proof{display:grid;gap:12px;border-left:1px solid var(--line2);padding-left:22px}
+.proof div{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.proof b{font-family:var(--display);font-weight:340;font-size:24px;color:var(--gold2);min-width:74px}
+.proof p{font-size:13.5px;color:var(--bone2)}
+
+.story{display:none;align-items:center;gap:16px;padding:12px 14px 12px 18px;margin-bottom:14px;border:1px solid rgba(217,168,95,.35);background:linear-gradient(90deg,rgba(217,168,95,.10),rgba(217,168,95,.03));border-radius:16px;position:sticky;top:max(10px,env(safe-area-inset-top,0px));z-index:5;backdrop-filter:blur(10px)}
+.story.on{display:flex;animation:pop .3s both}
+.story .n{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--gold);white-space:nowrap}
+.story p{flex:1;min-width:0;font-size:15px}
+.story .ctl{display:flex;gap:6px}
+.story .ctl button{padding:7px 12px;border-radius:999px;border:1px solid var(--line2);font-size:12.5px}
+.story .prog{position:absolute;left:18px;right:18px;bottom:0;height:2px;background:var(--line)}
+.story .prog i{display:block;height:100%;background:var(--gold);width:0;transition:width .4s}
+
+/* command centre */
+.cc{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:16px;align-items:start;position:relative}
+.col{display:grid;gap:16px;min-width:0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;min-width:0;transition:box-shadow .4s,border-color .4s}
+.focus{box-shadow:0 0 0 1px var(--gold),0 0 40px -8px rgba(217,168,95,.45);border-color:var(--gold)}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.ph h2{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.ph span{font-size:12.5px;color:var(--dim)}
+.desc{color:var(--bone2);font-size:14px;margin:-4px 0 12px}
+
+.biz{display:flex;align-items:center;gap:12px}
+.biz .av{width:42px;height:42px;border-radius:12px;background:linear-gradient(140deg,#3a2c1f,#6b4d32);display:grid;place-items:center;font-family:var(--display);font-size:20px;color:var(--gold2)}
+.biz b{display:block;font-family:var(--display);font-weight:380;font-size:21px;line-height:1.15}
+.biz small{color:var(--mute);font-size:12.5px}
+.biz .run{margin-left:auto}
+
+.net{position:relative;margin-top:10px}
+.net svg{width:100%;height:auto;display:block}
+.net .edge{stroke:rgba(239,233,223,.12);stroke-width:1.2}
+.net .edge.hot{stroke:rgba(217,168,95,.55)}
+.net .node circle{fill:var(--ink2);stroke:var(--line2);stroke-width:1.2;transition:stroke .3s,fill .3s}
+.net .node.work circle{stroke:var(--gold);fill:#241d14}
+.net .node.done circle{stroke:var(--sage)}
+.net .node text{fill:var(--bone2);font:500 10px var(--sans);text-anchor:middle}
+.net .node .ic{font:600 13px var(--display);fill:var(--gold2)}
+.net .core circle{fill:#2a2116;stroke:var(--gold);stroke-width:1.5}
+.net .pulse{fill:var(--gold2)}
+.agents{display:grid;gap:8px;margin-top:12px}
+.ag{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13.5px;padding:8px 10px;border-radius:12px;background:var(--ink2);border:1px solid var(--line)}
+.ag>i{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font:600 13px var(--display);font-style:normal;color:var(--ink);background:var(--c)}
+.ag b{font-weight:550}
+.ag small{display:block;color:var(--mute);font-size:12.5px;line-height:1.35;min-height:1.35em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ag .st{width:8px;height:8px;border-radius:50%;background:var(--dim)}
+.ag.work .st{background:var(--gold);box-shadow:0 0 8px var(--gold);animation:blink 1s infinite}
+.ag.done .st{background:var(--sage)}
+@keyframes blink{50%{opacity:.35}}
+
+.feed{display:grid;gap:9px}
+.ev{display:grid;grid-template-columns:62px minmax(0,1fr);gap:10px;font-size:13.5px;animation:pop .3s both}
+.ev time{font-family:var(--mono);font-size:11px;color:var(--dim);padding-top:2px}
+.ev p{color:var(--bone2);line-height:1.45}
+.ev p::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sage);margin-right:8px;vertical-align:1px}
+.ev.ask p::before{background:var(--gold)}
+
+.auto{display:grid;gap:8px}
+.arow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--ink2);border:1px solid var(--line)}
+.arow b{font-size:14px;font-weight:550}
+.arow small{display:block;color:var(--mute);font-size:12.5px;line-height:1.35}
+.seg{display:flex;padding:3px;border-radius:999px;border:1px solid var(--line2);gap:2px}
+.seg button{padding:5px 10px;border-radius:999px;font-size:12px;color:var(--mute);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--bone);color:var(--ink);font-weight:550}
+
+/* inbox */
+.inbox-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.inbox-h h2{font-family:var(--display);font-weight:360;font-size:24px}
+.count{min-width:24px;height:24px;padding:0 7px;border-radius:12px;background:var(--gold);color:var(--ink);font:600 12px var(--mono);display:inline-grid;place-items:center}
+.inbox-h .btn{margin-left:auto}
+.cards{display:grid;gap:12px;margin-top:12px}
+.empty{color:var(--dim);font-size:14px;padding:22px 4px;text-align:center;border:1px dashed var(--line2);border-radius:16px}
+.dc{border:1px solid var(--line2);border-radius:18px;background:var(--card2);padding:16px;animation:pop .35s both;min-width:0}
+.dc.done{border-color:rgba(143,191,166,.4)}
+.dc.no{opacity:.6}
+.dc .tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line2);color:var(--mute);white-space:nowrap}
+.chip.low{color:var(--sage);border-color:rgba(143,191,166,.45)}
+.chip.med{color:var(--gold2);border-color:rgba(217,168,95,.45)}
+.chip.high{color:var(--ember);border-color:rgba(242,137,90,.45)}
+.chip.go{background:rgba(143,191,166,.12);color:var(--sage);border-color:rgba(143,191,166,.45)}
+.chip.wait{background:rgba(242,137,90,.1);color:var(--ember);border-color:rgba(242,137,90,.45)}
+.conf{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--mute)}
+.dc h3{font-family:var(--display);font-weight:380;font-size:21px;line-height:1.2;margin-top:10px;text-wrap:balance}
+.dc .rec{color:var(--bone2);font-size:14.5px;margin-top:6px}
+.nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:12px}
+.nums div{background:var(--ink2);padding:10px 12px}
+.nums b{display:block;font-family:var(--display);font-weight:360;font-size:20px;line-height:1.15;font-variant-numeric:tabular-nums}
+.nums b.pos{color:var(--sage)}
+.nums b.neg{color:var(--ember)}
+.nums small{font-size:11.5px;color:var(--mute)}
+.why{list-style:none;display:grid;gap:5px;margin-top:12px;font-size:13.5px;color:var(--bone2)}
+.why li{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.why li::before{content:"→";color:var(--gold)}
+.why em{font-style:normal;font-family:var(--mono);font-size:10.5px;color:var(--dim);margin-left:4px}
+details.more{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+details.more summary{cursor:pointer;font-size:13px;color:var(--gold2);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+ "}
+details.more[open] summary::before{content:"− "}
+.math{display:grid;gap:4px;margin-top:8px;font-size:13px}
+.math div{display:flex;justify-content:space-between;gap:12px;color:var(--bone2);padding:4px 0;border-bottom:1px solid var(--line)}
+.math span:last-child{font-family:var(--mono);font-size:12px;white-space:nowrap}
+.worst{margin-top:8px;padding:10px 12px;border-radius:10px;background:rgba(242,137,90,.07);border:1px solid rgba(242,137,90,.25);font-size:13px;color:#f6d8c9}
+.worst b{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ember);display:block;margin-bottom:2px}
+.who{display:flex;gap:4px;align-items:center;margin-top:12px;font-size:12px;color:var(--dim)}
+.who i{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font:600 10px var(--display);font-style:normal;color:var(--ink);background:var(--c)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.acts .btn{padding:9px 15px;font-size:13.5px}
+.qa{margin-top:12px;display:grid;gap:8px}
+.qchips{display:flex;gap:6px;flex-wrap:wrap}
+.qchips button{font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--line2);color:var(--bone2)}
+.qchips button:hover{border-color:var(--gold);color:var(--gold2)}
+.ans{padding:10px 12px;border-radius:12px;background:var(--ink2);border:1px solid var(--line);font-size:13.5px;color:var(--bone2);animation:pop .3s both}
+.ans b{display:block;font-size:12px;color:var(--mute);font-weight:500;margin-bottom:3px}
+.exec{display:grid;gap:7px;margin-top:12px}
+.step{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;font-size:13.5px;color:var(--mute);transition:color .3s}
+.step i{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line2);display:grid;place-items:center;font-style:normal;font-size:11px}
+.step.run{color:var(--bone)}
+.step.run i{border-color:var(--gold);border-top-color:transparent;animation:spin 1s linear infinite}
+.step.ok{color:var(--bone2)}
+.step.ok i{background:var(--sage);border-color:var(--sage);color:var(--ink)}
+.step small{font-family:var(--mono);font-size:10.5px;color:var(--dim);display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.track{margin-top:10px;font-size:13px;color:var(--sage)}
+
+.ask{display:grid;gap:10px}
+.askf{display:flex;gap:8px}
+.askf input{flex:1;min-width:0;background:var(--ink2);border:1px solid var(--line2);border-radius:999px;padding:11px 16px;outline:none}
+.askf input:focus{border-color:var(--gold)}
+.note{font-size:12.5px;color:var(--dim)}
+
+.tr{display:grid;gap:6px}
+.tr div{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:12px;align-items:center;font-size:13.5px;padding:8px 0;border-bottom:1px solid var(--line)}
+.tr em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--mute);white-space:nowrap}
+.tr .hd{color:var(--dim);font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase}
+.acc{display:flex;align-items:baseline;gap:10px;margin-top:10px}
+.acc b{font-family:var(--display);font-weight:340;font-size:30px;color:var(--sage);white-space:nowrap}
+.acc span{font-size:13px;color:var(--mute)}
+
+.endcard{display:none;position:absolute;inset:0;z-index:4;place-items:start center;padding-top:clamp(40px,10vh,120px);background:rgba(11,10,9,.74);backdrop-filter:blur(6px);border-radius:20px}
+.endcard.on{display:grid;animation:pop .3s both}
+.endcard .in{max-width:480px;text-align:center;padding:30px 24px}
+.endcard h3{font-family:var(--display);font-weight:340;font-size:34px;line-height:1.1;text-wrap:balance}
+.endcard p{color:var(--mute);margin:10px 0 20px}
+.endcard .ctas{justify-content:center;margin-top:0}
+
+section.sec{padding-block:70px 0}
+.sec h2.t{font-family:var(--display);font-weight:330;font-size:clamp(28px,3.4vw,42px);line-height:1.08;letter-spacing:-.012em;margin-top:8px;text-wrap:balance;max-width:760px}
+.sec h2.t em{font-style:italic;color:var(--gold2)}
+.sec .lede{color:var(--mute);max-width:640px;margin-top:10px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.stp{border-top:1px solid var(--line2);padding-top:14px}
+.stp i{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--gold)}
+.stp b{display:block;font-family:var(--display);font-weight:360;font-size:21px;margin-top:6px}
+.stp p{font-size:14px;color:var(--mute);margin-top:6px}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.lv{padding:20px;border-radius:18px;border:1px solid var(--line);background:var(--card)}
+.lv span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.lv b{display:block;font-family:var(--display);font-weight:360;font-size:22px;margin-top:6px}
+.lv p{font-size:14px;color:var(--mute);margin-top:6px}
+.lv ul{list-style:none;margin-top:10px;display:grid;gap:5px;font-size:13.5px;color:var(--bone2)}
+.lv li::before{content:"✓";color:var(--sage);margin-right:8px}
+.price{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line2);border-radius:20px;overflow:hidden}
+.price>div{padding:24px}
+.price .l{background:var(--card)}
+.price .amt{font-family:var(--display);font-weight:330;font-size:40px;line-height:1;margin-top:8px}
+.price .amt small{font-size:15px;color:var(--mute);font-family:var(--sans)}
+.price p{color:var(--mute);margin-top:8px;font-size:14px}
+.price ul{list-style:none;display:grid;gap:9px;font-size:14px;color:var(--bone2)}
+.price li::before{content:"✓";color:var(--sage);margin-right:10px}
+.faq{margin-top:22px;display:grid;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:16px 30px 16px 0;font-size:16px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:13px;font-size:20px;color:var(--gold);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{color:var(--mute);padding:0 0 18px;max-width:740px;font-size:14.5px}
+.final{margin-block:70px 60px;padding:44px 28px;border-radius:24px;border:1px solid var(--line2);text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(217,168,95,.16),transparent 65%),var(--ink2)}
+.final h2{font-family:var(--display);font-weight:330;font-size:clamp(30px,3.6vw,46px);line-height:1.06;text-wrap:balance}
+.final h2 em{font-style:italic;color:var(--gold2)}
+.final p{color:var(--mute);margin:12px auto 22px;max-width:540px}
+.final .ctas{justify-content:center}
+.final .num{margin-top:14px;font-family:var(--mono);font-size:12.5px;color:var(--mute)}
+footer{padding-bottom:40px;font-size:12px;color:var(--dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+
+/* autopilot */
+.ap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:16px;margin-top:26px;align-items:start}
+.apmsg{border:1px solid var(--line2);border-radius:18px;padding:14px 16px;background:#13201b;display:grid;gap:6px}
+.apmsg small{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8fa39a}
+.apmsg p{font-size:15px;color:#e3eee8}
+.tl{display:grid;gap:0;margin-top:14px;position:relative}
+.tl::before{content:"";position:absolute;left:44px;top:6px;bottom:6px;width:1px;background:var(--line2)}
+.ts{display:grid;grid-template-columns:34px 22px minmax(0,1fr);gap:10px;align-items:start;padding:7px 0;animation:pop .3s both}
+.ts time{font-family:var(--mono);font-size:10.5px;color:var(--dim);padding-top:4px;text-align:right}
+.ts>i{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font:600 11px var(--display);font-style:normal;color:var(--ink);background:var(--c);position:relative;z-index:1}
+.ts b{font-size:12px;color:var(--mute);font-weight:500;display:block}
+.ts p{font-size:14px;color:var(--bone2);line-height:1.45}
+.ts .art{display:inline-flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+.ts .art span{font-family:var(--mono);font-size:10.5px;padding:3px 8px;border-radius:6px;border:1px solid var(--line2);color:var(--gold2);background:rgba(217,168,95,.06)}
+.ts.own>i{background:var(--bone)}
+.approve{margin-top:6px;padding:12px 14px;border-radius:14px;border:1px solid var(--gold);background:rgba(217,168,95,.08);display:grid;gap:8px}
+.approve p{color:var(--bone)}
+.approve .row{display:flex;gap:8px;flex-wrap:wrap}
+.apside{display:grid;gap:14px;position:sticky;top:16px}
+.apk{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.apk div{background:var(--ink2);padding:12px 14px}
+.apk b{display:block;font-family:var(--display);font-weight:340;font-size:24px;line-height:1.1;font-variant-numeric:tabular-nums}
+.apk small{font-size:11.5px;color:var(--mute)}
+.apk .hl b{color:var(--sage)}
+.wfs{display:grid;gap:8px}
+.wf{padding:10px 12px;border-radius:12px;background:var(--ink2);border:1px solid var(--line);font-size:13.5px}
+.wf b{display:block;font-size:14px;font-weight:550}
+.wf small{color:var(--mute);font-size:12.5px}
+@media(max-width:1000px){.ap{grid-template-columns:1fr}.apside{position:static}}
+@media(max-width:1000px){.cc{grid-template-columns:1fr}.cc .col.r{order:-1}.hero{grid-template-columns:1fr}.proof{border-left:0;padding-left:0;border-top:1px solid var(--line2);padding-top:18px}.steps{grid-template-columns:1fr 1fr}.levels,.price{grid-template-columns:1fr}}
+@media(max-width:620px){.bar .mode,#allDemos{display:none!important}.bar .brand span{display:none}.bar .btn.primary{padding:10px 14px;font-size:13.5px}.steps{grid-template-columns:1fr}.nums b{font-size:17px}.story{flex-wrap:wrap;gap:8px 12px}.story p{flex-basis:100%;order:3;font-size:14px}.story .ctl{margin-left:auto}.arow{grid-template-columns:1fr}.seg{justify-self:start}.tr div{grid-template-columns:minmax(0,1fr) auto}.tr div>:nth-child(2),.tr div>:nth-child(3){display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="wrap bar">
+  <a class="brand" href="../automations.html#demos" id="homeLink"><b>SEVORA</b><span>Decision Desk</span></a>
+  <div class="right"><a class="btn" id="allDemos" href="../automations.html#demos">All demos</a><span class="mode" id="mode"><i></i><span>Demo</span></span><a class="btn primary" href="#contact">Get this for your business</a></div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Agent networks · for owners</p>
+      <h1>A team of agents runs your business. <em>You make the calls in one tap.</em></h1>
+      <p class="sub">Seven AI agents study your sales, costs, reviews and market every week. They bring you decisions with the money, the risk and the worst case worked out. Approve one and they carry it out. Routine work runs on its own, at the level of freedom you choose.</p>
+      <div class="ctas">
+        <button class="btn primary" type="button" id="watch"><span class="play">▶</span>Watch a Monday morning · 45 sec</button>
+        <button class="btn" type="button" id="tryIt">Try it yourself</button>
+        <a class="btn" href="#autopilot">See it run a whole order</a>
+      </div>
+    </div>
+    <div class="proof">
+      <div><b>7 agents</b><p>Research, finance, risk, operations, marketing and customers, coordinated like a small team.</p></div>
+      <div><b>1 tap</b><p>Every decision comes with numbers, sources and a worst case. Approve, pass, or ask a question.</p></div>
+      <div><b>End to end</b><p>Give it a workflow, from a new order to month-end, and the agents run it, stopping only where you want a say.</p></div>
+      <div><b>On record</b><p>Every approved decision is checked against what actually happened. Trust is earned with evidence.</p></div>
+    </div>
+  </div>
+
+  <div class="story" id="story" role="status">
+    <span class="n" id="stN"></span><p id="stT"></p>
+    <div class="ctl"><button type="button" id="stPause">Pause</button><button type="button" id="stNext">Next</button><button type="button" id="stExit">Exit</button></div>
+    <div class="prog"><i id="stP"></i></div>
+  </div>
+
+  <div class="cc" id="cc">
+    <div class="col l">
+      <div class="panel" id="pNet">
+        <div class="biz"><span class="av">K</span><div><b>Kaapi Theory</b><small>Café · Jubilee Hills · 2 years old · 14 staff</small></div><button class="btn sm run" type="button" id="runBtn">Run this week’s review</button></div>
+        <div class="net" aria-hidden="true"><svg id="netSvg" viewBox="0 0 380 282"></svg></div>
+        <div class="agents" id="agents"></div>
+      </div>
+      <div class="panel" id="pAuto">
+        <div class="ph"><h2>How much freedom</h2><span>you choose, area by area</span></div>
+        <p class="desc">“Just do it” runs on its own. “Tell me after” acts, then reports. “Ask me” always waits for your tap.</p>
+        <div class="auto" id="auto"></div>
+      </div>
+      <div class="panel" id="pDone">
+        <div class="ph"><h2>Done on its own today</h2><span>within the freedom you gave</span></div>
+        <div class="feed" id="feed"></div>
+      </div>
+    </div>
+
+    <div class="col r">
+      <div class="panel" id="pInbox">
+        <div class="inbox-h"><h2>Decisions for you</h2><span class="count" id="count">0</span><button class="btn sm" type="button" id="approveLow" hidden>Approve all low-risk</button></div>
+        <div class="cards" id="cards"><p class="empty" id="inboxEmpty">No decisions yet. Press “Run this week’s review” and the agents will study the week.</p></div>
+      </div>
+      <div class="panel" id="pAsk">
+        <div class="ph"><h2>Ask the network</h2><span>any business question</span></div>
+        <div class="ask">
+          <form class="askf" id="askF"><label for="askIn" style="position:absolute;left:-9999px">Your question</label><input id="askIn" autocomplete="off" placeholder="e.g. Should we open a second outlet?"><button class="btn primary sm" type="submit">Ask</button></form>
+          <div class="qchips" id="preQ"></div>
+          <p class="note" id="askNote"></p>
+        </div>
+        <div class="cards" id="answers"></div>
+      </div>
+      <div class="panel" id="pTrack">
+        <div class="ph"><h2>Track record</h2><span>predicted vs what actually happened</span></div>
+        <div class="tr" id="track"></div>
+        <div class="acc"><b id="accN">3 of 4</b><span>past decisions landed within 20% of the prediction. When a call is off, the agents lower their confidence for that kind of decision.</span></div>
+      </div>
+    </div>
+
+    <div class="endcard" id="end"><div class="in">
+      <p class="eyebrow">That was one Monday morning</p>
+      <h3>The agents did the research. The owner made three decisions in under a minute.</h3>
+      <p>Your turn. Run the review, open “How we worked this out”, approve one, or ask your own question.</p>
+      <div class="ctas"><button class="btn primary" type="button" id="endTry">Try it yourself</button><a class="btn" href="#how" id="endHow">How it decides</a></div>
+    </div></div>
+  </div>
+
+  <section class="sec" id="autopilot">
+    <p class="eyebrow">Autopilot · whole workflows</p>
+    <h2 class="t">One message in. <em>The whole job done.</em></h2>
+    <p class="lede">The same agents don’t just advise. Give them a workflow and they run it end to end: quoting, stock, suppliers, invoices, staff, delivery and follow-up. They stop only where you said you want a say.</p>
+    <div class="ap">
+      <div class="panel" id="pAp">
+        <div class="inbox-h"><h2 style="font-size:21px">A corporate order, start to finish</h2><button class="btn primary sm" type="button" id="apRun">▶ Run this order</button></div>
+        <div class="apmsg" style="margin-top:12px"><small>WhatsApp · Tuesday 11:04 AM · Neha, Vertex Labs</small><p>Hi! Can you do coffee and snacks for 120 people at our Financial District office this Friday, 10 AM? Filter kaapi and croissants. We’ll need a GST invoice.</p></div>
+        <div class="tl" id="tl"><p class="empty" id="tlEmpty" style="margin-top:6px">Press “Run this order” to watch seven agents handle it. The owner taps once.</p></div>
+      </div>
+      <div class="apside">
+        <div class="apk"><div><b id="apTime">0</b><small>steps done by agents</small></div><div><b id="apTaps">0</b><small>owner taps</small></div><div><b id="apVal">₹0</b><small>order value</small></div><div class="hl"><b id="apProf">₹0</b><small>profit, logged</small></div></div>
+        <div class="panel"><div class="ph"><h2>Other workflows it runs</h2></div><div class="wfs">
+          <div class="wf"><b>Supplier price rise</b><small>Compares three suppliers, models the margin hit, asks you once, switches.</small></div>
+          <div class="wf"><b>New staff onboarding</b><small>Offer letter, documents, roster slot, training checklist, day-one welcome.</small></div>
+          <div class="wf"><b>Month-end close</b><small>Matches payments and invoices, chases dues, sends your accountant a clean pack.</small></div>
+          <div class="wf"><b>Bad review recovery</b><small>Apologises, offers a fix you approved, tells the manager, tracks if they return.</small></div>
+          <div class="wf"><b>Festival campaign</b><small>Plans the offer, checks stock, schedules posts and messages, reports results.</small></div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="how">
+    <p class="eyebrow">How it decides</p>
+    <h2 class="t">Research first. <em>Worst case always.</em> You decide.</h2>
+    <p class="lede">Every recommendation goes through the same four agents before it reaches you, and none of it is guesswork dressed up as AI.</p>
+    <div class="steps">
+      <div class="stp"><i>01 · RESEARCH</i><b>Facts, with sources</b><p>Your own data first: sales, costs, reviews, bookings. Then public data: nearby prices, footfall, seasonality. Every number says where it came from.</p></div>
+      <div class="stp"><i>02 · FINANCE</i><b>The money, shown</b><p>Expected monthly impact, one-time cost and payback, with the full working you can open and check.</p></div>
+      <div class="stp"><i>03 · RISK</i><b>What could go wrong</b><p>A worst case in rupees, the main risks, and a confidence score that drops when the data is thin.</p></div>
+      <div class="stp"><i>04 · COORDINATOR</i><b>One clear call</b><p>Go, trial, not yet, or no, with the exact steps the agents will take if you approve.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="levels">
+    <p class="eyebrow">What we build</p>
+    <h2 class="t">From one agent to <em>a whole team.</em></h2>
+    <div class="levels">
+      <div class="lv"><span>Level 1</span><b>An agent</b><p>One assistant with one job, done well.</p><ul><li>WhatsApp front desk</li><li>Lead qualifier</li><li>Order and support desk</li></ul></div>
+      <div class="lv"><span>Level 2</span><b>A voice agent</b><p>Answers your phone at any hour, in a natural voice.</p><ul><li>Bookings and reschedules by phone</li><li>After-hours and overflow calls</li><li>A written summary of every call</li></ul></div>
+      <div class="lv"><span>Level 3</span><b>An agent network</b><p>Specialists that coordinate and bring you decisions.</p><ul><li>Weekly business review</li><li>Decisions with numbers and risk</li><li>Routine work at the freedom you set</li></ul></div>
+    </div>
+    <div class="price">
+      <div class="l"><p class="eyebrow">Decision Desk</p><div class="amt">6-week pilot</div><p>We connect your data, map your decisions with you, and run weekly reviews. You keep it only if the track record earns it. Pricing is quoted after a first call, based on how many systems we connect.</p></div>
+      <div><ul><li>Seven coordinated agents on your own data</li><li>Weekly decision cards with numbers, risk and worst case</li><li>One-tap approval, with agents carrying out the plan</li><li>Autonomy you set, area by area</li><li>A track record of predicted vs actual</li><li>Monthly review call with SEVORA</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <p class="eyebrow">Questions owners ask</p>
+    <div class="faq">
+      <details><summary>Will it make decisions without me?</summary><p>Only the ones you allow. Each area has its own setting: “just do it”, “tell me after”, or “ask me”. Anything involving prices, hiring, contracts or large spends waits for your tap unless you change that yourself.</p></details>
+      <details><summary>Where do the numbers come from?</summary><p>Your own systems first: POS or billing, accounts, bookings, reviews, delivery-app statements. Public data like nearby prices and seasonal trends is added and labelled. If the data isn’t good enough to decide, the card says so and the confidence drops.</p></details>
+      <details><summary>What if a recommendation is wrong?</summary><p>Every card shows a worst case before you approve. After you approve, the outcome is tracked against the prediction. If a type of decision keeps missing, the agents lower their confidence and tell you why.</p></details>
+      <details><summary>Is my data safe?</summary><p>Your data stays in your own accounts and a private workspace for your business. It isn’t used to train public models, and you can disconnect any source at any time.</p></details>
+      <details><summary>Do I need new software?</summary><p>No. We connect what you already use: Google Sheets, your POS or Tally export, WhatsApp, payment and delivery-app statements. The decisions come to you on WhatsApp and on this kind of page.</p></details>
+      <details><summary>Is this only for cafés?</summary><p>No. The café is the demo. The same network works for clinics, gyms, shops, real estate, agencies and small manufacturers: anywhere decisions depend on numbers you already have.</p></details>
+    </div>
+  </section>
+
+  <section class="final" id="contact">
+    <h2>Run your business on <em>evidence, not guesswork.</em></h2>
+    <p>Message us. We’ll look at what you already track and show you the first three decisions the agents would bring you.</p>
+    <div class="ctas"><a class="btn primary" id="waBtn" target="_blank" rel="noopener">Message SEVORA on WhatsApp</a></div>
+    <p class="num" id="waNum"></p>
+  </section>
+  <footer><span>SEVORA · AI automations and agents</span><span>Demo café and figures. Market benchmarks marked “illustrative” are examples, not research.</span></footer>
+</main>
+
+<script>
+window.SEV_CONTACT={whatsapp:SEVORA_WA};
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const inr=n=>(n<0?'−':'')+'₹'+Math.abs(Math.round(n)).toLocaleString('en-IN');
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const clock=()=>new Date().toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+
+/* ---------- the business (demo data) ---------- */
+const BIZ={name:'Kaapi Theory',type:'specialty café',area:'Jubilee Hills, Hyderabad',age:'2 years',staff:14,
+ month:{revenue:1842000,orders:4212,aov:437,food_cost_pct:31,rent:240000,salaries:410000,margin_pct:14},
+ delivery:{share_pct:38,orders:1600,commission_pct:24,regular_customers:140,regular_orders:412},
+ menu_top:[['Filter Kaapi',120,1820],['Cappuccino',220,1140],['Cold Brew',240,610],['Butter Croissant',180,880]],
+ peaks:{weekend_morning_wait_min:14,weekend_morning_walkouts:38},
+ reviews:{avg:4.4,count_month:86,complaints:['wait time on weekends (11)','cold brew price (2)','parking (4)']},
+ utilisation_pct:71};
+
+/* ---------- agents ---------- */
+const AG=[{id:'coord',n:'Coordinator',r:'Splits the work, writes your decision',c:'#d9a85f',ic:'C'},
+ {id:'research',n:'Research',r:'Your data and the market',c:'#8fb3d9',ic:'R'},{id:'finance',n:'Finance',r:'Impact, cost and payback',c:'#8fbfa6',ic:'F'},
+ {id:'risk',n:'Risk',r:'Worst case and confidence',c:'#f2895a',ic:'!'},{id:'ops',n:'Operations',r:'Stock, staff and suppliers',c:'#c39bd3',ic:'O'},
+ {id:'mkt',n:'Marketing',r:'Offers, posts and messages',c:'#e6c56f',ic:'M'},{id:'cust',n:'Customers',r:'Talks to your customers',c:'#9ad0c8',ic:'W'}];
+const POS={coord:[190,128]};const ring=AG.slice(1);ring.forEach((a,i)=>{const ang=-Math.PI/2+i*2*Math.PI/ring.length;POS[a.id]=[190+150*Math.cos(ang),128+100*Math.sin(ang)]});
+function drawNet(){const svg=$('#netSvg');let h='';ring.forEach(a=>{const [x,y]=POS[a.id];h+=`<line class="edge" id="e-${a.id}" x1="190" y1="128" x2="${x}" y2="${y}"/>`});
+  for(let i=0;i<ring.length;i++){const a=POS[ring[i].id],b=POS[ring[(i+1)%ring.length].id];h+=`<line class="edge" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" style="stroke:rgba(239,233,223,.05)"/>`}
+  h+=`<g class="node core" id="n-coord"><circle cx="190" cy="128" r="30"/><text class="ic" x="190" y="125">C</text><text x="190" y="140">Coordinator</text></g>`;
+  ring.forEach(a=>{const [x,y]=POS[a.id];h+=`<g class="node" id="n-${a.id}"><circle cx="${x}" cy="${y}" r="22"/><text class="ic" x="${x}" y="${y+5}" style="fill:${a.c}">${a.ic}</text><text x="${x}" y="${y+36}">${a.n}</text></g>`});
+  h+='<g id="pulses"></g>';svg.innerHTML=h}
+function drawAgents(){$('#agents').innerHTML=AG.map(a=>`<div class="ag" id="ag-${a.id}" style="--c:${a.c}"><i>${a.ic}</i><div><b>${a.n}</b><small id="as-${a.id}">${a.r}</small></div><span class="st"></span></div>`).join('')}
+function agState(id,state,text){const el=$('#ag-'+id),n=$('#n-'+id);el.classList.remove('work','done');n&&n.classList.remove('work','done');if(state){el.classList.add(state);n&&n.classList.add(state)}if(text!==undefined)$('#as-'+id).textContent=text}
+function pulse(from,to){const [x1,y1]=POS[from],[x2,y2]=POS[to];const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('r','3.5');c.setAttribute('class','pulse');$('#pulses').append(c);
+  const e=$('#e-'+(from==='coord'?to:from));e&&e.classList.add('hot');const t0=performance.now(),d=700;
+  (function f(t){const k=Math.min(1,(t-t0)/d);c.setAttribute('cx',x1+(x2-x1)*k);c.setAttribute('cy',y1+(y2-y1)*k);if(k<1)requestAnimationFrame(f);else{c.remove();e&&e.classList.remove('hot')}})(t0)}
+const agBadge=id=>{const a=AG.find(x=>x.id===id);return `<i style="--c:${a.c}" title="${a.n}">${a.ic}</i>`};
+
+/* ---------- this week's decisions (worked from the demo data) ---------- */
+function decisions(){const d=BIZ.delivery,save=Math.round(BIZ.month.aov*d.commission_pct/100);
+ const moved=Math.round(d.regular_orders*.3),gain1=moved*save,fee1=Math.round(moved*BIZ.month.aov*.02),cost1=Math.round(d.regular_customers*.3)*50,net1=gain1-fee1;
+ const cb=BIZ.menu_top[2],cbNew=260,vol=Math.round(cb[2]*.97),m0=(cb[1]-62)*cb[2],m1=(cbNew-62)*vol,net2=m1-m0,worst2=(cbNew-62)*Math.round(cb[2]*.9)-m0;
+ const lost=BIZ.peaks.weekend_morning_walkouts*4,rec=Math.round(lost*.6),marg=Math.round(380*.62),gain3=rec*marg,cost3=250*3*8,net3=gain3-cost3;
+ return [
+ {id:'d1',area:'Revenue',risk:'low',conf:78,verdict:'Go',title:'Move delivery-app regulars to WhatsApp pickup',
+  rec:`Offer your ${d.regular_customers} most frequent delivery-app customers ₹50 off their first WhatsApp pickup order.`,
+  impact:net1,cost:cost1,payback:`${Math.max(1,Math.round(cost1/net1*30))} days`,
+  why:[[`${d.regular_orders} orders last month came from ${d.regular_customers} repeat customers on delivery apps`,'your sales data'],[`Commission averaged ${d.commission_pct}%, about ${inr(save)} an order`,'app payout statements'],['Cafés typically move 25–35% of regulars with a first-order offer','illustrative benchmark']],
+  math:[['Regular delivery orders a month',d.regular_orders],['Expected to move to WhatsApp (30%)',moved],['Commission saved per order',inr(save)],['Commission saved a month',inr(gain1)],['Payment fee (2%)','−'+inr(fee1).slice(0)],['Net gain a month',inr(net1)],['One-time cost: ₹50 × '+Math.round(d.regular_customers*.3)+' first orders',inr(cost1)]],
+  worst:`If only 10% switch: about ${inr(Math.round(d.regular_orders*.1)*save*.98)} a month, for ${inr(Math.round(d.regular_customers*.1)*50)} in discounts. You can’t lose money on this.`,
+  agents:['research','finance','risk','mkt'],plan:[['mkt','Write the offer in English, Hindi and Telugu'],['cust','Send it to 140 regulars, 20 an hour'],['ops','Brief counter staff on pickup orders'],['finance','Track commission saved every Monday']],
+  qs:[['What if they don’t switch?',`Then you’ve spent at most ${inr(cost1)} on discounts and nothing else changes. The agents check after 2 weeks and stop the offer if fewer than 10% switch.`],['Will the apps rank us lower?','Possibly a little, if order volume drops a lot. That’s why it only targets regulars, about a quarter of your app orders. The other 75% stay where they are.']]},
+ {id:'d2',area:'Pricing',risk:'med',conf:71,verdict:'Go',title:`Raise Cold Brew from ₹${cb[1]} to ₹${cbNew}`,
+  rec:'Your cold brew is priced below nearby specialty cafés. Raise it by ₹20 and keep the old price for loyalty members.',
+  impact:net2,cost:0,payback:'Immediate',
+  why:[[`You sold ${cb[2]} cold brews last month at about ₹62 cost each`,'your sales and costs'],['Nearby specialty cafés charge ₹250–290; the median is ₹270','price check, 9 cafés · illustrative'],['Specialty drinks usually lose 2–4% of volume for a price rise this size','illustrative benchmark']],
+  math:[['Cups a month now',cb[2]],['Expected after the rise (−3%)',vol],['Margin per cup now',inr(cb[1]-62)],['Margin per cup after',inr(cbNew-62)],['Margin a month now',inr(m0)],['Margin a month after',inr(m1)],['Change',inr(net2)]],
+  worst:`If volume drops 10% instead of 3%, you roughly break even (${inr(worst2)} a month), and the agents will suggest rolling it back after 4 weeks.`,
+  agents:['research','finance','risk'],plan:[['ops','Update the menu board and POS price on Monday'],['mkt','Tell loyalty members their price stays the same'],['research','Watch review mentions of price for 4 weeks'],['finance','Compare cups sold week by week']],
+  qs:[['What if regulars complain?','Two reviews mentioned the price last month. Loyalty members keep ₹240, which covers most regulars. If price complaints go above 5 a month, the agents flag it to you.'],['Why not raise it more?','Above ₹270 you’d be priced over the local median, and the risk agent expects a sharper drop in volume. ₹260 gets most of the gain with less risk.']]},
+ {id:'d3',area:'Staffing',risk:'med',conf:68,verdict:'Trial',title:'Add a part-time barista on weekend mornings',
+  rec:'Trial one extra barista on Saturday and Sunday, 8 to 11 AM, for four weeks.',
+  impact:net3,cost:0,payback:'Immediate',
+  why:[[`Weekend morning waits average ${BIZ.peaks.weekend_morning_wait_min} minutes`,'your order timestamps'],[`About ${BIZ.peaks.weekend_morning_walkouts} people a weekend leave or cancel during that window`,'your POS and WhatsApp data'],['11 reviews last month mentioned the weekend wait','your reviews']],
+  math:[['Lost orders a month',lost],['Recovered with a second barista (60%)',rec],['Margin per order (₹380 × 62%)',inr(marg)],['Recovered margin a month',inr(gain3)],['Barista cost (₹250/h × 3h × 8 days)','−'+inr(cost3)],['Net gain a month',inr(net3)]],
+  worst:`If only a third of lost orders come back, you about break even (${inr(Math.round(lost*.33)*marg-cost3)} a month). The trial ends after 4 weeks unless the numbers hold.`,
+  agents:['research','finance','risk','ops'],plan:[['ops','Post the shift to your staff WhatsApp group'],['ops','Add the shift to the roster for 4 weekends'],['research','Measure weekend wait times each week'],['finance','Report recovered orders after the trial']],
+  qs:[['Can an existing staff member do it?','Yes, if someone wants extra hours. The operations agent asks your team first and only looks outside if nobody takes it.']]}]}
+
+/* ---------- questions anyone can ask (prepared answers for the public site) ---------- */
+const PREPARED=[
+ {q:'Should we open a second outlet in Gachibowli?',a:{area:'Growth',risk:'high',conf:74,verdict:'Not yet',title:'A second outlet: not yet',
+  rec:'Wait 6 to 9 months. Your first café is at 71% of capacity, and a second outlet would take about two and a half years to pay back at today’s margin.',
+  impact:null,cost:3800000,payback:'~31 months',
+  why:[['Setup for a 1,200 sq ft café in Gachibowli: about ₹38 L','fit-out and equipment quotes · illustrative'],['Your net margin is 14%; a new outlet usually runs at a loss for its first 4–6 months','your accounts; illustrative benchmark'],['Your current café is at 71% of capacity, so there is still room to grow here first','your POS data']],
+  math:[['Setup cost','₹38,00,000'],['Expected monthly revenue after ramp-up','₹12,00,000'],['Expected net margin','12%'],['Monthly profit after ramp-up','₹1,44,000'],['Payback including a 5-month ramp-up','~31 months']],
+  worst:'If revenue reaches only 70% of plan, payback stretches past 4 years and the second outlet could drag on the first.',
+  agents:['research','finance','risk'],plan:[['finance','Revisit when utilisation passes 85% for 3 months'],['research','Track rents and footfall in Gachibowli monthly'],['mkt','Test demand with a weekend pop-up first']],
+  qs:[['What would make it a yes?','Three months above 85% capacity here, and net margin above 16%. The agents watch both and will bring this back to you when they’re met.']]}},
+ {q:'Should we open at 7 AM instead of 8?',a:{area:'Operations',risk:'low',conf:66,verdict:'Trial',title:'Open at 7 AM on weekdays: trial it',
+  rec:'Trial a 7 AM weekday opening for 4 weeks with one barista and a short menu.',impact:12980,cost:0,payback:'Immediate',
+  why:[['32 WhatsApp messages last month asked about opening before 8','your WhatsApp data'],['Two office parks within 1 km start at 9','public data · illustrative'],['Your 8–9 AM hour is already your busiest weekday hour','your POS data']],
+  math:[['Messages asking about 7–8 AM','32 last month'],['Expected orders 7–8 AM (conservative)','9 a day'],['Margin per early order','₹110'],['Margin a month (22 weekdays)','₹21,780'],['Extra staff cost a month','−₹8,800'],['Net gain a month','₹12,980']],
+  worst:'If fewer than 4 people come in that hour, it roughly breaks even, and at worst costs the ₹8,800 of extra staff. The trial stops after 4 weeks unless the numbers hold.',
+  agents:['research','finance','risk','ops'],plan:[['ops','Roster one barista 6:45–11 AM for 4 weeks'],['cust','Tell WhatsApp regulars about the early opening'],['finance','Report 7–8 AM orders every Friday']],qs:[]}},
+ {q:'Are delivery apps still worth it for us?',a:{area:'Revenue',risk:'med',conf:72,verdict:'Go',title:'Keep the apps, but move your regulars',
+  rec:'Delivery apps bring 38% of your orders, mostly new customers. Keep them, and move only your repeat customers to direct WhatsApp orders.',impact:0,cost:0,payback:'',
+  why:[['62% of app orders come from first-time or occasional customers','your sales data'],['Commission averaged 24% last month','app payout statements'],['Leaving the apps entirely would lose most new customers','risk model']],
+  math:[],
+  worst:'Leaving the apps completely would cost an estimated ₹1.8 L a month in lost orders. That’s why the recommendation is to move regulars only.',
+  agents:['research','finance','risk','mkt'],plan:[['mkt','Run the regulars offer (see this week’s decision)'],['finance','Re-check app share every month']],qs:[]}}];
+
+{const D1=decisions()[0],A=PREPARED[2].a;A.impact=D1.impact;A.cost=D1.cost;A.payback=D1.payback;
+ A.math=[['App orders a month',BIZ.delivery.orders.toLocaleString('en-IN')],['From your regulars',BIZ.delivery.regular_orders],['Commission on regulars’ orders',inr(BIZ.delivery.regular_orders*Math.round(BIZ.month.aov*BIZ.delivery.commission_pct/100))],['Net gain from moving 30% of them',inr(D1.impact)]];}
+/* ---------- autonomy ---------- */
+const AUTO=[{id:'stock',n:'Stock and reordering',d:'Milk, beans, pastries from your usual suppliers',v:2},{id:'reviews',n:'Replies to reviews',d:'4–5 stars replied to; 1–3 stars drafted for you',v:2},
+ {id:'offers',n:'Offers and messages',d:'Up to ₹2,000 a month on discounts',v:1},{id:'prices',n:'Prices',d:'Any menu price change',v:0},{id:'staff',n:'Staffing',d:'Shifts, hiring, overtime',v:0},{id:'pay',n:'Supplier payments',d:'Paying invoices',v:0}];
+const LV=['Ask me','Tell me after','Just do it'];
+function drawAuto(){$('#auto').innerHTML=AUTO.map(a=>`<div class="arow"><div><b>${a.n}</b><small>${a.d}</small></div><div class="seg" role="group" aria-label="${a.n}">${LV.map((l,i)=>`<button type="button" data-a="${a.id}" data-v="${i}" aria-pressed="${a.v===i}">${l}</button>`).join('')}</div></div>`).join('')}
+$('#auto').addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||story.on&&!story.allow)return;setAuto(b.dataset.a,+b.dataset.v)});
+function setAuto(id,v){const a=AUTO.find(x=>x.id===id);a.v=v;drawAuto();feed(`You set <b>${esc(a.n)}</b> to “${LV[v]}”. ${v===2?'The agents will handle it and report weekly.':v===1?'The agents will act, then tell you what they did.':'Nothing happens here without your tap.'}`,'ask')}
+
+/* ---------- feed ---------- */
+function feed(html,kind){const el=document.createElement('div');el.className='ev '+(kind||'');el.innerHTML=`<time>${clock().replace(' ',' ')}</time><p>${html}</p>`;$('#feed').prepend(el)}
+function seedFeed(){[['Answered 41 customer messages on WhatsApp and booked 6 tables.'],['Replied to 5 five-star Google reviews in your voice. Drafted a reply to one 3-star review for you to check.'],['Ordered 18 L of milk from Sri Dairy. Stock was at 3 L and Tuesday usually needs 18 L.'],['Flagged a ₹4,800 card refund at 11:42 PM as unusual. It needs your look.','ask']].forEach(([h,k])=>feed(h,k))}
+
+/* ---------- decision cards ---------- */
+const riskWord={low:'Low risk',med:'Medium risk',high:'High risk'};
+function cardHTML(d,ans){const pos=d.impact!==null&&d.impact>=0;return `<div class="dc" id="c-${d.id}">
+ <div class="tags"><span class="chip">${esc(d.area)}</span><span class="chip ${d.risk}">${riskWord[d.risk]}</span><span class="chip ${/not|no$/i.test(d.verdict)?'wait':'go'}">${esc(d.verdict)}</span><span class="conf">confidence ${d.conf}%</span></div>
+ <h3>${esc(d.title)}</h3><p class="rec">${esc(d.rec)}</p>
+ <div class="nums"><div><b class="${d.impact===null?'':pos?'pos':'neg'}">${d.impact===null?'—':(pos?'+':'')+inr(d.impact)}</b><small>${d.impact===null?'monthly impact':'a month, expected'}</small></div><div><b>${d.cost?inr(d.cost):'₹0'}</b><small>one-time cost</small></div><div><b>${esc(d.payback)}</b><small>to pay back</small></div></div>
+ <ul class="why">${d.why.map(([t,s])=>`<li><span>${esc(t)}<em>${esc(s)}</em></span></li>`).join('')}</ul>
+ <details class="more"><summary>How we worked this out</summary><div class="math">${d.math.map(([a,b])=>`<div><span>${esc(a)}</span><span>${esc(String(b))}</span></div>`).join('')}</div><div class="worst"><b>Worst case</b>${esc(d.worst)}</div></details>
+ <div class="who">Worked on by ${d.agents.map(agBadge).join('')}</div>
+ ${ans?'':`<div class="acts"><button class="btn primary" type="button" data-ok="${d.id}">Approve</button><button class="btn" type="button" data-no="${d.id}">Not now</button>${d.qs&&d.qs.length?`<button class="btn" type="button" data-q="${d.id}">Ask about this</button>`:''}</div>`}
+ ${ans&&d.plan&&d.plan.length?`<div class="acts"><button class="btn primary" type="button" data-ok="${d.id}">${/not yet/i.test(d.verdict)?'Agree, set the reminders':'Approve this plan'}</button></div>`:''}
+ <div class="qa" id="qa-${d.id}"></div><div class="exec" id="x-${d.id}"></div></div>`}
+let S={dec:[],extra:{},reviewed:false};
+function refreshCount(){const open=S.dec.filter(d=>!d.state).length;$('#count').textContent=open;$('#approveLow').hidden=!S.dec.some(d=>!d.state&&d.risk==='low')}
+async function runReview(){if(S.reviewing)return;S.reviewing=true;$('#runBtn').disabled=true;$('#cards').innerHTML='';
+  const steps=[['coord','Splitting this week’s review into tasks',['research','finance','risk']],['research','Reading 4,212 orders, 86 reviews and costs',['coord']],['research','Checking prices at 9 nearby cafés',['coord']],
+   ['finance','Working out impact, cost and payback',['coord']],['risk','Modelling worst cases for each idea',['coord']],['ops','Checking staff rosters and stock',['coord']],['mkt','Drafting customer messages for each plan',['coord']],['coord','Writing up 3 decisions for you',[]]];
+  for(const [id,t,to] of steps){agState(id,'work',t);for(const x of to)pulse(id,x);if(id!=='coord')pulse('coord',id);await sleep(900);agState(id,'done')}
+  AG.forEach(a=>agState(a.id,'',a.r));S.dec=decisions();
+  for(const d of S.dec){$('#cards').insertAdjacentHTML('beforeend',cardHTML(d));await sleep(350)}
+  refreshCount();feed('Weekly review finished: 3 decisions sent to you on WhatsApp and here.');S.reviewed=true;S.reviewing=false;$('#runBtn').disabled=false;$('#runBtn').textContent='Run it again'}
+async function approve(id){const d=S.dec.find(x=>x.id===id)||S.extra[id];if(!d||d.state)return;d.state='ok';const c=$('#c-'+id);c.querySelector('.acts')?.remove();$$(`#c-${id} .acts`).forEach(x=>x.remove());refreshCount();
+  const x=$('#x-'+id);x.innerHTML=d.plan.map(([a,t],i)=>`<div class="step" id="s-${id}-${i}"><i></i><div>${esc(t)}<small>${AG.find(g=>g.id===a).n} agent</small></div></div>`).join('');
+  feed(`You approved <b>${esc(d.title)}</b>. The agents are carrying it out.`,'ask');
+  for(let i=0;i<d.plan.length;i++){const s=$(`#s-${id}-${i}`);s.classList.add('run');const a=d.plan[i][0];agState(a,'work',d.plan[i][1]);pulse('coord',a);await sleep(850);s.classList.remove('run');s.classList.add('ok');s.querySelector('i').textContent='✓';agState(a,'',AG.find(g=>g.id===a).r)}
+  c.classList.add('done');x.insertAdjacentHTML('beforeend',`<p class="track">✓ Done. Added to your track record: predicted ${d.impact===null?'—':inr(d.impact)+' a month'}, checked again in 4 weeks.</p>`);
+  addTrack(d)}
+function pass(id){const d=S.dec.find(x=>x.id===id);if(!d||d.state)return;d.state='no';const c=$('#c-'+id);c.classList.add('no');c.querySelector('.acts')?.remove();c.insertAdjacentHTML('beforeend','<p class="note" style="margin-top:10px">Not now. The agents will bring this back in a month if the numbers still hold.</p>');refreshCount();feed(`You passed on <b>${esc(d.title)}</b> for now.`,'ask')}
+function askAbout(id,qi){const d=S.dec.find(x=>x.id===id)||S.extra[id];const box=$('#qa-'+id);
+  if(qi===undefined){box.innerHTML=`<div class="qchips">${d.qs.map(([q],i)=>`<button type="button" data-qq="${id}" data-qi="${i}">${esc(q)}</button>`).join('')}</div>`;return}
+  const [q,a]=d.qs[qi];box.insertAdjacentHTML('beforeend',`<div class="ans"><b>You asked: ${esc(q)}</b>${esc(a)}</div>`)}
+async function approveLow(){for(const d of S.dec.filter(d=>!d.state&&d.risk==='low'))await approve(d.id)}
+
+/* ---------- ask the network ---------- */
+let sample=null,live=false;
+async function ask(q){q=String(q).trim();if(!q||S.asking)return;S.asking=true;$('#askIn').value='';
+  const pre=PREPARED.find(p=>p.q.toLowerCase()===q.toLowerCase());
+  const id='a'+Date.now();$('#answers').insertAdjacentHTML('afterbegin',`<div class="dc" id="w-${id}"><div class="tags"><span class="chip">Your question</span></div><h3>${esc(q)}</h3><div class="exec" id="wl-${id}"></div></div>`);
+  const log=(a,t)=>{$('#wl-'+id).insertAdjacentHTML('beforeend',`<div class="step ok"><i>✓</i><div>${esc(t)}<small>${AG.find(g=>g.id===a).n} agent</small></div></div>`)};
+  try{
+    let card;
+    if(pre&&!(live&&!pre)){for(const [a,t] of [['coord','Split the question for research, finance and risk'],['research','Pulled your sales, costs and local data'],['finance','Worked out cost, impact and payback'],['risk','Modelled the worst case'],['coord','Wrote the recommendation']]){agState(a,'work',t);pulse(a==='coord'?'coord':a,a==='coord'?'research':'coord');await sleep(700);agState(a,'',AG.find(g=>g.id===a).r);log(a,t)}card={...pre.a}}
+    else if(live){card=await liveAnalysis(q,log)}
+    else{$('#w-'+id).remove();$('#askNote').textContent='On this public page the network answers the prepared questions above. In your own Decision Desk, any question gets a full analysis on your data.';S.asking=false;return}
+    card.id=id;S.extra[id]=card;$('#w-'+id).outerHTML=cardHTML(card,true);feed(`The network answered: <b>${esc(q)}</b>`,'ask')
+  }catch(e){$('#w-'+id)?.remove();$('#askNote').textContent=e&&e.code==='rate_limited'?'The network is busy. Try again in a minute.':'That analysis didn’t finish. Try again, or pick one of the prepared questions.'}
+  S.asking=false}
+async function liveAnalysis(q,log){const data=JSON.stringify(BIZ);const tier={modelTier:'default'};
+  const step=async(a,msg,prompt)=>{agState(a,'work',msg);pulse('coord',a);const r=await sample.json(prompt,tier);agState(a,'',AG.find(g=>g.id===a).r);log(a,msg);return r};
+  const base=`You are one agent in a team advising the owner of ${BIZ.name}, a ${BIZ.type} in ${BIZ.area}. Business data (monthly, INR): ${data}. Owner's question: "${q}". Use only this data plus clearly labelled general knowledge; never invent precise local statistics, and label any outside figure "illustrative". Answer with JSON only.`;
+  const r=await step('research','Pulling the facts that matter',`${base}\nYou are the Research agent. Return {"facts":[["fact","source"]...] (3 items, source is "your data" or "illustrative benchmark"), "assumptions":["..."]}.`);
+  const f=await step('finance','Working out the money',`${base}\nResearch found: ${JSON.stringify(r)}.\nYou are the Finance agent. Return {"math":[["label","value"]...] (4-6 rows showing the working), "monthly_impact_inr": number or null, "one_time_cost_inr": number, "payback": "short text"}.`);
+  const k=await step('risk','Modelling the worst case',`${base}\nResearch: ${JSON.stringify(r)}. Finance: ${JSON.stringify(f)}.\nYou are the Risk agent. Return {"risk":"low"|"med"|"high","worst_case":"one or two sentences with rupees","confidence":0-100}.`);
+  const c=await step('coord','Writing your decision',`${base}\nResearch: ${JSON.stringify(r)}. Finance: ${JSON.stringify(f)}. Risk: ${JSON.stringify(k)}.\nYou are the Coordinator. Return {"area":"one word","verdict":"Go"|"Trial"|"Not yet"|"No","title":"short decision title","recommendation":"one or two plain sentences","plan":[["research|finance|ops|mkt|cust","task"]...] (2-4 steps), "follow_up":[["question","answer"]] (1 item)}.`);
+  const ok=['research','finance','risk','ops','mkt','cust','coord'];
+  return {area:c.area||'Decision',risk:['low','med','high'].includes(k.risk)?k.risk:'med',conf:Math.max(0,Math.min(100,+k.confidence||60)),verdict:c.verdict||'Trial',title:c.title||q,rec:c.recommendation||'',
+   impact:typeof f.monthly_impact_inr==='number'?f.monthly_impact_inr:null,cost:+f.one_time_cost_inr||0,payback:f.payback||'—',
+   why:(r.facts||[]).slice(0,4).map(x=>Array.isArray(x)?x:[String(x),'']),math:(f.math||[]).slice(0,7),worst:k.worst_case||'',agents:['research','finance','risk'],
+   plan:(c.plan||[]).filter(p=>Array.isArray(p)&&ok.includes(p[0])).slice(0,4),qs:(c.follow_up||[]).filter(Array.isArray)}}
+
+/* ---------- track record ---------- */
+const TRACK=[['Weekday lunch combo','Aug','+₹18,000','+₹21,400','on target'],['Switch oat-milk supplier','Sep','−₹4,200 cost','−₹3,900 cost','on target'],['Instagram ad boost','Sep','+₹9,000','+₹5,100','below'],['Monsoon delivery offer','Jul','+₹6,500','+₹7,200','on target']];
+function drawTrack(){$('#track').innerHTML=`<div><span class="hd">Decision</span><em class="hd">Predicted</em><em class="hd">Actual</em><span class="hd">Result</span></div>`+S.track.map(t=>`<div><span>${esc(t[0])} <em>${t[1]}</em></span><em>${t[2]}</em><em>${t[3]}</em><span class="chip ${t[4]==='on target'?'low':t[4]==='below'?'high':'med'}">${t[4]}</span></div>`).join('');
+  const done=S.track.filter(t=>t[4]!=='tracking'),hit=done.filter(t=>t[4]==='on target').length;$('#accN').textContent=`${hit} of ${done.length}`}
+function addTrack(d){S.track.unshift([d.title,'now',d.impact===null?'—':(d.impact>=0?'+':'')+inr(d.impact),'in 4 weeks','tracking']);drawTrack()}
+
+/* ---------- story ---------- */
+const story={on:false,paused:false,skip:false,run:0,allow:false};
+async function sleep(ms){const id=story.run;let t=0;while(t<ms){if(story.on&&id!==story.run)throw 'stop';if(story.on&&story.skip)return;if(!story.on||!story.paused)t+=100;await wait(100)}}
+function focus(id){$$('.focus').forEach(x=>x.classList.remove('focus'));if(id){const el=$('#'+id);el.classList.add('focus');el.scrollIntoView({block:'nearest',behavior:'smooth'})}}
+const STEPS=[
+ {cap:'Monday, 7 AM. While the café opens, seven agents review last week: 4,212 orders, 86 reviews, costs and nearby prices.',f:'pNet',run:async()=>{await runReview()}},
+ {cap:'Three decisions arrive, each with the money, the risk and the worst case. Nothing happens until the owner says so.',f:'pInbox',run:async()=>{await sleep(500);const det=$('#c-d1 details');if(det)det.open=true;await sleep(1500)}},
+ {cap:'Before deciding on a price rise, the owner asks one question.',f:'pInbox',run:async()=>{askAbout('d2');await sleep(800);askAbout('d2',0);$('#c-d2').scrollIntoView({block:'nearest',behavior:'smooth'})}},
+ {cap:'One tap approves the low-risk decision. The agents get to work, step by step.',f:'pInbox',run:async()=>{await approveLow()}},
+ {cap:'Bigger questions get the same rigour, and sometimes the honest answer is “not yet”.',f:'pAsk',run:async()=>{await ask(PREPARED[0].q)}},
+ {cap:'The owner decides how much the agents can do alone, area by area.',f:'pAuto',run:async()=>{story.allow=true;await sleep(600);setAuto('offers',2);story.allow=false}},
+ {cap:'The same agents run whole workflows. A corporate order is quoted, stocked, invoiced, staffed and delivered, and the owner taps once.',f:'pAp',run:async()=>{$('#pAp').scrollIntoView({block:'start',behavior:'smooth'});await runOrder(true)}},
+ {cap:'Every approved decision is checked against what actually happened. Trust is earned with evidence, not promised.',f:'pTrack',run:async()=>{}}];
+async function playStory(){if(story.on)return;resetAll();story.on=true;story.paused=false;story.run++;$('#end').classList.remove('on');$('#story').classList.add('on');$('#stPause').textContent='Pause';
+  $('#story').scrollIntoView({behavior:'smooth',block:'start'});
+  try{for(let i=0;i<STEPS.length;i++){const s=STEPS[i];story.skip=false;$('#stN').textContent=`${i+1} / ${STEPS.length}`;$('#stT').textContent=s.cap;$('#stP').style.width=((i+1)/STEPS.length*100)+'%';focus(s.f);await s.run();story.skip=false;await sleep(3000)}
+    endStory(true)}catch(e){if(e!=='stop')console.error(e)}}
+function endStory(show){story.on=false;story.run++;$('#story').classList.remove('on');focus(null);S.reviewing=false;S.asking=false;$('#runBtn').disabled=false;if(show){$('#end').classList.add('on');$('#cc').scrollIntoView({block:'start',behavior:'smooth'})}}
+$('#stPause').onclick=()=>{story.paused=!story.paused;$('#stPause').textContent=story.paused?'Resume':'Pause'};
+$('#stNext').onclick=()=>{story.skip=true;story.paused=false;$('#stPause').textContent='Pause'};
+$('#stExit').onclick=()=>endStory(false);
+$('#watch').onclick=playStory;
+const tryNow=()=>{if(story.on)endStory(false);$('#end').classList.remove('on');$('#cc').scrollIntoView({behavior:'smooth',block:'start'})};
+$('#tryIt').onclick=tryNow;$('#endTry').onclick=tryNow;$('#endHow').onclick=()=>$('#end').classList.remove('on');
+
+/* ---------- autopilot: one order, end to end ---------- */
+const WA={cust:['W','#9ad0c8','Customers'],sales:['S','#e6c56f','Sales'],inv:['I','#8fb3d9','Inventory'],fin:['F','#8fbfa6','Finance'],proc:['P','#c39bd3','Procurement'],ops:['O','#d9a85f','Operations'],del:['D','#f2895a','Delivery']};
+const ORD={kaapi:[120,100],crois:[120,150],oat:[10,40],delivery:600};const SUB=ORD.kaapi[0]*ORD.kaapi[1]+ORD.crois[0]*ORD.crois[1]+ORD.oat[0]*ORD.oat[1]+ORD.delivery,GST=Math.round(SUB*.05),TOT=SUB+GST,ADV=Math.round(TOT/2),PROF=Math.round(SUB*.41);
+const WSTEPS=[
+ ['0:01','cust','Read the order and asked one question: “Any vegan or sugar-free needs?” Neha replied: 10 vegan.',[]],
+ ['0:03','sales',`Priced it from your bulk rates: 120 filter kaapi at ₹${ORD.kaapi[1]}, 120 croissants at ₹${ORD.crois[1]}, 10 oat-milk swaps, delivery ₹${ORD.delivery}.`,[`Subtotal ${inr(SUB)}`,`GST 5% ${inr(GST)}`,`Total ${inr(TOT)}`]],
+ ['0:04','inv','Checked Friday’s stock: beans fine (2.4 kg of 6 kg), milk 14 L short, the oven can do 80 croissants a bake, so two bakes.',['Milk −14 L','2 bakes']],
+ ['0:05','fin','Margin works out at 41%. The order is over your ₹25,000 auto-approve limit, so it’s asking you.',['Margin 41%']],
+ ['OWN'],
+ ['0:07','cust','Sent Neha the quote and a 50% advance link.',['Quote PDF',`Advance link ${inr(ADV)}`]],
+ ['0:31','fin','Advance received. GST invoice created and saved to your books.',[`Paid ${inr(ADV)}`,'INV-2291']],
+ ['0:32','proc','Ordered 14 L milk and 2 kg butter from Sri Dairy for Thursday. That’s under your ₹5,000 limit, so it didn’t ask.',['PO #118 · ₹1,680']],
+ ['0:33','ops','Added a 5 AM baker shift on Friday, sent the prep list to the kitchen WhatsApp, blocked 8–10 AM on the roster.',['Roster updated','Prep list sent']],
+ ['0:34','del','Booked a delivery van for Friday 9:15 AM to Vertex Labs, Financial District.',['Van booked']],
+ ['Fri','cust','Friday 9:20 AM: “On the way” with live location. 10:02 AM: delivered. Asked Neha for a rating: 5★.',['Delivered 10:02','5★']],
+ ['Fri','fin','Balance link sent on delivery and paid. Profit logged against the order and added to your weekly review.',[`Paid ${inr(TOT-ADV)}`,`Profit ${inr(PROF)}`]]];
+let AP={run:0,taps:0,done:0};
+function apKpi(){$('#apTime').textContent=AP.done;$('#apTaps').textContent=AP.taps}
+function apStep([t,a,txt,arts]){const g=WA[a];$('#tl').insertAdjacentHTML('beforeend',`<div class="ts"><time>+${t}</time><i style="--c:${g[1]}">${g[0]}</i><div><b>${g[2]} agent</b><p>${esc(txt)}</p>${arts.length?`<div class="art">${arts.map(x=>`<span>${esc(x)}</span>`).join('')}</div>`:''}</div></div>`);AP.done++;apKpi()}
+async function runOrder(auto){const id=++AP.run;AP.taps=0;AP.done=0;apKpi();$('#apVal').textContent='₹0';$('#apProf').textContent='₹0';$('#tl').innerHTML='';$('#apRun').disabled=true;
+  for(const st of WSTEPS){if(id!==AP.run)return;
+    if(st[0]==='OWN'){const el=document.createElement('div');el.className='ts own';el.innerHTML=`<time>+0:06</time><i>Y</i><div><b>You, on WhatsApp</b><div class="approve"><p>Approve the quote of ${inr(TOT)} for Vertex Labs, 120 people, Friday 10 AM?</p><div class="row"><button class="btn primary sm" type="button" id="apOk">Approve</button><button class="btn sm" type="button" id="apEdit">Change the price</button></div></div></div>`;$('#tl').append(el);
+      $('#apVal').textContent=inr(TOT);
+      await new Promise(res=>{let done=false;const go=()=>{if(done)return;done=true;AP.taps++;apKpi();el.querySelector('.approve').innerHTML=`<p>✓ Approved in one tap.</p>`;res()};
+        $('#apOk').onclick=go;$('#apEdit').onclick=()=>{el.querySelector('.approve p').textContent='In real use you’d type a new price here and the agents re-send the quote. For the demo, tap Approve.'};
+        if(auto)setTimeout(go,1800)});continue}
+    await new Promise(r=>setTimeout(r,auto?700:900));if(id!==AP.run)return;apStep(st);if(st===WSTEPS[1])$('#apVal').textContent=inr(TOT)}
+  $('#apProf').textContent=inr(PROF);$('#apRun').disabled=false;$('#apRun').textContent='▶ Run it again';feed(`Autopilot finished the Vertex Labs order: ${inr(TOT)} collected, ${inr(PROF)} profit, 1 tap from you.`,'ask')}
+$('#apRun').onclick=()=>runOrder(false);
+function apStatic(){AP.run++;AP.taps=1;AP.done=0;$('#tl').innerHTML='';for(const st of WSTEPS){if(st[0]==='OWN'){$('#tl').insertAdjacentHTML('beforeend',`<div class="ts own"><time>+0:06</time><i>Y</i><div><b>You, on WhatsApp</b><div class="approve"><p>✓ Approved the ${inr(TOT)} quote in one tap.</p></div></div></div>`);continue}apStep(st)}
+  apKpi();$('#apVal').textContent=inr(TOT);$('#apProf').textContent=inr(PROF);$('#apRun').disabled=false;$('#apRun').textContent='▶ Replay this order'}
+
+/* ---------- wiring ---------- */
+document.addEventListener('click',e=>{if(story.on)return;const t=e.target.closest('[data-ok],[data-no],[data-q],[data-qq]');if(!t)return;
+  if(t.dataset.ok)approve(t.dataset.ok);else if(t.dataset.no)pass(t.dataset.no);else if(t.dataset.qq)askAbout(t.dataset.qq,+t.dataset.qi);else if(t.dataset.q)askAbout(t.dataset.q)});
+$('#runBtn').onclick=()=>{if(!story.on)runReview()};$('#approveLow').onclick=()=>{if(!story.on)approveLow()};
+$('#askF').onsubmit=e=>{e.preventDefault();if(!story.on)ask($('#askIn').value)};
+$('#preQ').innerHTML=PREPARED.map((p,i)=>`<button type="button" data-pq="${i}">${esc(p.q)}</button>`).join('');
+$('#preQ').onclick=e=>{const b=e.target.closest('[data-pq]');if(b&&!story.on)ask(PREPARED[+b.dataset.pq].q)};
+function resetAll(){S={dec:[],extra:{},reviewed:false,track:TRACK.map(t=>t.slice())};AUTO.forEach((a,i)=>a.v=[2,2,1,0,0,0][i]);drawNet();drawAgents();drawAuto();$('#feed').innerHTML='';seedFeed();
+  S.dec=decisions();$('#cards').innerHTML=S.dec.map(d=>cardHTML(d)).join('');$('#answers').innerHTML='';$('#askNote').textContent='';$('#runBtn').textContent='Replay this week’s review';refreshCount();drawTrack();feed('Weekly review finished at 7:02 AM: 3 decisions are waiting for you.');apStatic()}
+function setMode(){$('#mode').classList.toggle('live',live);$('#mode').lastChild.textContent=live?'Live AI':'Demo mode';$('#askNote').textContent=live?'Live: any question runs a real four-agent analysis on the café’s data.':''}
+function contact(){const C=window.SEV_CONTACT||{};const msg=encodeURIComponent('Hi SEVORA, I saw the Decision Desk demo and would like to know more.');
+  if(C.whatsapp){$('#waBtn').href=`https://wa.me/${C.whatsapp}?text=${msg}`;$('#waNum').textContent='WhatsApp: +'+C.whatsapp.replace(/^(\d{2})(\d{5})(\d+)/,'$1 $2 $3')}else{$('#waBtn').removeAttribute('href');$('#waNum').textContent='WhatsApp number coming soon'}}
+resetAll();contact();setMode();
+(async()=>{try{sample=window.claude?await window.claude.use('sample'):null;if(sample){const lim=await sample.limits().catch(()=>null);live=!!lim}}catch(e){live=false}setMode()})();
+})();
+</script>
+
+</body>
+</html>

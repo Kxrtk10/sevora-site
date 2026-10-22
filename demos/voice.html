@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0a09">
+<script>var SEVORA_WA="";</script>
+</head>
+<body>
+<title>Voice Desk — SEVORA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Geist:wght@400..650&family=Geist+Mono:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500&display=swap">
+<style>
+/* Layout: SEVORA dark world. A phone call on the left (the caller's screen), the clinic's live view of the same call on the right, then how it works, pricing and FAQ. Single dark look by choice. */
+:root{color-scheme:dark;
+--ink:#0b0a09;--ink2:#131210;--card:#171512;--line:rgba(239,233,223,.1);--line2:rgba(239,233,223,.2);--bone:#efe9df;--bone2:#d8d0c4;--mute:#a39b90;--dim:#77706a;
+--gold:#d9a85f;--gold2:#f0c987;--sage:#8fbfa6;--ember:#f2895a;--call:#0e1513;
+--display:'Fraunces',Georgia,serif;--sans:'Geist','Noto Sans Devanagari',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace}
+[hidden]{display:none!important}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--ink);color:var(--bone);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{background:none;border:0;cursor:pointer;color:inherit;font:inherit}
+input{font:inherit;color:inherit}
+a{color:inherit}
+button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border-radius:999px;border:1px solid var(--line2);font-size:14.5px;font-weight:500;transition:background .2s,border-color .2s,color .2s;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--gold);color:var(--gold2)}
+.btn.primary{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn.primary:hover{background:var(--gold2);color:var(--ink)}
+.btn.sm{padding:8px 13px;font-size:13px}
+.btn .play{width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--gold);display:grid;place-items:center;font-size:9px;padding-left:2px}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-block:18px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:baseline;gap:12px;text-decoration:none}
+.brand b{font-family:var(--display);font-weight:400;letter-spacing:.32em;font-size:15px}
+.brand span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.bar .right{display:flex;align-items:center;gap:10px}
+.mode{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line2);border-radius:999px;padding:6px 11px}
+.mode i{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.mode.live i{background:var(--sage);box-shadow:0 0 8px var(--sage)}
+.hero{padding-block:40px 26px;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:end}
+h1{font-family:var(--display);font-weight:330;font-size:clamp(34px,4.6vw,60px);line-height:1.02;letter-spacing:-.018em;margin-top:10px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--gold2)}
+.sub{color:var(--mute);max-width:600px;margin-top:14px;font-size:16px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.proof{display:grid;gap:12px;border-left:1px solid var(--line2);padding-left:22px}
+.proof div{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.proof b{font-family:var(--display);font-weight:340;font-size:24px;color:var(--gold2);min-width:74px}
+.proof p{font-size:13.5px;color:var(--bone2)}
+
+.stage{display:grid;grid-template-columns:minmax(320px,390px) minmax(0,1fr);gap:18px;align-items:start}
+.scen{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.scen small{color:var(--mute);font-size:13px;margin-right:4px}
+.scen button{padding:8px 13px;border-radius:999px;border:1px solid var(--line2);font-size:13px;color:var(--bone2)}
+.scen.biz{margin-bottom:10px}.scen.biz button{font-size:14px;padding:9px 15px}.scen.biz button i{font-style:normal;margin-right:7px;opacity:.75}
+.scen button[aria-pressed="true"]{background:var(--bone);color:var(--ink);border-color:var(--bone);font-weight:550}
+
+/* call screen */
+.phone{background:radial-gradient(circle at 50% 20%,#1d2a25,var(--call) 60%);border:1px solid var(--line2);border-radius:32px;overflow:hidden;display:flex;flex-direction:column;height:720px;position:sticky;top:16px;box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
+.ctop{padding:34px 20px 14px;text-align:center}
+.ctop small{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8fa39a}
+.cav{width:84px;height:84px;border-radius:50%;margin:16px auto 10px;display:grid;place-items:center;background:linear-gradient(140deg,#24433a,#3e6c5c);font-family:var(--display);font-size:34px;color:#dff3ea;position:relative}
+.cav::before,.cav::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(143,191,166,.5);opacity:0}
+.speaking-a .cav::before{animation:ring 1.4s ease-out infinite}
+.speaking-a .cav::after{animation:ring 1.4s ease-out .7s infinite}
+@keyframes ring{from{opacity:.8;transform:scale(1)}to{opacity:0;transform:scale(1.35)}}
+.ctop b{display:block;font-size:22px;font-weight:550}
+.ctop .tm{font-family:var(--mono);font-size:13px;color:#a9cbbd;margin-top:2px}
+.wave{display:flex;gap:3px;justify-content:center;align-items:center;height:30px;margin-top:10px}
+.wave i{width:3px;height:6px;border-radius:2px;background:#5e8577;transition:height .12s}
+.speaking-a .wave i{background:var(--sage)}
+.speaking-c .wave i{background:var(--gold)}
+.tx{flex:1;overflow-y:auto;padding:8px 16px 12px;display:flex;flex-direction:column;gap:8px}
+.ln{max-width:88%;padding:8px 12px;border-radius:14px;font-size:14px;line-height:1.4;animation:pop .25s both}
+.ln.a{align-self:flex-start;background:rgba(143,191,166,.12);border:1px solid rgba(143,191,166,.22)}
+.ln.c{align-self:flex-end;background:rgba(217,168,95,.12);border:1px solid rgba(217,168,95,.25)}
+.ln small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:2px}
+.ln.sys{align-self:center;background:none;border:0;font-family:var(--mono);font-size:10.5px;color:var(--mute);text-align:center}
+.cbot{padding:12px 16px 20px;display:grid;gap:10px}
+.say{display:flex;gap:8px}
+.say input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:11px 15px;outline:none}
+.say input:focus{border-color:var(--sage)}
+.say button{width:44px;height:44px;border-radius:50%;background:var(--sage);color:#0b100e;display:grid;place-items:center;flex:0 0 auto}
+.say button:disabled,.say input:disabled{opacity:.45}
+.lines{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin}
+.lines button{white-space:nowrap;font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid rgba(217,168,95,.3);color:#f2dfbf}
+.keys{display:flex;justify-content:center;gap:22px}
+.kb{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08)}
+.kb.on{background:var(--bone);color:var(--ink)}
+.kb.end{background:#e0483e;color:#fff}
+.kb.start{background:#21c063;color:#06140c}
+.kb small{display:none}
+.kl{display:flex;justify-content:center;gap:22px;font-size:11px;color:var(--mute)}
+.kl span{width:58px;text-align:center}
+.mut{font-size:12px;color:var(--mute);text-align:center}
+
+/* clinic view */
+.side{display:grid;gap:14px;min-width:0}
+.owner{display:grid;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:16px;min-width:0}
+.ohead{display:flex;align-items:center;gap:12px}
+.oav{width:40px;height:40px;border-radius:12px;background:linear-gradient(140deg,#1f3a40,#2f5c64);display:grid;place-items:center;font-family:var(--display);color:#cfeaf0;font-size:19px}
+.ohead b{display:block;font-family:var(--display);font-weight:380;font-size:21px;line-height:1.15}
+.ohead small{color:var(--mute);font-size:12.5px}
+.olive{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.olive i{width:7px;height:7px;border-radius:50%;background:var(--dim)}
+.olive.on{color:var(--ember)}.olive.on i{background:var(--ember);box-shadow:0 0 8px var(--ember);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.35}}
+.tabdesc{color:var(--bone2);font-size:14.5px;padding:0 4px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.kpis>div{background:var(--ink2);padding:12px 14px}
+.kpis b{display:block;font-family:var(--display);font-weight:340;font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpis small{font-size:11.5px;color:var(--mute)}
+.panel{background:var(--ink2);border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.ph h2{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.ph span{font-size:12.5px;color:var(--dim)}
+.understood{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--mute);animation:pop .25s both}
+.chip.g{color:var(--sage);border-color:rgba(143,191,166,.45)}
+.chip.e{color:var(--ember);border-color:rgba(242,137,90,.45)}
+.chip.y{color:var(--gold2);border-color:rgba(217,168,95,.45)}
+.acts{display:grid;gap:8px;margin-top:12px}
+.act{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;font-size:14px;color:var(--bone2);animation:pop .3s both}
+.act i{width:22px;height:22px;border-radius:50%;background:var(--sage);color:var(--ink);display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:700}
+.act.warn i{background:var(--ember)}
+.idle{color:var(--dim);font-size:14px}
+.sum{border:1px solid rgba(143,191,166,.35);background:rgba(143,191,166,.06);border-radius:16px;padding:14px;animation:pop .3s both}
+.sum b{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);display:block;margin-bottom:6px}
+.sum p{font-size:14px;color:var(--bone2);line-height:1.5}
+.sum dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px;margin-top:8px}
+.sum dt{color:var(--mute)}
+.log{display:grid;gap:0}
+.log div{display:grid;grid-template-columns:60px minmax(0,1fr) auto auto;gap:10px;align-items:center;font-size:13.5px;padding:9px 0;border-bottom:1px solid var(--line)}
+.log time,.log em{font-family:var(--mono);font-size:11.5px;color:var(--dim);font-style:normal}
+.log span{min-width:0}
+.log span small{display:block;color:var(--mute);font-size:12px}
+
+section.sec{padding-block:70px 0}
+.sec h2.t{font-family:var(--display);font-weight:330;font-size:clamp(28px,3.4vw,42px);line-height:1.08;letter-spacing:-.012em;margin-top:8px;text-wrap:balance;max-width:760px}
+.sec h2.t em{font-style:italic;color:var(--gold2)}
+.sec .lede{color:var(--mute);max-width:640px;margin-top:10px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.stp{border-top:1px solid var(--line2);padding-top:14px}
+.stp i{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--gold)}
+.stp b{display:block;font-family:var(--display);font-weight:360;font-size:21px;margin-top:6px}
+.stp p{font-size:14px;color:var(--mute);margin-top:6px}
+.price{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line2);border-radius:20px;overflow:hidden}
+.price>div{padding:24px}
+.price .l{background:var(--card)}
+.price .amt{font-family:var(--display);font-weight:330;font-size:44px;line-height:1;margin-top:8px}
+.price .amt small{font-size:15px;color:var(--mute);font-family:var(--sans)}
+.price p{color:var(--mute);margin-top:8px;font-size:14px}
+.price ul{list-style:none;display:grid;gap:9px;font-size:14px;color:var(--bone2)}
+.price li::before{content:"✓";color:var(--sage);margin-right:10px}
+.faq{margin-top:22px;display:grid;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:16px 30px 16px 0;font-size:16px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:13px;font-size:20px;color:var(--gold);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{color:var(--mute);padding:0 0 18px;max-width:740px;font-size:14.5px}
+.final{margin-block:70px 60px;padding:44px 28px;border-radius:24px;border:1px solid var(--line2);text-align:center;background:radial-gradient(ellipse at 50% 0%,rgba(217,168,95,.16),transparent 65%),var(--ink2)}
+.final h2{font-family:var(--display);font-weight:330;font-size:clamp(30px,3.6vw,46px);line-height:1.06;text-wrap:balance}
+.final h2 em{font-style:italic;color:var(--gold2)}
+.final p{color:var(--mute);margin:12px auto 22px;max-width:540px}
+.final .ctas{justify-content:center}
+.final .num{margin-top:14px;font-family:var(--mono);font-size:12.5px;color:var(--mute)}
+footer{padding-bottom:40px;font-size:12px;color:var(--dim);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media(max-width:960px){.hero{grid-template-columns:1fr}.proof{border-left:0;padding-left:0;border-top:1px solid var(--line2);padding-top:18px}.stage{grid-template-columns:1fr}.phone{position:relative;top:0;height:660px}.steps,.price{grid-template-columns:1fr}}
+@media(max-width:620px){.bar .mode,#allDemos,.bar .brand span{display:none!important}.bar .btn.primary{padding:10px 14px;font-size:13.5px}.kpis{grid-template-columns:1fr 1fr}.log div{grid-template-columns:52px minmax(0,1fr) auto}.log div em{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="wrap bar">
+  <a class="brand" href="../automations.html#demos" id="homeLink"><b>SEVORA</b><span>Voice Desk</span></a>
+  <div class="right"><a class="btn" id="allDemos" href="../automations.html#demos">All demos</a><span class="mode" id="mode"><i></i><span>Demo</span></span><a class="btn primary" href="#contact">Get this for your business</a></div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Voice agents · clinics, cafés & restaurants, real estate</p>
+      <h1>Every call answered. <em>Even at 2 AM.</em></h1>
+      <p class="sub">A voice assistant picks up when your team can’t: after hours, at lunch, when the line is busy. It answers questions, books and moves appointments, spots emergencies and puts them through to a person, then sends you a summary of every call.</p>
+      <div class="ctas">
+        <button class="btn primary" type="button" id="watch"><span class="play">▶</span><span id="watchL">Listen to a 2 AM call · 45 sec</span></button>
+        <button class="btn" type="button" id="liveBtn" hidden><span class="play" style="background:#21c063;color:#06140c">●</span>Talk to it live, with your voice</button>
+        <button class="btn" type="button" id="talkBtn">Type to it yourself</button>
+      </div>
+    </div>
+    <div class="proof">
+      <div><b>0 missed</b><p>Calls after hours and on busy lines are answered, not lost to voicemail.</p></div>
+      <div><b>3 languages</b><p>English, Hindi and Telugu, switching mid-call if the caller does.</p></div>
+      <div><b>1 summary</b><p>Every call becomes a short note: who, why, what was done, what needs you.</p></div>
+    </div>
+  </div>
+
+  <div class="scen biz" id="bizSw" role="group" aria-label="Choose a business"><small>Pick a business:</small>
+    <button type="button" data-b="clinic" aria-pressed="true"><i>✚</i>Dental clinic</button>
+    <button type="button" data-b="cafe" aria-pressed="false"><i>☕</i>Café</button>
+    <button type="button" data-b="realestate" aria-pressed="false"><i>⌂</i>Real estate</button>
+  </div>
+  <div class="scen" id="scen" role="group" aria-label="Choose a call"><small>Choose a call:</small></div>
+
+  <div class="stage">
+    <section class="phone" id="phone" aria-label="Phone call">
+      <div class="ctop"><small id="cstate">Ready to call</small><div class="cav" id="cav">A</div><b id="cname">Aligna Dental</b><div class="tm" id="ctime">+91 40 4800 1212</div><div class="wave" id="wave"></div></div>
+      <div class="tx" id="tx" aria-live="polite"></div>
+      <div class="cbot">
+        <form class="say" id="sayF" hidden><label for="sayIn" style="position:absolute;left:-9999px">What you say</label><input id="sayIn" autocomplete="off" placeholder="Type what you’d say"><button type="submit" aria-label="Say it"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 20l18-8L3 4v6l12 2-12 2z" fill="currentColor"/></svg></button></form>
+        <div class="lines" id="lines" hidden></div>
+        <div class="keys"><button type="button" class="kb on" id="spk" aria-pressed="true" aria-label="Sound on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9a4 4 0 010 6M18.5 6.5a8 8 0 010 11"/></svg></button><button type="button" class="kb start" id="callBtn" aria-label="Start the call"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg></button></div>
+        <div class="kl"><span>Sound</span><span id="callL">Call</span></div>
+        <p class="mut" id="vnote"></p>
+      </div>
+    </section>
+
+    <div class="side">
+      <div class="owner">
+        <div class="ohead"><span class="oav" id="oav">A</span><div><b id="oname">Aligna Dental</b><small id="osub">Clinic’s view · calls tonight</small></div><span class="olive" id="olive"><i></i><span id="oliveT">No call</span></span></div>
+        <p class="tabdesc" id="tabdesc">What the clinic sees while the assistant is on a call: what the caller needs, what was done, and a summary when they hang up.</p>
+        <div class="kpis"><div><b id="kCalls">6</b><small id="kL1">calls answered tonight</small></div><div><b id="kBook">3</b><small id="kL2">appointments booked</small></div><div><b id="kUrg">1</b><small id="kL3">put through to a dentist</small></div><div><b>0</b><small>missed calls</small></div></div>
+        <div class="panel" id="pLive"><div class="ph"><h2>This call</h2><span id="liveSub">waiting for a call</span></div>
+          <div class="understood" id="und"></div><div class="acts" id="acts"><p class="idle">Start a call on the left. You’ll see what the assistant understands and does, as it happens.</p></div></div>
+        <div id="sumBox"></div>
+        <div class="panel"><div class="ph"><h2>Call log</h2><span id="logWhen">tonight</span></div><div class="log" id="log"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="sec" id="how">
+    <p class="eyebrow">How it goes live</p>
+    <h2 class="t">Keep your number. <em>Never miss a call.</em></h2>
+    <p class="lede">You don’t change anything for your callers. Your line forwards to the assistant after hours, at lunch, or whenever it rings out or is busy.</p>
+    <div class="steps">
+      <div class="stp"><i>DAY 1</i><b>A short call</b><p>We take your services, prices, hours, who is on call, and what should always go to a person.</p></div>
+      <div class="stp"><i>DAYS 2–5</i><b>We set it up</b><p>A natural voice in your languages, call forwarding on your number, your calendar, and WhatsApp summaries.</p></div>
+      <div class="stp"><i>WEEKS 1–2</i><b>Live, and tuned</b><p>We listen to real calls with you and fix anything it got wrong, until it sounds like part of your team.</p></div>
+    </div>
+    <div class="price">
+      <div class="l"><p class="eyebrow">Voice Desk</p><div class="amt">₹5,999 <small>/ month</small></div><p>Plus ₹19,999 one-time setup, and call minutes at cost (roughly ₹6–12 a minute, depending on the voice and phone line). Cancel any month.</p></div>
+      <div><ul><li>Answers after hours, at lunch and on busy lines</li><li>Books, moves and cancels appointments in your calendar</li><li>Spots urgent calls and puts them through to a person</li><li>English, Hindi and Telugu</li><li>A WhatsApp summary of every call</li><li>Works with your existing number</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec" id="faq">
+    <p class="eyebrow">Questions owners ask</p>
+    <div class="faq">
+      <details><summary>Does it sound like a robot?</summary><p>The real Voice Desk uses natural, Indian-accented voices built for phone calls. This demo uses your browser’s built-in voice, so it sounds flatter than the real thing.</p></details>
+      <details><summary>Will callers know it’s an assistant?</summary><p>Yes. It introduces itself as your business’s AI assistant at the start of every call, and anyone can ask for a person at any time.</p></details>
+      <details><summary>What happens in an emergency?</summary><p>It asks the safety questions you give it. Anything urgent goes straight through to the on-call person by call and SMS, and the caller is told to go to a hospital if there are danger signs.</p></details>
+      <details><summary>Are calls recorded?</summary><p>Only if you want them to be, and callers are told at the start. Summaries are kept in your own accounts.</p></details>
+      <details><summary>Can it handle several calls at once?</summary><p>Yes. Unlike a receptionist, it can answer many calls at the same time, so nobody hears a busy tone.</p></details>
+    </div>
+  </section>
+
+  <section class="final" id="contact">
+    <h2>Never miss <em>another call.</em></h2>
+    <p>Message us. We’ll set up a test line with your own services, prices and hours, and you can call it yourself before you decide.</p>
+    <div class="ctas"><a class="btn primary" id="waBtn" target="_blank" rel="noopener">Message SEVORA on WhatsApp</a></div>
+    <p class="num" id="waNum"></p>
+  </section>
+  <footer><span>SEVORA · AI automations and agents</span><span>Demo businesses and calls. The voice here is your browser’s; the real product uses natural voices.</span></footer>
+</main>
+
+<script>
+window.SEV_CONTACT={whatsapp:SEVORA_WA};
+window.SEV_VAPI={"publicKey": "a04e669c-aead-45a0-b75c-f7e90a126cb3", "assistants": {"clinic": "70d192c0-d221-4a4d-9443-10ddebc0b1e1", "cafe": "", "realestate": ""}}; /* set to switch on real voice conversations (website only) */
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const clock=()=>new Date().toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'});
+const HI=/[ऀ-ॿ]/;
+
+/* =====================================================================
+   Three demo businesses. Each has scripted calls, a "type to it" brain,
+   an owner view and (optionally) its own live Vapi assistant.
+   ===================================================================== */
+const B={};
+
+/* ---------- 1. Dental clinic ---------- */
+B.clinic={name:'Aligna Dental',letter:'A',phone:'+91 40 4800 1212',kind:'clinic',
+ view:'Clinic’s view · calls tonight',desc:'What the clinic sees while the assistant is on a call: what the caller needs, what was done, and a summary when they hang up.',
+ kpis:['calls answered tonight','appointments booked','put through to a dentist'],stats:{calls:6,book:3,urg:1},sumTo:'sent to the clinic on WhatsApp',
+ watch:'Listen to a 2 AM call · 45 sec',scen:['2 AM toothache','Booking a cleaning','हिंदी: समय बदलना'],
+ greet:'Hello, you’ve reached Aligna Dental. I’m the clinic’s AI assistant. How can I help?',
+ staffAct:'Alerted the on-call dentist',staffRe:/on-call|on call|ऑन-कॉल|dr\.? meher/,
+ lines:['I’d like to book a cleaning','I have bad tooth pain and swelling','How much is a root canal?','What time do you close?','Can I talk to a person?'],
+ slots:['tomorrow at 10:30 AM','tomorrow at 4 PM','Friday at 11:30 AM'],
+ bookedSay:s=>`Done. You’re booked for ${s}. I’ve sent the details and the clinic location to your WhatsApp. Anything else I can help with?`,
+ calls:[
+ {name:'Priya',phone:'+91 97••• ••530',lang:'en',lines:[
+  ['a','Good evening, you’ve reached Aligna Dental. I’m the clinic’s AI assistant. How can I help?'],
+  ['c','Hi, I’ve had really bad tooth pain since last night, and my cheek has started swelling.',{und:[['Tooth pain','e'],['Swelling','e']]}],
+  ['a','I’m sorry, that sounds painful. Is the swelling spreading towards your eye or neck, or do you have a fever, or trouble breathing or swallowing?',{act:['Asked the clinic’s danger-sign questions']}],
+  ['c','No, just the cheek. But it really hurts.',{und:[['No danger signs','g']]}],
+  ['a','Okay. I’ve alerted our on-call dentist, Dr. Meher Fatima, and she’ll call you back within fifteen minutes. I can also hold the first slot tomorrow at ten a.m. Shall I book it?',{act:['Alerted Dr. Fatima by call and SMS','warn'],urgent:1}],
+  ['c','Yes, please.'],
+  ['a','Done. You’re booked for tomorrow at ten a.m. with Dr. Fatima. I’ve sent the details and the clinic location to your WhatsApp. If the swelling spreads or you get a fever, please go to the nearest hospital emergency straight away.',{act:['Booked tomorrow 10 AM, Dr. Fatima','Sent WhatsApp confirmation with location'],book:1}],
+  ['c','Thank you.'],
+  ['a','Take care. Dr. Fatima will call you shortly.']],
+  sum:{why:'Toothache since last night with cheek swelling. No danger signs.',done:'On-call dentist alerted (callback within 15 min). Booked tomorrow 10 AM with Dr. Fatima. WhatsApp confirmation sent.',needs:'Dr. Fatima to call back.',out:['Urgent','e']}},
+ {name:'Rohan Mehta',phone:'+91 98••• ••112',lang:'en',lines:[
+  ['a','Good afternoon, you’ve reached Aligna Dental. I’m the clinic’s AI assistant. How can I help?'],
+  ['c','Hi, I’d like to book a teeth cleaning this Saturday.',{und:[['Booking','g'],['Cleaning','y']]}],
+  ['a','Of course. On Saturday I have eleven thirty in the morning, or four in the afternoon. Which works better?',{act:['Checked Saturday in the calendar']}],
+  ['c','Eleven thirty is good.'],
+  ['a','Great. Can I have your name, please?'],
+  ['c','Rohan Mehta.'],
+  ['a','Thanks, Rohan. You’re booked for a cleaning on Saturday at eleven thirty. It takes about forty-five minutes and costs between twelve hundred and two thousand rupees. I’ve sent the details to this number on WhatsApp.',{act:['Booked Saturday 11:30 AM, cleaning','Sent WhatsApp confirmation'],book:1}],
+  ['c','Perfect, thanks.'],
+  ['a','See you on Saturday!']],
+  sum:{why:'Wanted a cleaning this Saturday.',done:'Booked Saturday 11:30 AM. Price range shared. WhatsApp confirmation sent.',needs:'Nothing.',out:['Booked','g']}},
+ {name:'Sunita Rao',phone:'+91 99••• ••874',lang:'hi',lines:[
+  ['a','नमस्ते, अलाइना डेंटल में आपका स्वागत है। मैं क्लिनिक की AI असिस्टेंट हूँ। मैं आपकी क्या मदद कर सकती हूँ?'],
+  ['c','नमस्ते, मेरा कल ग्यारह बजे अपॉइंटमेंट है। क्या उसे शुक्रवार को कर सकते हैं?',{und:[['Reschedule','y'],['Hindi','g']]}],
+  ['a','ज़रूर। शुक्रवार को सुबह साढ़े ग्यारह बजे या शाम चार बजे का समय खाली है। कौन सा ठीक रहेगा?',{act:['Found her booking: tomorrow 11 AM','Checked Friday in the calendar']}],
+  ['c','शाम चार बजे।'],
+  ['a','हो गया। आपका अपॉइंटमेंट शुक्रवार शाम चार बजे कर दिया है। आपका पुराना समय वेटिंग लिस्ट के अगले मरीज़ को दे दिया गया है, और डिटेल्स WhatsApp पर भेज दी हैं।',{act:['Moved to Friday 4 PM','Old slot offered to the waitlist','Sent WhatsApp confirmation']}],
+  ['c','धन्यवाद।'],
+  ['a','आपका दिन शुभ हो!']],
+  sum:{why:'Wanted to move tomorrow’s 11 AM appointment (spoke Hindi).',done:'Moved to Friday 4 PM. Freed slot offered to the waitlist. WhatsApp confirmation sent.',needs:'Nothing.',out:['Moved','y']}}],
+ log:[['1:20 PM','Rohan Mehta','Booked a cleaning','Booked','g','2m 05s'],['6:42 PM','Unknown caller','Asked about Sunday hours','Answered','g','0m 48s'],['7:58 PM','Karan M.','Root canal price and EMI','Answered','g','1m 30s'],['8:31 PM','Lakshmi V.','Booked an implant consultation','Booked','g','2m 40s'],['9:05 PM','Sunita Rao','Moved her appointment (Hindi)','Moved','y','1m 55s'],['11:10 PM','Ajay S.','Asked for a person about a bill','Message left','y','1m 10s']],
+ rules(t,q,hi){
+  if(/person|human|someone|receptionist|staff|transfer/.test(t)){act(['Put through to the front desk','warn']);und([['Wants a person','y']]);return {say:'Of course. I’m putting you through to the front desk now. If nobody picks up, they’ll call you back within the hour.',end:{why:'Asked to speak to a person.',done:'Transferred to the front desk.',needs:'Call back if missed.',out:['Transferred','y']}}}
+  if(/pain|ache|swell|bleed|broke|दर्द|सूज/.test(t)){T.urgent=true;bump('urg');und([['Tooth pain','e']]);act(['Asked the danger-sign questions','Alerted the on-call dentist','warn']);
+    return {say:hi?'माफ़ कीजिए, आपको दर्द है। मैंने ऑन-कॉल डेंटिस्ट को बता दिया है, वे पंद्रह मिनट में कॉल करेंगी। अगर सूजन आँख या गले तक फैले, या बुखार हो, तो तुरंत अस्पताल की इमरजेंसी में जाइए। क्या मैं कल सुबह दस बजे का समय बुक कर दूँ?':'I’m sorry, that sounds painful. I’ve alerted our on-call dentist, who’ll call you back within fifteen minutes. If the swelling spreads to your eye or neck, or you get a fever, please go to a hospital emergency right away. Shall I also book you in tomorrow at ten a.m.?',lang:hi?'hi':'en',offer:'tomorrow at 10 AM'}}
+  const y=yesBook(t);if(y)return y;
+  if(/book|appoint|clean|check|slot|come in|बुक|अपॉइंटमेंट/.test(t))return offerSlots('Happy to help.');
+  if(/root canal|price|cost|how much|fee|कितने/.test(t)){und([['Price question','y']]);return {say:'A root canal here costs between six thousand and twelve thousand rupees, usually finished in one sitting. Treatments above twenty thousand can be paid with zero percent EMI. Would you like to book a consultation?',offer:true}}
+  if(/time|open|close|hour|sunday|timing/.test(t)){und([['Opening hours','y']]);return {say:'We’re open Monday to Saturday, ten a.m. to eight p.m., and Sunday from ten to two.'}}
+  if(/where|address|location|direction/.test(t)){und([['Directions','y']]);act(['Sent location on WhatsApp']);return {say:'We’re in Kondapur, Hyderabad. I’ve just sent the location to your WhatsApp.'}}
+  return null},
+ fallback:'Sorry, I didn’t quite catch that. I can book or move an appointment, tell you prices and timings, or put you through to a person.',
+ prompt:`You are the phone receptionist (voice) for Aligna Dental, Kondapur, Hyderabad. Hours Mon–Sat 10 AM–8 PM, Sun 10 AM–2 PM. Dentists: Dr. Arjun Kumar (aligners, braces), Dr. Sanjana Rao (implants, general), Dr. Meher Fatima (root canals, on call tonight). Prices: cleaning ₹1,200–2,000, root canal ₹6,000–12,000, implant ₹28,000–45,000, consultation ₹500, free 3D smile scan; 0% EMI above ₹20,000. Never give medical advice; for pain, swelling or bleeding ask about danger signs (swelling to eye or neck, fever, trouble breathing or swallowing), tell them to go to a hospital emergency if present, alert the on-call dentist (action "urgent") and offer the earliest slot.`};
+
+/* ---------- 2. Café ---------- */
+B.cafe={name:'Kaapi Theory',letter:'K',phone:'+91 40 4811 3636',kind:'café',
+ view:'Café’s view · calls today',desc:'What the café sees while the assistant is on a call: tables, orders, complaints and anything the manager must handle.',
+ kpis:['calls answered today','tables & orders taken','sent to the manager'],stats:{calls:14,book:7,urg:1},sumTo:'sent to the manager on WhatsApp',
+ watch:'Listen to a birthday booking · 40 sec',scen:['Birthday table for 8','Office order: 40 coffees','हिंदी: देर से आई डिलीवरी'],
+ greet:'Hi, you’ve reached Kaapi Theory in Jubilee Hills. I’m the café’s AI assistant. How can I help?',
+ staffAct:'Flagged to the manager',staffRe:/manager|मैनेजर/,
+ lines:['Book a table for 4 tonight','I’d like 2 cold brews for pickup','Do you deliver to Banjara Hills?','My order came late and cold','What time do you close?','Can I talk to the manager?'],
+ slots:['tonight at 7:30 PM','tonight at 8 PM','tonight at 9:15 PM'],
+ bookedSay:s=>`Done. Your table is booked for ${s}. I’ve sent the confirmation to your WhatsApp. Anything else?`,
+ calls:[
+ {name:'Meghana R.',phone:'+91 90••• ••418',lang:'en',lines:[
+  ['a','Hi, you’ve reached Kaapi Theory in Jubilee Hills. I’m the café’s AI assistant. How can I help?'],
+  ['c','Hi, I want a table for eight people this Saturday evening. It’s my sister’s birthday.',{und:[['Table booking','g'],['Party of 8','y'],['Birthday','y']]}],
+  ['a','Lovely! For eight on Saturday I can do seven or eight thirty in the evening, at our big table on the patio. Which works?',{act:['Checked Saturday: patio table for 8 free at 7 and 8:30 PM']}],
+  ['c','Seven is perfect. The name is Meghana.'],
+  ['a','You’re booked, Meghana: eight people at seven p.m. on Saturday. Would you like us to have a cake ready? Our tiramisu cake for eight is eighteen hundred rupees, with a name written on it.',{act:['Reserved patio table for 8, Sat 7 PM'],book:1}],
+  ['c','Oh yes, please. Write Happy Birthday Divya.'],
+  ['a','Noted: Happy Birthday Divya. I’ve sent your booking and a payment link for the cake to your WhatsApp. See you on Saturday!',{act:['Cake order sent to the kitchen: “Happy Birthday Divya”','Sent WhatsApp confirmation and a ₹1,800 cake payment link']}],
+  ['c','Thank you so much!']],
+  sum:{why:'Table for 8 on Saturday evening for her sister’s birthday.',done:'Patio table booked Sat 7 PM. Tiramisu cake (₹1,800) added with a name, payment link sent.',needs:'Nothing. The kitchen has the cake order.',out:['Booked','g']}},
+ {name:'Vikram S., Zenith Labs',phone:'+91 98••• ••771',lang:'en',lines:[
+  ['a','Hi, you’ve reached Kaapi Theory in Jubilee Hills. I’m the café’s AI assistant. How can I help?'],
+  ['c','Hi, I’m calling from Zenith Labs, just down the road. We need about forty coffees delivered tomorrow at ten for a team meeting.',{und:[['Bulk order','y'],['Delivery','g']]}],
+  ['a','Happy to help. Most offices take a mix: cappuccino is two twenty and filter kaapi is one twenty. What mix would you like?',{act:['Checked kitchen capacity for tomorrow 10 AM: OK']}],
+  ['c','Twenty of each. And fifteen croissants.'],
+  ['a','Twenty cappuccinos, twenty filter kaapis and fifteen butter croissants comes to nine thousand five hundred rupees, with free delivery. Shall I confirm it for ten a.m.?',{act:['Quoted ₹9,500 (20 × ₹220 + 20 × ₹120 + 15 × ₹180)']}],
+  ['c','Yes, confirm it. My name is Vikram.'],
+  ['a','Confirmed, Vikram. As it’s a large order, I’ve sent a link to pay half now, and our manager will call you this evening to confirm the address.',{act:['Order booked: tomorrow 10 AM delivery to Zenith Labs','Sent a 50% advance link: ₹4,750','Alerted the manager: large order','warn'],book:1,urgent:1}],
+  ['c','Great, thanks.'],
+  ['a','Thank you! Your team will have it at ten.']],
+  sum:{why:'Office order: 40 coffees and 15 croissants, delivered tomorrow at 10 AM.',done:'₹9,500 order confirmed. ₹4,750 advance link sent. Kitchen prep scheduled for 9:15 AM.',needs:'Manager to call Vikram this evening.',out:['Big order','y']}},
+ {name:'Imran K.',phone:'+91 99••• ••203',lang:'hi',lines:[
+  ['a','नमस्ते, काफ़ी थ्योरी में आपका स्वागत है। मैं कैफ़े की AI असिस्टेंट हूँ। बताइए, क्या मदद करूँ?'],
+  ['c','मेरा ऑर्डर पैंतालीस मिनट देर से आया, और कॉफ़ी बिल्कुल ठंडी थी।',{und:[['Complaint','e'],['Late delivery','e'],['Hindi','g']]}],
+  ['a','माफ़ी चाहती हूँ, ऐसा नहीं होना चाहिए था। मैंने आपका ऑर्डर देख लिया है: दो कैपुचीनो, चार सौ चालीस रुपये। मैं पैसे वापस कर दूँ, या कल एक ताज़ा ऑर्डर मुफ़्त भेज दूँ?',{act:['Found the order: 2 cappuccinos, ₹440, 45 minutes late']}],
+  ['c','पैसे वापस कर दीजिए।'],
+  ['a','हो गया। चार सौ चालीस रुपये आपके UPI पर वापस भेज दिए हैं। अगली बार के लिए एक मुफ़्त कोल्ड ब्रू का कूपन भी WhatsApp पर भेजा है, और मैनेजर को बता दिया है ताकि ऐसा दोबारा न हो।',{act:['Refunded ₹440 to UPI (inside the ₹500 limit the owner set)','Sent a free cold brew coupon on WhatsApp','Flagged to the manager: delivery 45 min late','warn'],urgent:1}],
+  ['c','ठीक है, धन्यवाद।'],
+  ['a','धन्यवाद, और फिर से माफ़ी। आपका दिन शुभ हो!']],
+  sum:{why:'Delivery arrived 45 minutes late and cold (spoke Hindi).',done:'Refunded ₹440 to UPI. Free cold brew coupon sent. Complaint settled on the call.',needs:'Manager to check why the delivery was late.',out:['Refunded','y']}}],
+ log:[['9:05 AM','Unknown caller','Asked if pets are allowed','Answered','g','0m 40s'],['11:30 AM','Sneha P.','Table for 2 at lunch','Booked','g','1m 05s'],['1:15 PM','Rahul T.','Pickup: 3 cold brews','Ordered','g','1m 20s'],['3:02 PM','Unknown caller','Wi-Fi and laptop seating','Answered','g','0m 55s'],['5:48 PM','Farah A.','Event for 30 people','To manager','y','2m 10s'],['7:12 PM','Kiran B.','Moved a booking to 9 PM','Moved','y','1m 00s']],
+ rules(t){
+  if(/manager|person|human|someone|staff|owner/.test(t)){act(['Put through to the manager','warn']);und([['Wants a person','y']]);return {say:'Of course, I’m putting you through to the manager now. If they’re busy, they’ll call you back within fifteen minutes.',end:{why:'Asked for the manager.',done:'Transferred to the manager.',needs:'Call back if missed.',out:['To manager','y']}}}
+  if(/late|cold(?! ?brew)|wrong|complain|refund|bad|देर|ठंडी/.test(t)){T.urgent=true;bump('urg');und([['Complaint','e']]);act(['Found the order: ₹440','Refunded ₹440 to UPI (inside the owner’s limit)','Sent a free cold brew coupon','Flagged to the manager','warn']);
+    return {say:'I’m really sorry about that. I’ve found your order and refunded four hundred and forty rupees to your UPI, and sent a free cold brew coupon to your WhatsApp. I’ve also told the manager so it doesn’t happen again.'}}
+  const y=yesBook(t);if(y)return y;
+  if(/table|book|reserve|seat|tonight/.test(t)){const n=(t.match(/\b(\d{1,2})\b/)||[])[1];und([['Table booking','g']].concat(n?[[`Party of ${n}`,'y']]:[]));return offerSlots(n?`A table for ${n}, lovely.`:'Lovely.')}
+  if(/order|pickup|pick up|takeaway|cold brew|cappuccino|kaapi/.test(t)){bump('book');und([['Pickup order','g']]);act(['Order sent to the kitchen: 2 cold brews','Sent a ₹480 payment link on WhatsApp']);
+    return {say:'Sure. Two cold brews come to four hundred and eighty rupees. They’ll be ready for pickup in fifteen minutes, and I’ve sent a payment link to your WhatsApp.'}}
+  if(/deliver|delivery|banjara|swiggy|zomato/.test(t)){und([['Delivery','g']]);act(['Sent the WhatsApp menu link']);return {say:'Yes, we deliver within five kilometres, so Banjara Hills is covered. Ordering on our WhatsApp is cheaper than the apps. I’ve sent you the menu link.'}}
+  if(/time|open|close|hour|timing/.test(t)){und([['Opening hours','y']]);return {say:'We’re open every day from eight in the morning to eleven at night.'}}
+  if(/where|address|location|parking/.test(t)){und([['Directions','y']]);act(['Sent location on WhatsApp']);return {say:'We’re on Road Number thirty-six in Jubilee Hills, with valet parking in the evenings. I’ve sent the location to your WhatsApp.'}}
+  if(/price|menu|cost|how much/.test(t)){und([['Menu','y']]);return {say:'Filter kaapi is one twenty, cappuccino two twenty, cold brew two forty, and our butter croissant is one eighty. Would you like to order or book a table?'}}
+  return null},
+ fallback:'Sorry, I didn’t catch that. I can book a table, take an order, help with a delivery, or put you through to the manager.',
+ prompt:`You are the phone assistant (voice) for Kaapi Theory, a specialty café on Road No. 36, Jubilee Hills, Hyderabad. Open daily 8 AM–11 PM. Menu: filter kaapi ₹120, cappuccino ₹220, cold brew ₹240, butter croissant ₹180, avocado sourdough ₹340, tiramisu ₹280; tiramisu cake for 8 ₹1,800. Delivery within 5 km, cheaper on WhatsApp than the apps. Patio table for up to 10. You can book tables, take pickup orders (send a payment link), and settle complaints: refunds up to ₹500 are allowed, anything bigger goes to the manager (action "urgent"). Orders above ₹5,000 need a 50% advance and a manager call (action "urgent").`};
+
+/* ---------- 3. Real estate ---------- */
+B.realestate={name:'Tessera Heights',letter:'T',phone:'+91 40 4822 7070',kind:'project',
+ view:'Sales team’s view · calls today',desc:'What the sales team sees while the assistant is on a call: budget, timeline, how serious the buyer is, and visits booked.',
+ kpis:['calls answered today','site visits booked','hot leads sent to sales'],stats:{calls:11,book:4,urg:2},sumTo:'sent to sales on WhatsApp',
+ watch:'Listen to a 9:40 PM ad lead · 50 sec',scen:['Instagram ad lead, 9:40 PM','NRI buyer calling from the US','हिंदी: पज़ेशन और लोन'],
+ greet:'Good evening, you’ve reached Tessera Heights in Kokapet. I’m the project’s AI assistant. How can I help?',
+ staffAct:'Sent to sales as a hot lead',staffRe:/ananya|sales team/,
+ lines:['What’s the price of a 3 BHK?','I want to visit the sample home','Is it RERA approved?','When is possession?','What would the EMI be?','Can I talk to sales?'],
+ slots:['Saturday at 11 AM','Saturday at 4 PM','Sunday at 11 AM'],
+ bookedSay:s=>`Done. Your site visit is booked for ${s}. Ananya from our sales team will meet you at the sample home, and I’ve sent the location to your WhatsApp.`,
+ calls:[
+ {name:'Sandeep Reddy',phone:'+91 96••• ••352',lang:'en',lines:[
+  ['a','Good evening, you’ve reached Tessera Heights in Kokapet. I’m the project’s AI assistant. How can I help?'],
+  ['c','Hi, I saw your ad on Instagram. What’s the price of a three BHK?',{und:[['Ad lead','g'],['3 BHK','y']]}],
+  ['a','Our three BHK homes are nineteen hundred and fifty square feet and start at two point four crore, depending on floor and view. What budget do you have in mind?',{act:['Sent the brochure and price sheet on WhatsApp']}],
+  ['c','Around two and a half crore. We want to buy in the next three months.',{und:[['Budget ₹2.5 Cr','g'],['Buying in 3 months','g']]}],
+  ['a','That fits well. And will you be taking a home loan?'],
+  ['c','Yes, my loan is already pre-approved with HDFC.',{und:[['Loan pre-approved','g']]}],
+  ['a','Great. The best next step is to see the sample home. I have Saturday at eleven a.m. or Sunday at four p.m. Which suits you?',{act:['Scored the lead HOT: budget fits, 3 months, loan ready','warn'],urgent:1}],
+  ['c','Sunday at four.'],
+  ['a','Done, Sandeep. You’re booked for Sunday at four p.m. Ananya from our sales team will meet you at the sample home, and she’ll call you tomorrow to say hello. I’ve sent the location to your WhatsApp.',{act:['Site visit booked: Sun 4 PM with Ananya','Sent location and visit pass on WhatsApp','Ananya to call him tomorrow at 10 AM'],book:1}],
+  ['c','Perfect, thank you.']],
+  sum:{why:'Instagram ad lead: 3 BHK, budget ₹2.5 Cr, buying within 3 months, loan pre-approved.',done:'Brochure sent. Scored hot. Site visit booked Sunday 4 PM with Ananya.',needs:'Ananya to call Sandeep tomorrow morning.',out:['Hot lead','e']}},
+ {name:'Priya Nair (New Jersey)',phone:'+1 201 ••• ••88',lang:'en',lines:[
+  ['a','Good morning, you’ve reached Tessera Heights in Kokapet. I’m the project’s AI assistant. How can I help?'],
+  ['c','Hi, I’m calling from New Jersey. I’m looking at a four BHK for my parents in Hyderabad. Is the project RERA registered?',{und:[['NRI buyer','y'],['4 BHK','y'],['RERA','y']]}],
+  ['a','Yes, it’s RERA registered, and I’ve sent the registration number and approvals to your WhatsApp. Our four BHK homes are three thousand and fifty square feet and start at three point eight five crore.',{act:['Sent RERA number, approvals and 4 BHK floor plans']}],
+  ['c','Can I see the flat without flying down? My parents could visit in person.'],
+  ['a','Of course. Our sales team does live video walkthroughs of the sample home. I can book one at eight p.m. your time today, which is five thirty tomorrow morning here. Your parents can visit any day from ten to seven.',{act:['Converted time zones: 8 PM New Jersey = 5:30 AM Hyderabad']}],
+  ['c','The video call works. Please book it.'],
+  ['a','Booked. Ananya will video call you at eight p.m. your time, and she’ll send the payment plan for NRI buyers before the call.',{act:['Video walkthrough booked with Ananya','Tagged: NRI · 4 BHK · hot lead','warn'],book:1,urgent:1}],
+  ['c','Thank you so much.'],
+  ['a','You’re welcome, Priya. Talk soon.']],
+  sum:{why:'NRI buyer in the US: 4 BHK for her parents; asked about RERA.',done:'RERA details and floor plans sent. Video walkthrough booked for 5:30 AM IST.',needs:'Ananya to send the NRI payment plan before the call.',out:['Hot lead','e']}},
+ {name:'Ramesh Gupta',phone:'+91 98••• ••640',lang:'hi',lines:[
+  ['a','नमस्ते, टेसेरा हाइट्स में आपका स्वागत है। मैं प्रोजेक्ट की AI असिस्टेंट हूँ। बताइए, क्या मदद करूँ?'],
+  ['c','पज़ेशन कब तक मिलेगा? और कौन से बैंक लोन देते हैं?',{und:[['Possession','y'],['Home loan','y'],['Hindi','g']]}],
+  ['a','टावर A का पज़ेशन दिसंबर दो हज़ार उनतीस में है, जैसा RERA में दर्ज है। प्रोजेक्ट SBI, HDFC और ICICI से अप्रूव्ड है।',{act:['Shared the possession date as filed with RERA','Shared the approved banks']}],
+  ['c','तीन BHK की EMI कितनी आएगी?'],
+  ['a','दो दशमलव चार करोड़ के घर पर, बीस प्रतिशत डाउन पेमेंट और बीस साल के लोन पर, EMI लगभग एक लाख सड़सठ हज़ार रुपये महीना होगी। पूरी कैलकुलेशन WhatsApp पर भेज दी है।',{act:['Worked out the EMI: about ₹1.67 L a month (₹1.92 Cr loan, 8.5%, 20 years)','Sent the EMI breakdown on WhatsApp']}],
+  ['c','ठीक है, मैं सोच के बताता हूँ।'],
+  ['a','ज़रूर। मैं दो दिन बाद आपको एक छोटा सा मैसेज भेजूँगी। सैंपल होम रोज़ सुबह दस से शाम सात बजे तक खुला है। धन्यवाद!',{act:['Follow-up scheduled for day 2']}]],
+  sum:{why:'Asked about possession, approved banks and the EMI on a 3 BHK (spoke Hindi).',done:'Possession date and banks shared. EMI breakdown sent. Follow-up set for day 2.',needs:'Nothing yet. Warm lead.',out:['Warm lead','y']}}],
+ log:[['10:12 AM','Arjun P.','99acres lead: 3.5 BHK','Visit booked','g','2m 20s'],['11:40 AM','Unknown caller','Asked about the location','Answered','g','0m 50s'],['1:05 PM','Kavya S.','Budget ₹1.5 Cr, below range','Not a fit','y','1m 30s'],['3:30 PM','Mohammed F.','4 BHK, paying himself','Hot lead','e','2m 05s'],['6:15 PM','Deepa R.','Moved Sunday visit to Saturday','Moved','y','0m 58s'],['7:50 PM','Channel partner','Asked about brokerage','To sales','y','1m 10s']],
+ rules(t){
+  if(/sales|person|human|someone|agent|talk to/.test(t)){act(['Put through to Ananya in sales','warn']);und([['Wants sales','y']]);return {say:'Of course. I’m putting you through to Ananya in our sales team now. If she’s on another call, she’ll call you back within thirty minutes.',end:{why:'Asked to speak to sales.',done:'Transferred to Ananya.',needs:'Call back if missed.',out:['To sales','y']}}}
+  const y=yesBook(t);if(y){T.urgent=true;bump('urg');act(['Sent to sales as a hot lead','warn']);return y}
+  if(/visit|see|sample|site|show/.test(t)){und([['Site visit','g']]);return offerSlots('Happy to arrange that.')}
+  if(/emi|loan|bank/.test(t)){und([['Home loan','y']]);act(['Sent the EMI breakdown on WhatsApp']);return {say:'The project is approved by SBI, HDFC and ICICI. On a two point four crore home with twenty percent down, the EMI is about one lakh sixty-seven thousand a month over twenty years. Would you like to visit the sample home?',offer:true}}
+  if(/price|cost|bhk|crore|how much|rate/.test(t)){und([['Price','y']]);act(['Sent the price sheet on WhatsApp']);return {say:'Our three BHK homes start at two point four crore, three and a half BHK at two point nine five crore, and four BHK at three point eight five crore. I’ve sent the price sheet to your WhatsApp. Would you like to see the sample home?',offer:true}}
+  if(/rera|approv|legal|registered/.test(t)){und([['RERA','y']]);act(['Sent RERA number and approvals']);return {say:'Yes, the project is RERA registered. I’ve sent the registration number and approvals to your WhatsApp.'}}
+  if(/possession|ready|handover|complet|पज़ेशन/.test(t)){und([['Possession','y']]);return {say:'Possession for Tower A is December twenty twenty-nine, as filed with RERA.'}}
+  if(/where|location|address|far|distance/.test(t)){und([['Location','y']]);act(['Sent location on WhatsApp']);return {say:'We’re in Kokapet, ten minutes from the Financial District, overlooking Osman Sagar. I’ve sent the location to your WhatsApp.'}}
+  if(/pool|club|amenit|gym/.test(t)){und([['Amenities','y']]);return {say:'There’s a fifty metre temperature-controlled infinity pool, a clubhouse with a gym and co-working, and no cars at ground level. Would you like to see it in person?',offer:true}}
+  return null},
+ fallback:'Sorry, I didn’t catch that. I can share prices, book a sample home visit, explain loans and possession, or put you through to sales.',
+ prompt:`You are the phone assistant (voice) for Tessera Heights, a residential project in Kokapet (Neopolis), Hyderabad, 10 minutes from the Financial District, overlooking Osman Sagar. Homes: 3 BHK 1,950 sq ft from ₹2.4 Cr; 3.5 BHK 2,350 sq ft from ₹2.95 Cr; 4 BHK 3,050 sq ft from ₹3.85 Cr; penthouse 5,200 sq ft from ₹7.2 Cr. RERA registered. Possession of Tower A: December 2029. Banks: SBI, HDFC, ICICI. Sample home open daily 10 AM–7 PM. Sales: Ananya. Find out budget, home type, timeline and loan status naturally; book sample home visits; a buyer whose budget fits and who plans to buy within 3 months is a hot lead (action "urgent"). Never promise returns or prices outside the price sheet.`};
+
+/* ---------- voice ---------- */
+let soundOn=true,voices=[];
+const synth=window.speechSynthesis;
+function loadVoices(){try{voices=synth?synth.getVoices():[]}catch(e){voices=[]}}
+if(synth){loadVoices();synth.onvoiceschanged=loadVoices}
+function pickVoice(lang,who){const want=lang==='hi'?['hi-IN']:['en-IN','en-GB','en-US'];
+  const pool=voices.filter(v=>want.some(w=>v.lang&&v.lang.replace('_','-').startsWith(w)));
+  if(!pool.length)return null;const fem=pool.find(v=>/female|heera|veena|lekha|neerja|swara|google/i.test(v.name));const male=pool.find(v=>/male|ravi|rishi|hemant|prabhat/i.test(v.name)&&!/female/i.test(v.name));
+  return who==='a'?(fem||pool[0]):(male||pool[pool.length-1])}
+let wv=null;function waveOn(who){$('#phone').classList.remove('speaking-a','speaking-c');if(who)$('#phone').classList.add('speaking-'+who);clearInterval(wv);const bars=$$('#wave i');
+  if(!who){bars.forEach(b=>b.style.height='6px');return}wv=setInterval(()=>bars.forEach(b=>b.style.height=(6+Math.random()*22)+'px'),110)}
+function speak(text,lang,who){return new Promise(res=>{const ms=Math.min(9000,900+text.length*48);
+  if(!soundOn||!synth||typeof SpeechSynthesisUtterance==='undefined'){setTimeout(res,ms);return}
+  try{const u=new SpeechSynthesisUtterance(text);const v=pickVoice(lang,who);if(v)u.voice=v;u.lang=lang==='hi'?'hi-IN':'en-IN';u.rate=lang==='hi'?.95:1.02;u.pitch=who==='a'?1.08:.92;
+    let done=false;const fin=()=>{if(!done){done=true;res()}};u.onend=fin;u.onerror=fin;synth.speak(u);setTimeout(fin,ms*2.2)}catch(e){setTimeout(res,ms)}})}
+
+/* ---------- call state ---------- */
+let biz=null,BZ=null,C=null,run=0,tick=null,scen=0;
+const stats={};
+function kp(){const s=stats[biz];$('#kCalls').textContent=s.calls;$('#kBook').textContent=s.book;$('#kUrg').textContent=s.urg}
+function bump(k){stats[biz][k]++;kp()}
+function line(who,text){const el=document.createElement('div');el.className='ln '+who;el.innerHTML=`<small>${who==='a'?'Assistant':who==='c'?'Caller':''}</small>${esc(text)}`;$('#tx').append(el);$('#tx').scrollTop=1e9}
+function sys(text){const el=document.createElement('div');el.className='ln sys';el.textContent=text;$('#tx').append(el);$('#tx').scrollTop=1e9}
+function und(list){list.forEach(([t,c])=>{if([...$$('#und .chip')].some(x=>x.textContent===t))return;$('#und').insertAdjacentHTML('beforeend',`<span class="chip ${c}">${esc(t)}</span>`)})}
+function act(list){if($('#acts .idle'))$('#acts').innerHTML='';const warn=list.includes('warn');list.filter(t=>t!=='warn').forEach(t=>$('#acts').insertAdjacentHTML('beforeend',`<div class="act${warn?' warn':''}"><i>${warn?'!':'✓'}</i><span>${esc(t)}</span></div>`))}
+function startClock(){const t0=Date.now();clearInterval(tick);tick=setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);$('#ctime').textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`},500)}
+function setLive(on,sub){$('#olive').classList.toggle('on',on);$('#oliveT').textContent=on?'On a call':'No call';$('#liveSub').textContent=sub}
+function idleState(){$('#cstate').textContent='Ready to call';$('#ctime').textContent=BZ.phone;$('#callL').textContent='Call'}
+function beginCall(name,phone){$('#tx').innerHTML='';$('#und').innerHTML='';$('#acts').innerHTML='<p class="idle">Listening…</p>';$('#sumBox').innerHTML='';
+  $('#cstate').textContent='Connected';startClock();setLive(true,`${name} · ${phone}`);$('#callBtn').className='kb end';$('#callBtn').setAttribute('aria-label','End the call');$('#callL').textContent='End';sys('Call connected · assistant answering')}
+function endCall(summary){clearInterval(tick);waveOn(null);$('#cstate').textContent='Call ended';setLive(false,'call ended');$('#callBtn').className='kb start';$('#callBtn').setAttribute('aria-label','Start the call');$('#callL').textContent='Call';
+  try{synth&&synth.cancel()}catch(e){}sys('Call ended');$('#sayF').hidden=true;$('#lines').hidden=true;
+  if(summary){bump('calls');const s=summary;$('#sumBox').innerHTML=`<div class="sum" id="pSum"><b>Call summary · ${esc(BZ.sumTo)}</b><p>${esc(s.why)}</p><dl><dt>Caller</dt><dd>${esc(s.name)} · ${esc(s.phone)}</dd><dt>Done</dt><dd>${esc(s.done)}</dd><dt>Needs you</dt><dd>${esc(s.needs)}</dd></dl></div>`;
+    $('#log').insertAdjacentHTML('afterbegin',`<div><time>${clock()}</time><span>${esc(s.name)}<small>${esc(s.short||s.why)}</small></span><span class="chip ${s.out[1]}">${esc(s.out[0])}</span><em>${esc(s.dur||'1m 50s')}</em></div>`)}
+  C=null}
+function stopAny(){if(C){if(C.mode==='live'){const v=vapi;finishLive(true);try{v&&v.stop()}catch(e){}}else{run++;endCall(null)}}}
+async function playCall(i){const id=++run;const call=BZ.calls[i];C={mode:'script'};beginCall(call.name,call.phone);await wait(600);
+  for(const [who,text,meta] of call.lines){if(id!==run)return;waveOn(who);line(who,text);if(meta){if(meta.und)und(meta.und);if(meta.act)act(meta.act);if(meta.urgent)bump('urg');if(meta.book)bump('book')}
+    await speak(text,call.lang,who);waveOn(null);if(id!==run)return;await wait(who==='a'?450:300)}
+  if(id!==run)return;endCall({...call.sum,name:call.name,phone:call.phone,short:call.sum.why.split(/[.:]/)[0],dur:call.lines.length>8?'2m 10s':'1m 45s'})}
+
+/* ---------- talk to it yourself ---------- */
+let sample=null,live=false;
+const T={turns:[],booked:null,offered:false,urgent:false,busy:false};
+function offerSlots(lead){T.offered=true;act(['Checked the calendar']);const s=BZ.slots;return {say:`${lead} I have ${s[0]}, ${s[1]}, or ${s[2]}. Which works best?`}}
+function yesBook(t){if(!T.offered||!/(yes|ok|okay|sure|please|book|first|second|third|that|\d|tomorrow|tonight|friday|saturday|sunday|हाँ|ठीक)/.test(t))return null;
+  const S=BZ.slots;const s=/third|last|9|nine|sunday|friday/.test(t)?S[2]:/second|4|four|afternoon|8 ?pm|eight/.test(t)?S[1]:T.offered===true?S[0]:T.offered;
+  T.booked=s;T.offered=false;bump('book');act([`Booked ${s}`,'Sent WhatsApp confirmation']);und([['Booked','g']]);return {say:BZ.bookedSay(s)}}
+function startTalk(){++run;C={mode:'talk'};Object.assign(T,{turns:[],booked:null,offered:false,urgent:false,busy:false});beginCall('You','your number');
+  $('#sayF').hidden=false;$('#lines').hidden=false;$('#lines').innerHTML=BZ.lines.map(l=>`<button type="button">${esc(l)}</button>`).join('');
+  agentSay(BZ.greet,run);setTimeout(()=>$('#sayIn').focus(),300)}
+async function agentSay(text,id,lang){T.turns.push({role:'assistant',content:text});waveOn('a');line('a',text);await speak(text,lang||'en','a');if(id===run)waveOn(null)}
+function endOf(why){return {why,done:T.booked?`Booked ${T.booked}. WhatsApp confirmation sent.`:'Answered questions.',needs:T.urgent?'Your team to follow up.':'Nothing.',out:T.urgent?['Needs you','e']:T.booked?['Booked','g']:['Answered','g']}}
+function rules(q){const t=q.toLowerCase(),hi=HI.test(q);
+  const r=BZ.rules(t,q,hi);if(r)return r;
+  if(/bye|thank|that’s all|that's all|nothing|no thanks|धन्यवाद/.test(t))return {say:'You’re welcome. Have a good day!',end:endOf(T.urgent?'Needed the team’s attention.':T.booked?'Booked by phone.':'General questions.')};
+  return {say:BZ.fallback}}
+async function callerSays(text){text=text.trim();if(!text||!C||C.mode!=='talk')return;if(T.busy){T.next=text;$('#sayIn').value='';return}T.next=null;T.busy=true;const id=run;$('#sayIn').value='';
+  waveOn('c');line('c',text);T.turns.push({role:'user',content:text});await wait(500);waveOn(null);
+  let r;if(live){try{r=await sample.json([{role:'user',content:liveRules()},...T.turns.slice(-12)],{modelTier:'quick'});
+      if(r&&r.action==='book'&&r.slot){T.booked=r.slot;bump('book');act([`Booked ${r.slot}`,'Sent WhatsApp confirmation']);und([['Booked','g']])}
+      if(r&&r.action==='urgent'){T.urgent=true;bump('urg');und([['Needs a person','e']]);act([BZ.staffAct,'warn'])}
+      if(r&&r.action==='transfer'){act(['Put through to a person','warn'])}
+      if(r&&r.intent)und([[String(r.intent).slice(0,24),'y']]);
+      r={say:String(r.say||''),lang:HI.test(r.say||'')?'hi':'en',end:r.action==='hangup'||r.action==='transfer'?endOf(r.summary||'Call handled by the assistant.'):null}}
+    catch(e){r=rules(text)}}else r=rules(text);
+  if(r.offer){T.offered=r.offer}
+  if(id!==run){T.busy=false;return}await agentSay(r.say,id,r.lang);T.busy=false;if(T.next&&id===run&&!r.end){const n=T.next;T.next=null;callerSays(n);return}
+  if(r.end&&id===run){await wait(500);endCall({...r.end,name:'You',phone:'your number',short:r.end.why,dur:'1m 30s'})}}
+const liveRules=()=>`${BZ.prompt} Free slots: ${BZ.slots.join(', ')}.
+Speak like a warm, natural person on a phone call: one to three short spoken sentences, no lists, no emoji, numbers said the way people say them. Use the caller's language (English or Hindi). You introduced yourself as the ${BZ.kind}'s AI assistant. If they ask for a person, transfer.
+Reply with JSON only: {"say":"what you say aloud","intent":"two or three words","action":null|"book"|"urgent"|"transfer"|"hangup","slot":"the booked slot, only with action book","summary":"one-line call summary, only with transfer or hangup"}.`;
+
+/* ---------- business switch ---------- */
+function setBiz(k,first){if(!B[k])k='clinic';if(!first&&k===biz)return;if(!first)stopAny();biz=k;BZ=B[k];if(!stats[k])stats[k]={...BZ.stats};scen=0;
+  $$('#bizSw button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.b===k));
+  $('#scen').innerHTML='<small>Choose a call:</small>'+BZ.scen.map((s,i)=>`<button type="button" data-s="${i}" aria-pressed="${i===0}">${esc(s)}</button>`).join('');
+  $('#cav').textContent=BZ.letter;$('#cname').textContent=BZ.name;$('#oav').textContent=BZ.letter;$('#oname').textContent=BZ.name;$('#osub').textContent=BZ.view;$('#tabdesc').textContent=BZ.desc;
+  ['kL1','kL2','kL3'].forEach((id,i)=>$('#'+id).textContent=BZ.kpis[i]);$('#watchL').textContent=BZ.watch;$('#logWhen').textContent=biz==='clinic'?'tonight':'today';
+  $('#tx').innerHTML='';$('#und').innerHTML='';$('#sumBox').innerHTML='';$('#acts').innerHTML='<p class="idle">Start a call on the left. You’ll see what the assistant understands and does, as it happens.</p>';setLive(false,'waiting for a call');
+  $('#log').innerHTML=BZ.log.map(l=>`<div><time>${l[0]}</time><span>${esc(l[1])}<small>${esc(l[2])}</small></span><span class="chip ${l[4]}">${esc(l[3])}</span><em>${l[5]}</em></div>`).reverse().join('');
+  kp();idleState();liveBtnState();
+  try{const u=new URL(location.href);if(k==='clinic')u.searchParams.delete('biz');else u.searchParams.set('biz',k);history.replaceState(null,'',u)}catch(e){}}
+
+/* ---------- wiring ---------- */
+$('#wave').innerHTML='<i></i>'.repeat(26);
+$('#bizSw').onclick=e=>{const b=e.target.closest('button');if(b)setBiz(b.dataset.b)};
+$('#scen').onclick=e=>{const b=e.target.closest('button');if(!b)return;scen=+b.dataset.s;$$('#scen button').forEach(x=>x.setAttribute('aria-pressed',x===b));stopAny();idleState()};
+$('#callBtn').onclick=()=>{if(C){if(C.mode==='live'){stopAny();return}run++;endCall(C.mode==='talk'?endOf('Caller hung up.'):null);return}playCall(scen)};
+$('#watch').onclick=()=>{scen=0;$$('#scen button').forEach((x,i)=>x.setAttribute('aria-pressed',i===0));$('.stage').scrollIntoView({behavior:'smooth',block:'start'});stopAny();setTimeout(()=>playCall(0),400)};
+$('#talkBtn').onclick=()=>{$('.stage').scrollIntoView({behavior:'smooth',block:'start'});stopAny();setTimeout(startTalk,400)};
+$('#sayF').onsubmit=e=>{e.preventDefault();callerSays($('#sayIn').value)};
+$('#lines').onclick=e=>{const b=e.target.closest('button');if(b)callerSays(b.textContent)};
+$('#spk').onclick=()=>{soundOn=!soundOn;$('#spk').classList.toggle('on',soundOn);$('#spk').setAttribute('aria-pressed',soundOn);$('#spk').setAttribute('aria-label',soundOn?'Sound on':'Sound off');if(!soundOn)try{synth&&synth.cancel()}catch(e){}};
+$('#vnote').textContent=synth?'Sound uses your device’s built-in voice. Turn your volume up.':'Your browser can’t play voices here, so the call shows as text.';
+function contact(){const W=window.SEV_CONTACT||{};const msg=encodeURIComponent('Hi SEVORA, I saw the Voice Desk demo and would like to know more.');
+  if(W.whatsapp){$('#waBtn').href=`https://wa.me/${W.whatsapp}?text=${msg}`;$('#waNum').textContent='WhatsApp: +'+W.whatsapp.replace(/^(\d{2})(\d{5})(\d+)/,'$1 $2 $3')}else{$('#waBtn').removeAttribute('href');$('#waNum').textContent='WhatsApp number coming soon'}}
+function setMode(){$('#mode').classList.toggle('live',live);$('#mode').lastChild.textContent=live?'Live AI':'Demo mode'}
+
+/* ---------- real voice conversation (Vapi), website only ---------- */
+const VC=window.SEV_VAPI||{};let vapi=null,vload=null,LV=null,connecting=false;
+const assistantFor=k=>(VC.assistants&&VC.assistants[k])||(k==='clinic'?VC.assistantId:'')||'';
+function loadVapi(){if(window.SevVapi)return Promise.resolve();if(!vload)vload=new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='vapi.js';sc.async=true;sc.onload=ok;sc.onerror=()=>{vload=null;no()};document.head.append(sc)});return vload}
+function liveLine(who,text){const last=$('#tx').lastElementChild;if(last&&last.classList.contains('ln')&&last.classList.contains(who)&&LV&&LV.lastWho===who){last.append(' '+text);$('#tx').scrollTop=1e9}else line(who,text);if(LV)LV.lastWho=who}
+function liveSummary(){const L=LV||{};return{name:'Website visitor',phone:'live voice call',short:L.urgent?BZ.staffAct:L.booked?'Booked by voice':'Live voice call',why:L.urgent?`The assistant handled the call and ${BZ.staffAct.toLowerCase()}.`:L.booked?'Booked by voice on a live call.':'Live voice call on the website.',done:L.booked?'Booked and confirmed on WhatsApp.':'Answered the caller.',needs:L.urgent?'Your team to follow up.':'Nothing.',out:L.urgent?['Needs you','e']:L.booked?['Booked','g']:['Live call','g'],dur:$('#ctime').textContent}}
+function finishLive(silent){if(!C||C.mode!=='live')return;run++;endCall(silent&&!LV?.lastWho?null:liveSummary());LV=null;liveBtnState()}
+function liveBtnState(t){const b=$('#liveBtn');const ok=!!(VC.publicKey&&assistantFor(biz));b.hidden=!ok;b.disabled=!!t;b.lastChild.textContent=t||'Talk to it live, with your voice'}
+async function startLive(){if(connecting)return;const aid=assistantFor(biz);if(!aid)return;stopAny();connecting=true;liveBtnState('Connecting…');++run;C={mode:'live'};LV={lastWho:null};beginCall('You','your browser');$('#acts').innerHTML='<p class="idle">Connecting the real voice assistant. Allow the microphone when your browser asks.</p>';
+  try{await loadVapi();if(!vapi){vapi=new window.SevVapi(VC.publicKey);
+      vapi.on('speech-start',()=>waveOn('a'));vapi.on('speech-end',()=>waveOn(null));
+      vapi.on('message',m=>{if(!(m&&m.type==='transcript'&&m.transcriptType==='final'&&C&&C.mode==='live'&&LV))return;const who=m.role==='assistant'?'a':'c';liveLine(who,m.transcript);
+        const t=m.transcript.toLowerCase();
+        if(who==='c'&&/pain|swell|bleed|late|cold|refund|complain|दर्द|देर/.test(t))und([['Needs care','e']]);
+        if(who==='c'&&/book|appoint|table|reserve|visit|order|बुक/.test(t))und([['Booking','g']]);
+        if(who==='c'&&/price|cost|how much|emi|rate|कितन/.test(t))und([['Price question','y']]);
+        if(who==='a'&&!LV.booked&&/(booked|you’re booked|you're booked|confirmed|बुक हो|हो गया)/.test(t)){LV.booked=1;$('#acts .idle')?.remove();act(['Booked','Sent WhatsApp confirmation']);bump('book')}
+        if(who==='a'&&!LV.urgent&&BZ.staffRe.test(t)){LV.urgent=1;$('#acts .idle')?.remove();act([BZ.staffAct,'warn']);bump('urg')}});
+      vapi.on('call-start',()=>{connecting=false;liveBtnState('On a live call');$('#acts').innerHTML='<p class="idle">Live. Speak naturally; the assistant is listening.</p>';sys('Live AI voice · speak now')});
+      vapi.on('call-end',()=>{connecting=false;finishLive()});
+      vapi.on('error',()=>{connecting=false;if(C&&C.mode==='live'){sys('The live voice line dropped. Try again in a moment, or listen to a recorded call.');run++;endCall(null)}LV=null;liveBtnState()})}
+    await vapi.start(aid)}catch(e){connecting=false;sys('The live voice line couldn’t start here. It works on the SEVORA website in Chrome, Edge or Safari with a microphone.');run++;endCall(null);LV=null;liveBtnState()}}
+$('#liveBtn').onclick=()=>{$('.stage').scrollIntoView({behavior:'smooth',block:'start'});startLive()};
+if(VC.publicKey){['pointerenter','touchstart','focus'].forEach(ev=>$('#liveBtn').addEventListener(ev,()=>loadVapi().catch(()=>{}),{once:true,passive:true}));
+  (window.requestIdleCallback||(f=>setTimeout(f,1500)))(()=>loadVapi().catch(()=>{}))}
+
+let start='clinic';try{start=new URL(location.href).searchParams.get('biz')||'clinic'}catch(e){}
+setBiz(start,true);contact();setMode();
+(async()=>{try{sample=window.claude?await window.claude.use('sample'):null;if(sample){const lim=await sample.limits().catch(()=>null);live=!!lim}}catch(e){live=false}setMode()})();
+})();
+</script>
+
+</body>
+</html>
