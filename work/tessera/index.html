@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Tessera Heights, Kokapet: 2, 3 and 4BHK homes in two towers overlooking Osman Sagar. Watch it rise, tour a sample home, calculate your EMI and book a site visit.">
+<link rel="preload" as="image" href="frames/frame-001.webp">
+<script>window.SEVORA_LIVE=true;</script>
+<title>Tessera Heights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --mist:#EEF1EC; --stone:#DDE2DA; --white:#FAFBF8; --ink:#17201B; --soft:#56625A; --sage:#4F6B56; --sage-d:#3B5342; --bronze:#A8733F; --bronze-l:#D3A06B; --sky:#C9DADC;
+  --line:rgba(23,32,27,.16);
+  --display:"Sora",system-ui,sans-serif; --body:"Plus Jakarta Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--mist);color:var(--ink);font:17px/1.65 var(--body);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.04;letter-spacing:-.025em;margin:0;text-wrap:balance}
+p{text-wrap:pretty}
+:focus-visible{outline:2px solid var(--bronze);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(20px,4vw,48px)}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:15px 26px;font:600 15px var(--body);cursor:pointer;text-decoration:none;transition:background .25s,color .25s,transform .25s}
+.btn:hover{transform:translateY(-1px)}
+.btn-sage{background:var(--sage);color:var(--white)}.btn-sage:hover{background:var(--sage-d)}
+.btn-white{background:var(--white);color:var(--ink)}
+.btn-line{background:transparent;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+.eyebrow{display:block;font:600 14px var(--body);color:var(--bronze);margin-bottom:14px}
+
+/* nav */
+nav{position:fixed;inset:0 0 auto;z-index:50;opacity:0;pointer-events:none;transition:background .4s,box-shadow .4s}
+nav .row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px clamp(20px,3vw,40px)}
+nav.solid{background:rgba(238,241,236,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:700 19px var(--display);letter-spacing:.14em;color:var(--white);transition:color .4s}
+.logo svg{width:22px;height:22px}
+nav.solid .logo,nav.solid .links a{color:var(--ink)}
+.links{display:flex;gap:26px}
+.links a{text-decoration:none;color:var(--white);font-size:15px;font-weight:500;transition:color .4s}
+nav .btn{padding:11px 20px;font-size:14px}
+
+/* ============ opener: the name rises floor by floor ============ */
+.opener{position:fixed;inset:0;z-index:80;display:grid;place-items:center;color:var(--white);pointer-events:none;overflow:hidden}
+.opener .bg{position:absolute;inset:0;background:#18211C;will-change:clip-path}
+.opener .grid{position:absolute;inset:-2px;background:
+  linear-gradient(rgba(201,218,220,.07) 1px,transparent 1px) 0 0/48px 48px,
+  linear-gradient(90deg,rgba(201,218,220,.07) 1px,transparent 1px) 0 0/48px 48px;will-change:opacity}
+.opener .in{position:relative;text-align:center;padding:24px;will-change:opacity,transform}
+.opener .mark{display:flex;justify-content:center;font:700 clamp(58px,12vw,200px)/1 var(--display);letter-spacing:.06em}
+.opener .ch{display:inline-block;overflow:hidden;padding:0 .01em}
+.opener .ch>span{display:inline-block;transform:translateY(100%);will-change:transform}
+.opener .sub{display:block;margin-top:18px;font:500 clamp(15px,1.5vw,20px) var(--body);letter-spacing:.32em;text-transform:uppercase;color:var(--bronze-l)}
+.opener .tag{display:block;margin-top:14px;font-size:clamp(15px,1.4vw,18px);color:rgba(250,251,248,.78)}
+.opener .cue{position:absolute;left:50%;bottom:clamp(60px,10vh,110px);transform:translateX(-50%);display:grid;justify-items:center;gap:12px;font-size:15px;color:rgba(250,251,248,.82)}
+.opener .cue i{width:1px;height:46px;background:linear-gradient(rgba(250,251,248,.85),rgba(250,251,248,0));animation:cue 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}55%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.opener .meta{position:absolute;left:0;right:0;bottom:28px;display:flex;justify-content:space-between;padding:0 clamp(20px,3vw,40px);font-size:13px;color:rgba(250,251,248,.55)}
+.opener .bar{position:absolute;left:0;right:0;top:0;height:2px}
+.opener .bar i{position:absolute;inset:0;background:var(--bronze-l);transform-origin:left;transform:scaleX(var(--p,0));transition:transform .4s}
+.opener.off{display:none}
+
+/* ============ the tour ============ */
+.tour{position:relative;height:calc(1300vh + 170vh);background:#18211C}
+.tour .pin{position:sticky;top:0;height:100vh;overflow:hidden}
+#tour{position:absolute;inset:0;width:100%;height:100%;display:block}
+.tour .shade{position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,rgba(15,22,18,.66) 0%,rgba(15,22,18,.3) 34%,rgba(15,22,18,0) 56%),
+  linear-gradient(180deg,rgba(15,22,18,.4) 0%,rgba(15,22,18,0) 18%)}
+.stop{position:absolute;left:clamp(20px,4vw,56px);top:50%;width:min(440px,calc(100vw - 40px));color:var(--white);opacity:0;visibility:hidden;transform:translateY(calc(-50% + 22px));will-change:opacity,transform}
+.stop .where{display:block;font:600 15px var(--body);color:var(--bronze-l);margin-bottom:12px}
+.stop h1,.stop h2{font-size:clamp(36px,4.2vw,64px)}
+.stop p{margin:16px 0 0;font-size:17px;color:rgba(250,251,248,.88);max-width:40ch}
+.stop dl{margin:22px 0 0;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;padding-top:18px;border-top:1px solid rgba(250,251,248,.26);font-size:15px}
+.stop dt{color:rgba(250,251,248,.62)}.stop dd{margin:0;font-weight:500}
+.stop .btn{margin-top:24px;pointer-events:auto}
+.stop .hint{display:inline-flex;gap:10px;align-items:center;margin-top:24px;font-size:15px;color:rgba(250,251,248,.78)}
+.stop .hint i{width:22px;height:34px;border:1.5px solid currentColor;border-radius:12px;position:relative}
+.stop .hint i::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:currentColor;animation:wheel 1.6s ease-in-out infinite}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(10px);opacity:0}100%{opacity:0}}
+.pins{position:absolute;inset:0;pointer-events:none}
+.pin-dot{position:absolute;transform:translate(-50%,-50%);opacity:0;transition:opacity .45s}
+.pin-dot.on{opacity:1}
+.pin-dot b{display:block;width:14px;height:14px;border-radius:50%;background:var(--white);box-shadow:0 0 0 5px rgba(250,251,248,.32),0 4px 12px rgba(0,0,0,.35)}
+.pin-dot b::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(250,251,248,.75);animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.pin-dot span{position:absolute;left:24px;top:50%;transform:translateY(-50%);white-space:nowrap;background:rgba(250,251,248,.95);color:var(--ink);padding:7px 12px;font-size:14px;font-weight:600;line-height:1.3;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.pin-dot span small{display:block;color:var(--soft);font-size:12.5px;font-weight:500}
+.pin-dot.l span{left:auto;right:24px}
+.route{position:absolute;right:clamp(16px,2.4vw,32px);top:50%;transform:translateY(-50%);list-style:none;margin:0;padding:14px 18px;display:grid;gap:4px;background:rgba(15,22,18,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px}
+.route li button{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:5px 0;font-size:14px;color:rgba(250,251,248,.6);transition:color .3s}
+.route li button i{width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;transition:background .3s,transform .3s}
+.route li.on button{color:var(--white)}
+.route li.on button i{background:var(--bronze-l);border-color:var(--bronze-l);transform:scale(1.3)}
+.route li.done button i{background:currentColor}
+.floors{position:absolute;left:clamp(20px,4vw,56px);bottom:28px;font:600 13px var(--body);color:rgba(250,251,248,.75);display:flex;gap:10px;align-items:center}
+.floors b{font:700 22px var(--display);color:var(--white);font-variant-numeric:tabular-nums}
+.loading{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:13px;color:rgba(250,251,248,.7)}
+
+/* overview */
+.overview{padding-block:clamp(90px,13vh,140px)}
+.overview .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,6vw,90px);align-items:center}
+.overview h2{font-size:clamp(38px,4.6vw,66px)}
+.overview p{color:var(--soft);max-width:50ch}
+.overview .photo{border-radius:24px;overflow:hidden;aspect-ratio:16/10}
+.overview .photo img{width:100%;height:100%;object-fit:cover}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px;border-top:1.5px solid var(--ink)}
+.kpis div{padding:24px 20px 0 0}
+.kpis div+div{padding-left:20px;border-left:1px solid var(--line)}
+.kpis b{display:block;font:600 clamp(36px,4vw,56px)/1 var(--display);letter-spacing:-.03em}
+.kpis span{font-size:15px;color:var(--soft)}
+
+/* homes */
+.homes{padding-block:clamp(80px,12vh,130px);background:var(--white)}
+.homes .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:34px}
+.homes h2{font-size:clamp(38px,4.6vw,66px)}
+.tabs{display:inline-flex;padding:5px;border-radius:999px;background:var(--stone)}
+.tabs button{border:0;background:transparent;padding:11px 22px;border-radius:999px;font:600 15px var(--body);color:var(--ink);cursor:pointer;transition:background .25s,color .25s}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--white)}
+.plan{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(24px,4vw,60px);align-items:start}
+.plan .draw{background:var(--mist);border-radius:24px;padding:clamp(18px,3vw,36px);position:relative}
+.plan svg{width:100%;height:auto;display:block}
+.plan svg .wall{fill:none;stroke:var(--ink);stroke-width:5;stroke-linejoin:round}
+.plan svg .in{fill:none;stroke:var(--ink);stroke-width:2.5}
+.plan svg .room{fill:var(--white);transition:fill .3s}
+.plan svg .room.hl{fill:#E6EDE3}
+.plan svg text{font:600 14px var(--body);fill:var(--ink)}
+.plan svg text.dim{font-weight:500;font-size:12px;fill:var(--soft)}
+.plan svg .route{fill:none;stroke:var(--bronze);stroke-width:3;stroke-dasharray:8 7}
+.plan .info dl{margin:0;display:grid;gap:0}
+.plan .info dl div{display:flex;justify-content:space-between;gap:16px;padding:15px 0;border-bottom:1px solid var(--line)}
+.plan .info dt{color:var(--soft)}
+.plan .info dd{margin:0;font-weight:600;text-align:right}
+.plan .price{font:600 clamp(36px,4vw,52px)/1 var(--display);letter-spacing:-.03em;margin:4px 0 6px}
+.plan .info .btn{margin-top:24px}
+.plan .legend{display:flex;gap:16px;align-items:center;margin-top:14px;font-size:14px;color:var(--soft)}
+.plan .legend i{display:inline-block;width:26px;border-top:3px dashed var(--bronze)}
+
+/* emi */
+.emi{padding-block:clamp(80px,12vh,130px)}
+.emi .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);align-items:start}
+.emi h2{font-size:clamp(38px,4.6vw,66px)}
+.emi .lead{color:var(--soft);max-width:44ch}
+.ctl{margin-top:26px}
+.ctl label{display:flex;justify-content:space-between;font-weight:600;margin-bottom:10px}
+.ctl label output{font-variant-numeric:tabular-nums;color:var(--sage)}
+input[type=range]{width:100%;accent-color:var(--sage)}
+.emi-out{background:var(--ink);color:var(--white);border-radius:28px;padding:clamp(28px,4vw,44px);position:sticky;top:100px}
+.emi-out small{display:block;color:rgba(250,251,248,.7);font-size:15px}
+.emi-out .big{font:600 clamp(48px,5.6vw,80px)/1 var(--display);letter-spacing:-.03em;margin:12px 0 4px;font-variant-numeric:tabular-nums}
+.emi-out .barx{display:flex;height:12px;border-radius:12px;overflow:hidden;margin:26px 0 12px;background:rgba(250,251,248,.15)}
+.emi-out .barx i{display:block;height:100%;transition:width .5s}
+.emi-out .barx .p{background:var(--bronze-l)}.emi-out .barx .q{background:var(--sky)}
+.emi-out ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px}
+.emi-out li{display:flex;justify-content:space-between;gap:16px}
+.emi-out li span:first-child{display:flex;gap:10px;align-items:center;color:rgba(250,251,248,.75)}
+.emi-out li i{width:10px;height:10px;border-radius:3px}
+.emi-out .note{margin:20px 0 0;font-size:13.5px;color:rgba(250,251,248,.55)}
+
+/* location */
+.loc{padding-block:clamp(80px,12vh,130px);background:var(--ink);color:var(--white)}
+.loc .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(32px,6vw,90px);align-items:center}
+.loc h2{font-size:clamp(38px,4.6vw,66px)}
+.loc p{color:rgba(250,251,248,.72);max-width:44ch}
+.drives{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.drives li{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline}
+.drives b{font-weight:600}
+.drives span{font:600 20px var(--display);font-variant-numeric:tabular-nums;color:var(--bronze-l)}
+.drives i{grid-column:1/-1;height:4px;border-radius:4px;background:rgba(250,251,248,.12);position:relative;overflow:hidden}
+.drives i::after{content:"";position:absolute;inset:0;width:var(--w);background:linear-gradient(90deg,var(--sage),var(--sky));border-radius:4px;transform-origin:left;transform:scaleX(0);transition:transform 1.4s cubic-bezier(.16,.8,.12,1) var(--d,0s)}
+.drives.in i::after{transform:none}
+
+/* amenities */
+.amen{padding-block:clamp(80px,12vh,130px)}
+.amen h2{font-size:clamp(38px,4.6vw,66px);margin-bottom:34px;max-width:16ch}
+.amen .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.amen figure{margin:0;position:relative;border-radius:22px;overflow:hidden;background:var(--stone)}
+.amen figure img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.amen figure:hover img{transform:scale(1.04)}
+.amen figcaption{position:absolute;left:16px;bottom:16px;right:16px;color:var(--white);text-shadow:0 2px 14px rgba(0,0,0,.45)}
+.amen figcaption b{display:block;font:600 22px var(--display)}
+.amen figcaption span{font-size:14px}
+.amen .a1{grid-column:span 7;aspect-ratio:16/10}.amen .a2{grid-column:span 5}.amen .a3{grid-column:span 4;aspect-ratio:4/3}.amen .a4{grid-column:span 4;aspect-ratio:4/3}.amen .a5{grid-column:span 4;aspect-ratio:4/3}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chips span{padding:9px 16px;border-radius:999px;background:var(--white);font-size:15px;font-weight:500;box-shadow:inset 0 0 0 1px var(--line)}
+
+/* trust */
+.trust{padding-block:clamp(60px,9vh,100px);background:var(--stone)}
+.trust .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.trust b{display:block;font:600 20px var(--display);margin-bottom:6px}
+.trust p{margin:0;color:var(--soft);font-size:15.5px}
+.status{display:flex;gap:6px;margin-top:12px}
+.status i{flex:1;height:8px;border-radius:8px;background:rgba(23,32,27,.12)}
+.status i.d{background:var(--sage)}
+
+/* visit */
+.visit{padding-block:clamp(80px,12vh,130px);background:var(--sage);color:var(--white)}
+.visit .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);align-items:start}
+.visit h2{font-size:clamp(40px,5vw,72px)}
+.visit p{color:rgba(250,251,248,.85);max-width:44ch}
+.visit .addr{margin-top:26px;display:grid;gap:4px;color:rgba(250,251,248,.85)}
+form{display:grid;gap:14px}
+label.f{display:grid;gap:6px;font-size:15px;font-weight:600}
+input,select,textarea{width:100%;font:16px var(--body);color:var(--ink);background:var(--white);border:0;border-radius:14px;padding:13px 14px}
+textarea{min-height:90px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+form .btn{justify-self:start;background:var(--ink);color:var(--white)}
+.check{display:flex;gap:10px;align-items:center;font-size:15px;font-weight:500}
+.check input{width:18px;height:18px;accent-color:var(--ink)}
+.sent{display:none;padding:28px;background:rgba(250,251,248,.12);border-radius:20px}
+.sent h3{font-size:30px;margin-bottom:8px}
+.done form{display:none}.done .sent{display:block}
+
+footer{background:var(--ink);color:rgba(250,251,248,.6);font-size:14px;overflow:hidden}
+footer .big{display:block;padding:clamp(40px,7vw,90px) clamp(20px,4vw,48px) 0;font:700 clamp(54px,12.5vw,210px)/.9 var(--display);letter-spacing:.04em;color:var(--white);white-space:nowrap}
+footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-block:24px}
+
+/* motion system */
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .02em .1em;margin:-.06em -.02em -.1em}
+.split .w>span{display:inline-block;transform:translateY(110%);transition:transform 1.1s cubic-bezier(.16,.8,.12,1) calc(var(--i)*55ms)}
+.split.in .w>span{transform:none}
+.fade{opacity:0;transform:translateY(22px);transition:opacity .9s ease var(--d,0s),transform 1.1s cubic-bezier(.16,.8,.12,1) var(--d,0s)}
+.fade.in{opacity:1;transform:none}
+.reveal{clip-path:inset(14% 6% 0 6% round 24px);transition:clip-path 1.4s cubic-bezier(.76,0,.24,1) var(--d,0s)}
+.reveal img{transform:scale(1.16);transition:transform 1.8s cubic-bezier(.16,.8,.12,1) var(--d,0s)}
+.reveal.in{clip-path:inset(0 0 0 0 round 22px)}.reveal.in img{transform:none}
+.no-motion .split .w>span,.no-motion .fade,.no-motion .reveal,.no-motion .reveal img{transform:none!important;opacity:1!important;clip-path:none!important}
+.no-motion .drives i::after{transform:none}
+
+@media (max-width:900px){
+  .links,.route{display:none}
+  .tour .shade{background:linear-gradient(180deg,rgba(15,22,18,.4) 0%,rgba(15,22,18,0) 20%,rgba(15,22,18,0) 38%,rgba(15,22,18,.9) 70%)}
+  .stop{top:auto;bottom:26px;transform:translateY(22px)}
+  .stop h1,.stop h2{font-size:clamp(30px,8.6vw,44px)}
+  .stop p{font-size:15.5px;margin-top:10px}
+  .stop dl{margin-top:12px;padding-top:10px;font-size:14px;gap:4px 14px}
+  .pins,.floors{display:none}
+  .overview .grid,.plan,.emi .grid,.loc .grid,.visit .grid{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}.kpis div:nth-child(3){padding-left:0;border-left:0}
+  .emi-out{position:static}
+  .amen .grid>figure{grid-column:span 12!important;aspect-ratio:16/10!important}
+  .trust .grid{grid-template-columns:1fr}
+}
+@media (max-width:560px){.two{grid-template-columns:1fr}nav .btn{display:none}.stop dl{display:none}.tabs button{padding:10px 15px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="opener" id="opener" aria-hidden="true">
+  <span class="bg" id="obg"></span><span class="grid" id="ogrid"></span>
+  <span class="bar"><i id="obar"></i></span>
+  <div class="in" id="oin">
+    <span class="mark" id="omark">TESSERA</span>
+    <span class="sub" id="osub">Heights · Kokapet</span>
+    <span class="tag" id="otag">Two towers above Osman Sagar. Watch them rise.</span>
+  </div>
+  <div class="cue" id="ocue"><span>Scroll to break ground</span><i></i></div>
+  <div class="meta" id="ometa"><span>RERA P02400009187</span><span id="opct">Preparing the tour</span></div>
+</div>
+
+<nav id="nav"><div class="row">
+  <a class="logo" href="#top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 21V7l4-3v17M15 21V4l4 3v14M3 21h18"/></svg>TESSERA</a>
+  <div class="links"><a href="#homes">Homes</a><a href="#emi">EMI</a><a href="#location">Location</a><a href="#amenities">Amenities</a></div>
+  <a class="btn btn-sage" href="#visit">Book a site visit</a>
+</div></nav>
+
+<section class="tour" id="top" aria-label="A scroll-driven film: an empty plot becomes two towers, then a tour of a sample home and the amenities">
+  <div class="pin">
+    <canvas id="tour" aria-hidden="true"></canvas>
+    <div class="shade"></div>
+    <div class="pins" id="pins"></div>
+
+    <div class="stop" data-stop="0">
+      <span class="where">Kokapet · Neopolis, Hyderabad</span>
+      <h1>This is where your home begins.</h1>
+      <p>3.4 acres overlooking Osman Sagar, ten minutes from the Financial District. Keep scrolling to watch Tessera Heights rise from this plot.</p>
+      <span class="hint"><i></i>Scroll to build</span>
+    </div>
+    <div class="stop" data-stop="1">
+      <span class="where">Two towers · 412 homes</span>
+      <h2>Built for the view, not around it.</h2>
+      <p>The towers are set apart so every home looks past its neighbour, to the lake on one side and the hills on the other.</p>
+      <dl><dt>Structure</dt><dd>Two towers, G + 32</dd><dt>Open space</dt><dd>80% of the site</dd><dt>Possession</dt><dd>December 2028</dd></dl>
+    </div>
+    <div class="stop" data-stop="2">
+      <span class="where">Sample home · 3BHK, floor 24</span>
+      <h2>Step inside.</h2>
+      <p>A living room with a ten-foot window wall and a view all the way to the lake. Every 3BHK faces east or north, so it stays bright without the afternoon heat.</p>
+      <dl><dt>Living</dt><dd>22 × 16 ft</dd><dt>Ceiling</dt><dd>10 ft clear</dd><dt>Facing</dt><dd>East, lake view</dd></dl>
+    </div>
+    <div class="stop" data-stop="3">
+      <span class="where">Kitchen to master bedroom</span>
+      <h2>Wake up to the lake.</h2>
+      <p>Through the kitchen and down a short corridor, the master bedroom opens onto floor-to-ceiling glass and a private balcony.</p>
+      <dl><dt>Master bedroom</dt><dd>16 × 14 ft</dd><dt>Kitchen</dt><dd>Island with quartz top</dd><dt>Balcony</dt><dd>Full-width, 7 ft deep</dd></dl>
+    </div>
+    <div class="stop" data-stop="4">
+      <span class="where">The podium · 2.1 acres</span>
+      <h2>Holidays, downstairs.</h2>
+      <p>A 50-metre infinity pool, cabanas and palm court on a landscaped podium. No cars on the ground level, ever.</p>
+      <dl><dt>Pool</dt><dd>50 m, temperature-controlled</dd><dt>Clubhouse</dt><dd>42,000 sq ft</dd><dt>Amenities</dt><dd>55+</dd></dl>
+    </div>
+    <div class="stop" data-stop="5">
+      <span class="where">Arrival court · dusk</span>
+      <h2>Welcome home.</h2>
+      <p>3BHK homes from ₹2.4 Cr. Pre-launch pricing closes when Tower A reaches the 20th floor.</p>
+      <a class="btn btn-white" href="#homes">See the homes</a>
+    </div>
+
+    <ul class="route" id="route" aria-label="Tour stops"></ul>
+    <div class="floors" id="floors" aria-hidden="true"><span>Floors built</span><b id="fcount">0</b><span>/ 32</span></div>
+    <span class="loading" id="loading">Loading the film</span>
+  </div>
+</section>
+
+<section class="overview" id="overview">
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow fade">The project</span>
+      <h2 class="split">Two towers, one lake view, nothing in between.</h2>
+      <p class="fade" style="--d:.2s">Tessera Heights is a gated community of 412 homes in Kokapet, on the ridge that looks over Osman Sagar. Low density by Hyderabad standards: four homes per floor, three high-speed lifts per tower, and four-fifths of the site left open.</p>
+    </div>
+    <div class="photo reveal"><img data-img="aerial" alt="Aerial view of the two towers with the lake and hills behind" loading="lazy"></div>
+  </div>
+  <div class="wrap"><div class="kpis fade" style="--d:.1s">
+    <div><b data-count>412</b><span>homes in two towers</span></div>
+    <div><b data-count>4</b><span>homes per floor</span></div>
+    <div><b data-count>80%</b><span>open space</span></div>
+    <div><b data-count>55+</b><span>amenities</span></div>
+  </div></div>
+</section>
+
+<section class="homes" id="homes">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="eyebrow fade">Homes</span><h2 class="split">Pick a layout.</h2></div>
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" type="button" data-k="2" aria-selected="false">2BHK</button>
+        <button role="tab" type="button" data-k="3" aria-selected="true">3BHK</button>
+        <button role="tab" type="button" data-k="4" aria-selected="false">4BHK</button>
+      </div>
+    </div>
+    <div class="plan fade" style="--d:.15s">
+      <div class="draw"><div id="planSvg"></div><div class="legend" id="legend"><i></i>The route you walked in the film</div></div>
+      <div class="info" aria-live="polite">
+        <small id="pk" style="color:var(--soft)">3BHK · Tower A</small>
+        <div class="price" id="pprice">₹2.4 Cr</div>
+        <small style="color:var(--soft)">onwards, all-inclusive except registration</small>
+        <dl id="pdl"></dl>
+        <a class="btn btn-sage" href="#visit" id="pcta">Request the 3BHK floor plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="emi" id="emi">
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow fade">Plan your purchase</span>
+      <h2 class="split">What your monthly EMI looks like.</h2>
+      <p class="lead fade" style="--d:.15s">Move the sliders. Pre-approved home loans are available with six partner banks at the site office.</p>
+      <div class="ctl fade" style="--d:.2s"><label for="r-price">Home price <output id="o-price"></output></label><input id="r-price" type="range" min="140" max="560" step="5" value="240"></div>
+      <div class="ctl fade" style="--d:.25s"><label for="r-down">Down payment <output id="o-down"></output></label><input id="r-down" type="range" min="10" max="50" step="5" value="20"></div>
+      <div class="ctl fade" style="--d:.3s"><label for="r-rate">Interest rate <output id="o-rate"></output></label><input id="r-rate" type="range" min="7.5" max="10.5" step="0.05" value="8.5"></div>
+      <div class="ctl fade" style="--d:.35s"><label for="r-yrs">Loan tenure <output id="o-yrs"></output></label><input id="r-yrs" type="range" min="5" max="30" step="1" value="20"></div>
+    </div>
+    <div class="emi-out fade" style="--d:.2s" aria-live="polite">
+      <small>Monthly EMI</small>
+      <div class="big" id="emiv">₹1,66,600</div>
+      <small id="emisub">for a loan of ₹1.92 Cr</small>
+      <div class="barx"><i class="p" id="bp"></i><i class="q" id="bq"></i></div>
+      <ul>
+        <li><span><i style="background:var(--bronze-l)"></i>Principal</span><span id="lp"></span></li>
+        <li><span><i style="background:var(--sky)"></i>Total interest</span><span id="li"></span></li>
+        <li><span><i style="background:transparent;box-shadow:inset 0 0 0 1px rgba(250,251,248,.5)"></i>Down payment</span><span id="ld"></span></li>
+      </ul>
+      <p class="note">An estimate for planning only. Actual EMI depends on your bank's terms.</p>
+    </div>
+  </div>
+</section>
+
+<section class="loc" id="location">
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow fade">Location</span>
+      <h2 class="split">Close to everything that matters.</h2>
+      <p class="fade" style="--d:.2s">Kokapet sits between the Financial District and the Outer Ring Road, so the airport, the IT corridor and the city's best schools are all a short drive away, against the traffic.</p>
+    </div>
+    <ul class="drives fade" id="drives" style="--d:.15s">
+      <li style="--w:17%;--d:.1s"><b>Financial District</b><span>8 min</span><i></i></li>
+      <li style="--w:25%;--d:.2s"><b>Outer Ring Road</b><span>5 min</span><i></i></li>
+      <li style="--w:37%;--d:.3s"><b>Gachibowli · HITEC City</b><span>18 min</span><i></i></li>
+      <li style="--w:28%;--d:.4s"><b>International schools</b><span>12 min</span><i></i></li>
+      <li style="--w:31%;--d:.5s"><b>Continental and AIG hospitals</b><span>15 min</span><i></i></li>
+      <li style="--w:72%;--d:.6s"><b>Rajiv Gandhi International Airport</b><span>35 min</span><i></i></li>
+    </ul>
+  </div>
+</section>
+
+<section class="amen" id="amenities">
+  <div class="wrap">
+    <span class="eyebrow fade">Amenities</span>
+    <h2 class="split">Everything you saw in the film, and more.</h2>
+    <div class="grid">
+      <figure class="a1 reveal"><img data-img="a-pool" alt="Infinity pool with cabanas and palms" loading="lazy"><figcaption><b>Infinity pool</b><span>50 m, with a separate kids' pool</span></figcaption></figure>
+      <figure class="a2 reveal" style="--d:.1s"><img data-img="a-lawn" alt="Landscaped lawns with a jogging track and play area" loading="lazy"><figcaption><b>Central lawns</b><span>Jogging track and children's play area</span></figcaption></figure>
+      <figure class="a3 reveal"><img data-img="a-club" alt="Glass clubhouse with a gym inside" loading="lazy"><figcaption><b>Clubhouse</b><span>Gym, studio, co-working</span></figcaption></figure>
+      <figure class="a4 reveal" style="--d:.1s"><img data-img="a-gate" alt="Entrance gate with a water feature at dusk" loading="lazy"><figcaption><b>Arrival court</b><span>24 × 7 security</span></figcaption></figure>
+      <figure class="a5 reveal" style="--d:.2s"><img data-img="a-bed" alt="Master bedroom with a lake view" loading="lazy"><figcaption><b>Every home</b><span>Floor-to-ceiling glass</span></figcaption></figure>
+    </div>
+    <div class="chips fade"><span>Indoor badminton</span><span>Squash court</span><span>Yoga deck</span><span>Library</span><span>Banquet hall</span><span>Guest suites</span><span>Pet park</span><span>EV charging</span><span>Mini theatre</span><span>Convenience store</span></div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="wrap grid">
+    <div class="fade"><b>RERA approved</b><p>TS RERA P02400009187. Approvals, layout and title documents are available at the site office.</p></div>
+    <div class="fade" style="--d:.1s"><b>Construction status</b><p>Tower A at level 14, Tower B at level 9. Updated monthly.</p><div class="status"><i class="d"></i><i class="d"></i><i class="d"></i><i class="d"></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="fade" style="--d:.2s"><b>Brochure and price list</b><p>Floor plans, specifications and the current price list as a PDF, sent to your WhatsApp.</p></div>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow fade" style="color:var(--bronze-l)">Visit</span>
+      <h2 class="split">See the sample home in person.</h2>
+      <p class="fade" style="--d:.2s">The sample 3BHK from the film is built and furnished at the site. Pick a day and we'll send a car from anywhere in the Financial District.</p>
+      <div class="addr fade" style="--d:.3s"><b>Tessera Heights site office</b><span>Survey No. 240, Neopolis Layout, Kokapet, Hyderabad 500075</span><span>Open every day, 10 am – 7 pm · <a href="tel:+914048002400">+91 40 4800 2400</a></span></div>
+    </div>
+    <div id="formbox" class="fade" style="--d:.25s">
+      <form name="site-visit" method="POST" data-netlify="true" netlify-honeypot="bot" id="vform">
+        <input type="hidden" name="form-name" value="site-visit"><p hidden><label>Leave empty <input name="bot"></label></p>
+        <input type="hidden" name="emi" id="femi">
+        <div class="two"><label class="f">Name<input name="name" required autocomplete="name"></label><label class="f">Phone<input name="phone" required type="tel" autocomplete="tel" inputmode="tel"></label></div>
+        <div class="two"><label class="f">Interested in<select name="home" id="fhome"><option>2BHK</option><option selected>3BHK</option><option>4BHK</option></select></label>
+          <label class="f">Preferred day<select name="day"><option>This weekend</option><option>A weekday</option><option>Next week</option></select></label></div>
+        <label class="f">Budget<select name="budget"><option>Under ₹2 Cr</option><option selected>₹2 – 3 Cr</option><option>₹3 – 4 Cr</option><option>Above ₹4 Cr</option></select></label>
+        <label class="check"><input type="checkbox" name="pickup" checked> Send a car to pick me up</label>
+        <label class="check"><input type="checkbox" name="brochure" checked> Send me the brochure and price list on WhatsApp</label>
+        <button class="btn" type="submit">Book my site visit</button>
+      </form>
+      <div class="sent" role="status"><h3>Site visit booked.</h3><p>Our relationship manager will call you within the hour to confirm the time. The brochure is on its way to your WhatsApp.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer><span class="big split" aria-hidden="true">TESSERA</span><div class="wrap row"><span>© 2026 Tessera Heights · Kokapet, Hyderabad · TS RERA P02400009187</span><span>Concept project · site by SEVORA</span></div></footer>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const IMG=window.TESSERA_IMGS||{};
+const src=n=>IMG[n]||`img/${n}.webp`;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const inr=v=>'₹'+Math.round(v).toLocaleString('en-IN');
+const crore=v=>v>=1e7?`₹${(v/1e7).toFixed(2).replace(/\.?0+$/,'')} Cr`:`₹${(v/1e5).toFixed(1).replace(/\.0$/,'')} L`;
+
+/* ================= the tour ================= */
+const LEGS=[[0, 68], [69, 142], [143, 211], [212, 277], [278, 349]];
+const EMB=window.SEQ_FRAMES||null,N=EMB?EMB.length:(LEGS.length?LEGS[LEGS.length-1][1]+1:0);
+const DIR=innerWidth<=900?'frames-m':'frames';
+const STEP=(DIR==='frames-m'&&!EMB)?3:1;           // phones load every third frame
+const frameUrl=i=>EMB?EMB[i]:`${DIR}/frame-${String(i+1).padStart(3,'0')}.webp`;
+const STOPS=['The plot','The towers','Living room','Bedroom','The podium','Arrival'];
+const DWELL=[.06,.09,.09,.08,.08,.06],WALK=[.16,.12,.1,.1,.1];
+const PLAN=[];{let t=0;for(let s=0;s<STOPS.length;s++){PLAN.push({kind:'stop',s,a:t,b:t+DWELL[s]});t+=DWELL[s];if(s<WALK.length){PLAN.push({kind:'walk',leg:s,a:t,b:t+WALK[s]});t+=WALK[s]}}PLAN.forEach(p=>{p.a/=t;p.b/=t})}
+const PINS={1:[[.29,.42,'Tower A','G + 32 · lake facing'],[.66,.42,'Tower B','G + 32 · hill facing'],[.5,.86,'Podium','2.1 acres of green']],
+  2:[[.5,.4,'Window wall','10 ft, lake view'],[.62,.72,'Living room','22 × 16 ft'],[.93,.42,'Stone wall','Italian marble']],
+  3:[[.5,.42,'Floor-to-ceiling glass','Facing Osman Sagar'],[.88,.66,'Master bedroom','16 × 14 ft']],
+  4:[[.52,.72,'Infinity pool','50 m'],[.82,.55,'Cabanas','Bookable'],[.46,.44,'Palm court','Shaded seating']],
+  5:[[.5,.84,'Arrival court','Water feature'],[.5,.58,'Main gate','24 × 7 security']]};
+const tour=document.querySelector('.tour'),cv=document.getElementById('tour'),ctx=cv.getContext('2d');
+const stops=[...document.querySelectorAll('.stop')],pinsEl=document.getElementById('pins'),routeEl=document.getElementById('route'),loadEl=document.getElementById('loading'),fcount=document.getElementById('fcount'),floorsEl=document.getElementById('floors');
+const frames=new Array(N);let target=0,cur=0,loaded=0,openQ=0;
+const ok=im=>im&&im.complete&&im.naturalWidth>0;
+(function(){const order=[],seen=new Set();
+  LEGS.forEach(([a,b])=>[6,2,1].forEach(st=>{for(let i=a;i<=b;i+=st){if(STEP>1&&i%STEP)continue;if(!seen.has(i)){seen.add(i);order.push(i)}}}));
+  const total=order.length;let at=0;const next=()=>{if(at>=order.length)return;const i=order[at++];const im=new Image();im.decoding='async';
+    im.onload=im.onerror=()=>{frames[i]=im;loaded++;openerProgress();loadEl.textContent=loaded<total?`Loading the film ${Math.round(loaded/total*100)}%`:'';if(loaded>=total)loadEl.hidden=true;next()};im.src=frameUrl(i)};
+  for(let k=0;k<6;k++)next();if(!N)loadEl.textContent='Film coming soon'})();
+function size(){const d=Math.min(devicePixelRatio,2);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d;ctx.imageSmoothingQuality='high'}
+function geom(img){const W=cv.width,H=cv.height,iw=img.naturalWidth,ih=img.naturalHeight,s=Math.max(W/iw,H/ih);const wide=W/H>1.1;return {x:wide?(W-iw*s)/2:(W-iw*s)*.45,y:(H-ih*s)/2,w:iw*s,h:ih*s}}
+function nearest(i){if(ok(frames[i]))return frames[i];for(let k=1;k<N;k++){if(ok(frames[i-k]))return frames[i-k];if(ok(frames[i+k]))return frames[i+k]}return null}
+function locate(p){let f=0,stop=-1,o=0,leg=-1,k=0;
+  for(const seg of PLAN){if(p>=seg.a&&p<=seg.b){k=(p-seg.a)/(seg.b-seg.a);
+    if(seg.kind==='stop'){stop=seg.s;f=seg.s===0?0:LEGS[seg.s-1][1];o=Math.min(1,k/.2,(1-k)/.2);if(seg.s===0)o=Math.min(1,(1-k)/.2);if(seg.s===STOPS.length-1)o=Math.min(1,k/.2)}
+    else{leg=seg.leg;const [a,b]=LEGS[seg.leg];f=a+ease(k)*(b-a)}break}}
+  if(p>=1){stop=STOPS.length-1;o=1;f=N-1}
+  return {f,stop,o:clamp(o),leg,k}}
+const pinNodes={};Object.entries(PINS).forEach(([s,list])=>{pinNodes[s]=list.map(([x,y,t,sub])=>{const d=document.createElement('div');d.className='pin-dot'+(x>.72?' l':'');
+  d.innerHTML=`<b></b><span>${t}<small>${sub}</small></span>`;pinsEl.appendChild(d);return {d,x,y}})});
+function draw(L){if(!N)return;const img=nearest(Math.round(L.f));if(!img)return;const g=geom(img);ctx.drawImage(img,g.x,g.y,g.w,g.h);
+  const dpr=cv.width/Math.max(1,cv.clientWidth);
+  Object.entries(pinNodes).forEach(([s,list])=>{const on=+s===L.stop&&L.o>.85;list.forEach(({d,x,y},i)=>{d.style.left=((g.x+x*g.w)/dpr)+'px';d.style.top=((g.y+y*g.h)/dpr)+'px';d.style.transitionDelay=on?(i*.12+.1)+'s':'0s';d.classList.toggle('on',on)})});
+  // floors counter while the towers rise
+  let fl=null;if(L.leg===0)fl=Math.round(clamp((L.k-.3)/.6)*32);else if(L.stop===0)fl=0;else if(L.stop===1)fl=32;
+  floorsEl.style.opacity=fl===null?0:1;if(fl!==null)fcount.textContent=fl}
+function lastStop(f){let s=0;LEGS.forEach(([a,b],i)=>{if(f>=b-.5)s=i+1});return s}
+function panels(L){const wide=innerWidth>900;stops.forEach((el,i)=>{const o=i===L.stop?L.o:0;
+  el.style.opacity=o;el.style.visibility=o>0?'visible':'hidden';el.style.transform=wide?`translateY(calc(-50% + ${(1-o)*22}px))`:`translateY(${(1-o)*22}px)`;
+  el.querySelectorAll('a').forEach(a=>a.tabIndex=o>.5?0:-1)});
+  const ls=lastStop(L.f);routeItems.forEach((li,i)=>{li.classList.toggle('on',i===(L.stop>=0?L.stop:ls));li.classList.toggle('done',i<ls)})}
+const routeItems=STOPS.map((n,i)=>{const li=document.createElement('li');li.innerHTML=`<button type="button">${n}<i></i></button>`;
+  li.querySelector('button').onclick=()=>{const seg=PLAN.find(p=>p.kind==='stop'&&p.s===i),O=openSpan(),span=tour.offsetHeight-innerHeight-O;
+    scrollTo({top:tour.offsetTop+O+span*((seg.a+seg.b)/2),behavior:reduce?'auto':'smooth'})};routeEl.appendChild(li);return li});
+function openSpan(){return reduce?0:innerHeight*1.7}
+function read(){const r=tour.getBoundingClientRect(),O=openSpan(),span=tour.offsetHeight-innerHeight-O,v=span>1?(-r.top-O)/span:0;target=Number.isFinite(v)?clamp(v):0;openQ=-r.top/Math.max(1,O)}
+addEventListener('scroll',read,{passive:true});addEventListener('resize',()=>{size();read()});size();read();cur=target;
+const nav=document.getElementById('nav');addEventListener('scroll',()=>nav.classList.toggle('solid',tour.getBoundingClientRect().bottom<80),{passive:true});
+
+
+/* keyboard: inside the tour, Space / Page Down / arrows move one stop at a time */
+addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,select,textarea,button'))return;
+  const r=tour.getBoundingClientRect();if(r.top>1||r.bottom<innerHeight)return;
+  const fwd=['PageDown','ArrowDown',' '].includes(e.key)&&!e.shiftKey,back=['PageUp','ArrowUp'].includes(e.key)||(e.key===' '&&e.shiftKey);if(!fwd&&!back)return;
+  const O=openSpan(),span=tour.offsetHeight-innerHeight-O;if(-r.top<O)return;
+  const mids=PLAN.filter(p=>p.kind==='stop').map(p=>(p.a+p.b)/2),now=target;
+  const next=fwd?mids.find(m=>m>now+.004):[...mids].reverse().find(m=>m<now-.004);
+  if(next===undefined)return;e.preventDefault();scrollTo({top:tour.offsetTop+O+span*next,behavior:'smooth'})});
+
+/* ================= opener: letters rise like floors ================= */
+const opener=document.getElementById('opener'),obar=document.getElementById('obar'),opct=document.getElementById('opct');
+const omark=document.getElementById('omark');omark.innerHTML=[...'TESSERA'].map(c=>`<span class="ch"><span>${c}</span></span>`).join('');
+const letters=[...omark.querySelectorAll('.ch>span')],osub=document.getElementById('osub'),otag=document.getElementById('otag'),ocue=document.getElementById('ocue'),oin=document.getElementById('oin'),obg=document.getElementById('obg'),ogrid=document.getElementById('ogrid'),ometa=document.getElementById('ometa');
+function firstLeg(){if(!LEGS.length)return 1;const [a,b]=LEGS[0];let c=0,t=0;for(let i=a;i<=b;i+=STEP){t++;if(frames[i])c++}return c/t}
+function openerProgress(){const k=firstLeg();obar.parentElement.style.setProperty('--p',k.toFixed(3));opct.textContent=k<1?`Preparing the film · ${Math.round(k*100)}%`:'Film ready'}
+function drawOpener(q){if(reduce){opener.classList.add('off');nav.style.opacity=1;nav.style.pointerEvents='auto';return}
+  q=clamp(q,0,1.2);opener.classList.toggle('off',q>=1.02);
+  letters.forEach((el,i)=>{const s=-.16+i*.085,k=clamp((q-s)/.16),e=1-Math.pow(1-k,3);el.style.transform=`translateY(${(1-e)*100}%)`});
+  const t=clamp((q-.5)/.1),u=clamp((q-.56)/.1);osub.style.opacity=t;otag.style.opacity=u;otag.style.transform=`translateY(${(1-u)*10}px)`;
+  ocue.style.opacity=1-clamp(q/.12);
+  const sp=clamp((q-.72)/.28),e=sp<.5?4*sp*sp*sp:1-Math.pow(-2*sp+2,3)/2;      // the ground opens from a slit in the middle
+  obg.style.clipPath=`polygon(0 0,100% 0,100% ${50-e*50.5}%,0 ${50-e*50.5}%,0 ${50+e*50.5}%,100% ${50+e*50.5}%,100% 100%,0 100%)`;
+  ogrid.style.opacity=1-clamp((q-.72)/.12);oin.style.opacity=1-clamp((q-.7)/.14);oin.style.transform=`translateY(${-e*40}px)`;
+  ometa.style.opacity=obar.parentElement.style.opacity=1-clamp((q-.7)/.1);
+  nav.style.opacity=clamp((q-.82)/.18);nav.style.pointerEvents=q>.9?'auto':'none'}
+openerProgress();
+
+/* ================= floor plans ================= */
+// 3BHK is laid out to match the walk in the film: living → kitchen → corridor → master bedroom with the lake window
+const HOMES={
+ 2:{t:'2BHK · Tower B',price:'₹1.48 Cr',rows:[['Carpet area','1,180 sq ft'],['Super built-up','1,640 sq ft'],['Facing','North, hill view'],['Bathrooms','2'],['Balconies','2'],['Floors','3 – 32']],
+   rooms:[[20,20,300,220,'Living + dining','22 × 15'],[320,20,180,140,'Kitchen','11 × 10'],[320,160,180,80,'Utility',''],[20,240,240,200,'Bedroom 2','12 × 11'],[260,240,240,200,'Master bedroom','14 × 13'],[500,20,80,420,'Balcony','']],route:''},
+ 3:{t:'3BHK · Tower A',price:'₹2.4 Cr',rows:[['Carpet area','1,720 sq ft'],['Super built-up','2,380 sq ft'],['Facing','East, lake view'],['Bathrooms','3'],['Balconies','3'],['Floors','5 – 32']],
+   rooms:[[20,20,320,230,'Living','22 × 16'],[340,20,180,150,'Kitchen','12 × 11'],[340,170,180,80,'Utility',''],[20,250,170,190,'Bedroom 2','12 × 11'],[190,250,150,190,'Bedroom 3','11 × 11'],[340,250,240,190,'Master bedroom','16 × 14'],[520,20,60,230,'',''],[580,20,60,420,'Balcony','']],
+   route:'M180 170 C 250 150, 300 110, 400 100 S 430 210, 440 300 S 520 360, 560 340'},
+ 4:{t:'4BHK · Tower A, upper floors',price:'₹3.6 Cr',rows:[['Carpet area','2,560 sq ft'],['Super built-up','3,450 sq ft'],['Facing','East and north, corner'],['Bathrooms','4 + powder'],['Balconies','4'],['Floors','18 – 32']],
+   rooms:[[20,20,340,220,'Living + dining','24 × 18'],[360,20,190,140,'Kitchen','13 × 12'],[360,160,190,80,'Utility + staff',''],[20,240,150,200,'Bedroom 2','12 × 12'],[170,240,150,200,'Bedroom 3','12 × 12'],[320,240,130,200,'Bedroom 4','11 × 12'],[450,240,190,200,'Master bedroom','17 × 15'],[550,20,90,220,'Balcony','']],route:''}};
+function planSVG(h){const r=h.rooms.map(([x,y,w,hh,n,d],i)=>`<g><rect class="room${n==='Master bedroom'||n==='Living'?' hl':''}" x="${x}" y="${y}" width="${w}" height="${hh}"/><rect class="in" x="${x}" y="${y}" width="${w}" height="${hh}"/>${n?`<text x="${x+w/2}" y="${y+hh/2}" text-anchor="middle">${n}</text>`:''}${d?`<text class="dim" x="${x+w/2}" y="${y+hh/2+18}" text-anchor="middle">${d} ft</text>`:''}</g>`).join('');
+  return `<svg viewBox="0 0 660 460" role="img" aria-label="Floor plan of the ${h.t}">${r}<rect class="wall" x="20" y="20" width="${h.rooms.some(q=>q[0]+q[2]>600)?620:560}" height="420"/>${h.route?`<path class="route" id="rt" d="${h.route}"/>`:''}</svg>`}
+function showPlan(k){const h=HOMES[k];document.getElementById('planSvg').innerHTML=planSVG(h);document.getElementById('pk').textContent=h.t;document.getElementById('pprice').textContent=h.price;
+  document.getElementById('pdl').innerHTML=h.rows.map(([a,b])=>`<div><dt>${a}</dt><dd>${b}</dd></div>`).join('');document.getElementById('pcta').textContent=`Request the ${k}BHK floor plan`;
+  document.getElementById('legend').style.visibility=h.route?'visible':'hidden';document.getElementById('fhome').value=`${k}BHK`;
+  const rt=document.getElementById('rt');if(rt&&!reduce){const L=rt.getTotalLength();rt.style.strokeDasharray=`8 7`;rt.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:1600,easing:'ease-out'})}
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.k==k))}
+document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showPlan(b.dataset.k)});
+showPlan(3);
+
+/* ================= EMI ================= */
+const R=id=>document.getElementById(id);
+function emi(){const price=+R('r-price').value*1e5,down=+R('r-down').value/100,rate=+R('r-rate').value,yrs=+R('r-yrs').value;
+  const P=price*(1-down),m=rate/1200,n=yrs*12,E=P*m*Math.pow(1+m,n)/(Math.pow(1+m,n)-1),I=E*n-P;
+  R('o-price').textContent=crore(price);R('o-down').textContent=`${Math.round(down*100)}% · ${crore(price*down)}`;R('o-rate').textContent=`${rate.toFixed(2)}%`;R('o-yrs').textContent=`${yrs} years`;
+  R('emiv').textContent=inr(Math.round(E/100)*100);R('emisub').textContent=`a month for ${yrs} years, on a loan of ${crore(P)}`;
+  R('bp').style.width=(P/(P+I)*100)+'%';R('bq').style.width=(I/(P+I)*100)+'%';
+  R('lp').textContent=crore(P);R('li').textContent=crore(I);R('ld').textContent=crore(price*down);
+  R('femi').value=`${inr(E)} / month · price ${crore(price)}, ${Math.round(down*100)}% down, ${rate}% for ${yrs} yrs`}
+['r-price','r-down','r-rate','r-yrs'].forEach(id=>R(id).addEventListener('input',emi));emi();
+
+/* images */
+document.querySelectorAll('img[data-img]').forEach(im=>im.src=src(im.dataset.img));
+
+/* form */
+R('vform').addEventListener('submit',e=>{e.preventDefault();const f=e.target,done=()=>R('formbox').classList.add('done');
+  if(window.SEVORA_LIVE){fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(done).catch(done)}else done()});
+
+/* motion for the rest of the page */
+document.querySelectorAll('.split').forEach(h=>{let i=0;const frag=document.createDocumentFragment();h.textContent.trim().split(/\s+/).forEach((w,k)=>{if(k)frag.appendChild(document.createTextNode(' '));
+  const o=document.createElement('span');o.className='w';const n=document.createElement('span');n.style.setProperty('--i',i++);n.textContent=w;o.appendChild(n);frag.appendChild(o)});h.textContent='';h.appendChild(frag)});
+function countUp(el){const m=el.textContent.match(/^(\D*)(\d[\d,]*)(.*)$/);if(!m)return;const to=+m[2].replace(/,/g,''),t0=performance.now();
+  (function tick(now){const k=Math.min(1,(now-t0)/1400),v=Math.round(to*(1-Math.pow(1-k,3)));el.textContent=m[1]+v.toLocaleString('en-IN')+m[3];if(k<1)requestAnimationFrame(tick)})(t0)}
+if(reduce||!('IntersectionObserver' in window)){document.documentElement.classList.add('no-motion')}else{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target);
+    e.target.querySelectorAll('[data-count]').forEach(countUp)}),{threshold:.18,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.split,.fade,.reveal,.drives').forEach(el=>io.observe(el))}
+
+/* loop */
+(function loop(){{const d=(target-cur)*(reduce?1:.12),MAX=reduce?1:.0028;cur+=Math.max(-MAX,Math.min(MAX,d));if(Math.abs(target-cur)<.0003)cur=target;}const L=locate(cur);draw(L);panels(L);drawOpener(openQ);requestAnimationFrame(loop)})();
+</script>
+</body>
+</html>
