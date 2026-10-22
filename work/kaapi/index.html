@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Kaapi Theory, Jubilee Hills: specialty pour-over and filter kaapi, order ahead for pickup in 10 minutes.">
+<link rel="preload" as="image" href="frames/frame-001.webp">
+<script>window.SEVORA_LIVE=true;</script>
+<title>Kaapi Theory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: light poster template. Oat-paper stage with a scroll-scrubbed pour-over, giant condensed type on the left;
+   a KURO-style ordering counter (spinning top-down cups, ingredient callouts, fly-to-cart); brew calculator;
+   espresso-dark beans band; visit. Single deliberate light look. */
+:root{
+  --oat:#EDE6DA; --paper:#F6F1E8; --ink:#1C130E; --muted:#6E5F53; --line:#D6CABA;
+  --orange:#F2541B; --orange-ink:#FFFFFF; --espresso:#21150F; --brass:#B8893A;
+  --stage:#E5D4BE;
+  --display:"Big Shoulders Display",Impact,"Arial Narrow",sans-serif;
+  --body:"Instrument Sans",system-ui,sans-serif; --mono:"DM Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--oat);color:var(--ink);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit}
+.wrap{max-width:1220px;margin:0 auto;padding-inline:20px}
+.edge{max-width:none;padding-inline:clamp(20px,3.2vw,48px)}
+h1,h2,h3{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.86;letter-spacing:-.005em;margin:0;text-wrap:balance}
+.label{font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.label b{color:var(--orange);font-weight:500}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:13px 22px;font:600 15px var(--body);cursor:pointer;text-decoration:none;transition:transform .2s,background .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-orange{background:var(--orange);color:var(--orange-ink)}
+.btn-ink{background:var(--ink);color:var(--paper)}
+.btn-line{background:transparent;border:1.5px solid var(--ink)}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:60;padding-top:env(safe-area-inset-top,0px);transition:background .35s,box-shadow .35s}
+nav.solid{background:rgba(237,230,218,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+nav .edge{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:900 24px/1 var(--display);letter-spacing:.02em;text-transform:uppercase}
+.logo i{width:26px;height:26px;border-radius:50%;background:var(--orange);display:grid;place-items:center}
+.logo i::after{content:"";width:9px;height:14px;border-radius:50%;border:2px solid var(--paper);transform:rotate(28deg)}
+.nl{display:flex;gap:26px;font-weight:500;font-size:15px}
+.nl a{text-decoration:none}.nl a:hover{color:var(--orange)}
+.cartpill{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);border:0;border-radius:999px;padding:8px 8px 8px 16px;cursor:pointer;font:600 14px var(--body)}
+.cartpill .tot{font-variant-numeric:tabular-nums}
+.cartpill .ct{min-width:28px;height:28px;border-radius:999px;background:var(--orange);color:#fff;display:grid;place-items:center;font:600 13px var(--mono);transition:transform .3s}
+.cartpill .ct.bump{transform:scale(1.35)}
+
+/* hero: GRIND -> BREW -> KAAPI. giant word behind, object centre, info at the sides */
+.scrolly{position:relative;height:480vh;background:var(--stage)}
+.pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--stage)}
+.words{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.word{grid-area:1/1;font:900 clamp(110px,21vw,360px)/.8 var(--display);text-transform:uppercase;letter-spacing:-.01em;color:var(--orange);white-space:nowrap;will-change:opacity,transform;user-select:none;translate:0 -10vh}
+.word.ink{color:var(--ink)}
+.word:not(:first-child),.beat:not([data-in="-1"]){opacity:0;visibility:hidden}
+#seq{position:absolute;inset:0;width:100%;height:100%;display:block}
+.beats{position:absolute;inset:0;pointer-events:none}
+.beat{position:absolute;left:clamp(20px,4vw,64px);bottom:clamp(64px,10vh,110px);width:min(400px,28vw);will-change:opacity,transform}
+.beat.side{left:auto;right:clamp(20px,4vw,64px);width:min(300px,21vw)}
+.beat .num{display:block;font:800 15px var(--display);letter-spacing:.06em;color:var(--orange);margin-bottom:10px}
+.beat h1,.beat h2{font-size:clamp(44px,4.6vw,78px)}
+.beat h1 em,.beat h2 em{font-style:normal;color:var(--orange)}
+.beat p{margin:16px 0 0;font-size:16px;color:#3B2E25}
+.beat .nums{display:flex;gap:24px;margin-top:18px}
+.beat .nums div{display:grid}
+.beat .nums b{font:800 38px/1 var(--display);font-variant-numeric:tabular-nums}
+.beat .nums span{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.beat .btn{pointer-events:auto;margin-top:22px}
+.facts-mini{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.facts-mini li{display:grid;gap:2px;padding:12px 0;border-top:1.5px solid var(--ink)}
+.facts-mini b{font:800 22px/1 var(--display);text-transform:uppercase}
+.facts-mini span{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.kcards{display:grid;gap:12px}
+.kcard{background:var(--paper);border:1.5px solid var(--ink);border-radius:16px;padding:14px 16px;box-shadow:4px 4px 0 var(--ink);transform:translateX(40px) rotate(2deg);opacity:0;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .5s}
+.kcard:nth-child(2){transition-delay:.12s}.kcard:nth-child(3){transition-delay:.24s}
+.live .kcard{transform:none;opacity:1}
+.kcard .label{display:block;margin-bottom:4px}
+.kcard b{font:800 24px/1 var(--display);text-transform:uppercase}
+.kcard p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+.prog{position:absolute;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;gap:clamp(12px,2.4vw,28px);font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.prog span{display:block;padding-top:9px;border-top:1.5px solid rgba(28,19,14,.18);min-width:70px;transition:color .3s,border-color .3s}
+.prog span.on{color:var(--ink);border-top-color:var(--orange)}
+.loading{position:absolute;right:clamp(20px,3vw,40px);bottom:calc(20px + env(safe-area-inset-bottom,0px));font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* marquee bands */
+.band{overflow:hidden;white-space:nowrap;border-block:1.5px solid var(--ink);background:var(--paper)}
+.band .row{display:inline-flex;gap:28px;padding:12px 0;animation:mq 38s linear infinite;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.band .row span::after{content:"✦";margin-left:28px;color:var(--orange)}
+.mega{overflow:hidden;white-space:nowrap;padding-block:22px;color:#EBDDC8;
+  background:radial-gradient(60% 140% at 50% 50%,#3A2518 0%,#21150F 70%);border-block:1.5px solid #120B07}
+.mega .row{display:inline-flex;align-items:center;animation:mq 44s linear infinite;font:900 clamp(54px,7.6vw,124px)/.9 var(--display);text-transform:uppercase;letter-spacing:.005em}
+.mega .row span{padding-inline:.18em}
+.mega .row span.o{color:transparent;-webkit-text-stroke:1.5px #C99A5E}
+.mega .row i{flex:none;width:.3em;height:.42em;margin-inline:.32em;transform:rotate(28deg);
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 -11 16 22'%3E%3Cellipse rx='7' ry='10.5' fill='%23C99A5E'/%3E%3Cpath d='M.6-9.2C-3.6-4 3.8 2.6-.6 9.2' fill='none' stroke='%2321150F' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ordering counter */
+section{position:relative;padding-block:96px;isolation:isolate;overflow:hidden}
+/* coffee beans: a faint scattered pattern behind every section, fading out at the section edges */
+section::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22440%22%20height%3D%22440%22%3E%3Cg%20transform%3D%22translate%28150%2080%29%20rotate%28284%29%20scale%280.86%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28280%2049%29%20rotate%28288%29%20scale%280.95%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28234%20166%29%20rotate%28143%29%20scale%281.33%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2843%20223%29%20rotate%28341%29%20scale%280.99%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2848%2056%29%20rotate%2861%29%20scale%281.18%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28190%20351%29%20rotate%2854%29%20scale%280.83%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28271%20399%29%20rotate%28290%29%20scale%281.29%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28411%2039%29%20rotate%28298%29%20scale%280.84%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28363%20136%29%20rotate%28237%29%20scale%281.34%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28146%20254%29%20rotate%28198%29%20scale%280.96%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28338%20300%29%20rotate%285%29%20scale%280.83%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28356%20398%29%20rotate%28234%29%20scale%281.33%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2844%20327%29%20rotate%28336%29%20scale%281.07%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28226%20267%29%20rotate%28314%29%20scale%281.01%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28121%20159%29%20rotate%2876%29%20scale%281.25%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28320%20211%29%20rotate%28105%29%20scale%280.90%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%233B2416%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%23E5D4BE%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 0 0/440px 440px;opacity:.085;
+  -webkit-mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent)}
+section.beans::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22440%22%20height%3D%22440%22%3E%3Cg%20transform%3D%22translate%28201%20244%29%20rotate%28247%29%20scale%280.96%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28390%20206%29%20rotate%28314%29%20scale%281.29%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2894%20225%29%20rotate%28285%29%20scale%281.00%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28272%20337%29%20rotate%28206%29%20scale%281.27%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2858%20141%29%20rotate%28138%29%20scale%281.12%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2856%20344%29%20rotate%28219%29%20scale%281.10%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28297%2037%29%20rotate%28230%29%20scale%280.80%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28413%20406%29%20rotate%28317%29%20scale%281.35%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2883%2026%29%20rotate%28140%29%20scale%281.19%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28196%20357%29%20rotate%28209%29%20scale%281.19%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28203%20131%29%20rotate%28302%29%20scale%281.01%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28356%20303%29%20rotate%28270%29%20scale%280.80%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28331%20128%29%20rotate%28216%29%20scale%280.77%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28198%2044%29%20rotate%2883%29%20scale%281.04%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28148%20420%29%20rotate%28179%29%20scale%281.17%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28337%20386%29%20rotate%28331%29%20scale%281.12%29%22%3E%3Cellipse%20rx%3D%227%22%20ry%3D%2210.5%22%20fill%3D%22%23E8D9C4%22%2F%3E%3Cpath%20d%3D%22M.6-9.2C-3.6-4%203.8%202.6-.6%209.2%22%20fill%3D%22none%22%20stroke%3D%22%2321150F%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");opacity:.07}
+#brew::before{background-position:180px 120px}#visit::before{background-position:90px 260px}
+/* a few real roasted beans at the edges, some out of focus, drifting gently on scroll */
+.fbean{position:absolute;z-index:-1;pointer-events:none;width:var(--w);aspect-ratio:320/306;background:url("img/bean.webp") center/contain no-repeat;
+  filter:drop-shadow(0 10px 14px rgba(33,21,15,.22)) blur(var(--b,0px));will-change:transform}
+.beans .fbean{filter:drop-shadow(0 10px 18px rgba(0,0,0,.45)) blur(var(--b,0px)) brightness(.95)}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px;margin-bottom:36px}
+.sec-head h2{font-size:clamp(56px,8vw,120px)}
+.sec-head p{max-width:42ch;margin:0;color:var(--muted)}
+.counter{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,.9fr);gap:28px;align-items:center;background:var(--paper);border:1.5px solid var(--ink);border-radius:28px;padding:36px;position:relative;overflow:hidden}
+.counter::before{content:"";position:absolute;left:50%;top:50%;width:70%;aspect-ratio:1;transform:translate(-62%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(242,84,27,.16),transparent 62%);pointer-events:none}
+.info{position:relative;display:grid;gap:14px;align-content:center;min-width:0}
+.idx{display:flex;align-items:center;gap:10px;font:500 12px var(--mono);color:var(--muted)}
+.idx i{width:44px;height:1.5px;background:var(--ink);display:block;position:relative;overflow:hidden}
+.idx i::after{content:"";position:absolute;inset:0;background:var(--orange);transform-origin:left;transform:scaleX(var(--k,0));transition:transform .5s}
+.info .cat{font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.info h3{font-size:clamp(52px,6vw,92px)}
+.info .note{font:500 12px var(--mono);letter-spacing:.06em;color:var(--muted)}
+.info p{margin:0;color:#3B2E25;max-width:36ch}
+.buy{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:6px}
+.buy .price{font:800 40px/1 var(--display);font-variant-numeric:tabular-nums}
+.hint{font:500 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.stage{position:relative;aspect-ratio:1;max-width:100%;min-width:0}
+.plate{position:absolute;inset:9%;border-radius:50%;cursor:pointer;outline-offset:6px}
+.plate img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border-radius:50%;filter:drop-shadow(0 26px 30px rgba(40,24,12,.28));will-change:transform}
+.plate img.out-l{transition:transform .7s cubic-bezier(.6,0,.4,1),opacity .7s;transform:translateX(-130%) rotate(-200deg)!important;opacity:0}
+.plate img.out-r{transition:transform .7s cubic-bezier(.6,0,.4,1),opacity .7s;transform:translateX(130%) rotate(200deg)!important;opacity:0}
+.callouts{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.callouts line{stroke:var(--ink);stroke-width:1;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);opacity:0;transition:stroke-dashoffset .6s ease var(--dl),opacity .15s var(--dl)}
+.callouts circle{fill:var(--orange);stroke:var(--paper);stroke-width:2;opacity:0;transition:opacity .3s var(--dl)}
+.callouts text{font:500 12px var(--mono);fill:var(--ink);opacity:0;transition:opacity .4s calc(var(--dl) + .35s)}
+.stage.show .callouts line{stroke-dashoffset:0;opacity:1}
+.stage.show .callouts circle,.stage.show .callouts text{opacity:1}
+.counter.focus .info,.counter.focus .list{opacity:.28;transition:opacity .4s}
+.info,.list{transition:opacity .4s}
+.arrows{position:absolute;left:50%;bottom:0;transform:translateX(-50%);display:flex;gap:8px}
+.arrows button{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);background:var(--paper);cursor:pointer}
+.arrows button:hover{background:var(--ink);color:var(--paper)}
+.ing-toggle{display:none}
+.list{display:grid;gap:6px;align-content:center;min-width:0;position:relative}
+.list button{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:8px 12px 8px 8px;border-radius:16px;border:1.5px solid transparent;background:none;cursor:pointer;text-align:left}
+.list button:hover{background:rgba(28,19,14,.05)}
+.list button[aria-current="true"]{border-color:var(--ink);background:var(--oat)}
+.list img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.list b{font-weight:600;font-size:15px;display:block}
+.list small{font:500 11px var(--mono);color:var(--muted)}
+.list .pr{font:500 13px var(--mono);font-variant-numeric:tabular-nums}
+
+/* brew guide */
+.brew{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+.stats{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--ink);border-radius:24px;overflow:hidden;background:var(--paper)}
+.stat{padding:26px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);display:grid;gap:4px;min-width:0}
+.stat:nth-child(2n){border-right:0}.stat:nth-last-child(-n+2){border-bottom:0}
+.stat b{font:900 clamp(56px,6vw,84px)/.9 var(--display);font-variant-numeric:tabular-nums}
+.stat b small{font-size:.45em;margin-left:4px}
+.stat span{font-weight:600}
+.stat p{margin:0;color:var(--muted);font-size:14px}
+.calc{background:var(--ink);color:var(--paper);border-radius:24px;padding:30px;display:grid;gap:20px}
+.calc h3{font-size:44px}
+.calc .label{color:#B9A99A}
+.calc input[type=range]{width:100%;accent-color:var(--orange)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg button{border:1.5px solid #4A3A30;background:none;color:var(--paper);border-radius:12px;padding:10px 6px;cursor:pointer;display:grid;gap:2px}
+.seg button b{font:800 22px/1 var(--display)}
+.seg button small{font:500 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#B9A99A}
+.seg button[aria-pressed="true"]{background:var(--orange);border-color:var(--orange)}
+.seg button[aria-pressed="true"] small{color:#FFE3D6}
+.out{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;border-top:1px solid #3A2C23;padding-top:18px}
+.out div{display:grid}
+.out b{font:800 38px/1 var(--display);font-variant-numeric:tabular-nums}
+.out span{font:500 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#B9A99A}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14px;color:#D8CBBD;counter-reset:s}
+.steps li{display:grid;grid-template-columns:28px 1fr;gap:8px;counter-increment:s}
+.steps li::before{content:counter(s);font:500 12px var(--mono);color:var(--orange);padding-top:2px}
+
+/* beans: espresso band */
+.beans{background:var(--espresso);color:var(--paper)}
+.beans .sec-head p{color:#B9A99A}
+.beans .label{color:#B9A99A}
+.bags{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;perspective:1100px}
+.bag{border-radius:26px;padding:28px;min-height:420px;display:grid;align-content:space-between;gap:20px;color:var(--ink);position:relative;overflow:hidden;transition:transform .5s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d;min-width:0}
+.bag::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;border:1.5px solid currentColor;opacity:.2}
+.bag h3{font-size:clamp(48px,4.6vw,68px)}
+.bag .origin{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.bag .notes{display:flex;flex-wrap:wrap;gap:6px}
+.bag .notes span{font:500 12px var(--body);border:1.5px solid currentColor;border-radius:999px;padding:4px 10px}
+.bag .foot{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bag .price{font:800 34px/1 var(--display)}
+.bag .price small{font:500 11px var(--mono);letter-spacing:.06em}
+.bag .meter{display:grid;gap:6px;font:500 10px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.bag .meter i{display:block;height:6px;border-radius:6px;background:rgba(0,0,0,.14);position:relative;overflow:hidden}
+.bag .meter i::after{content:"";position:absolute;inset:0;width:var(--v);background:currentColor;border-radius:6px}
+.b1{background:var(--orange);color:#1C0B03}
+.b2{background:var(--paper);color:var(--ink)}
+.b3{background:var(--brass);color:#1E1305}
+.bag .btn{background:currentColor}
+.bag .btn span{color:var(--paper)}
+.b2 .btn span{color:var(--paper)}
+
+/* visit */
+.visit{display:grid;justify-items:center;text-align:center;gap:40px}
+.vhead{display:grid;justify-items:center;gap:14px}
+.visit h2{font-size:clamp(60px,8.4vw,132px);max-width:14ch}
+.facts{width:100%;max-width:1080px;display:grid;grid-template-columns:repeat(3,1fr);text-align:left;background:var(--paper);border:1.5px solid var(--ink);border-radius:24px;overflow:hidden;box-shadow:0 24px 50px -30px rgba(33,21,15,.45)}
+.facts div{display:grid;align-content:start;gap:8px;padding:26px 28px;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.facts div:nth-child(3n){border-right:0}.facts div:nth-last-child(-n+3){border-bottom:0}
+.facts span{font-size:18px;line-height:1.45;color:var(--ink);text-wrap:pretty}
+.facts a{color:inherit;text-decoration:none;border-bottom:1.5px solid var(--orange)}
+.vcta{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.facts b{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--orange)}
+footer{padding-block:28px;border-top:1.5px solid var(--ink);font-size:13px;color:var(--muted)}
+footer .edge{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+/* cart drawer */
+.scrim{position:fixed;inset:0;background:rgba(28,19,14,.35);opacity:0;pointer-events:none;transition:opacity .3s;z-index:70}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--paper);z-index:71;transform:translateX(102%);transition:transform .45s cubic-bezier(.2,.7,.2,1);display:grid;grid-template-rows:auto 1fr auto;border-left:1.5px solid var(--ink);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.open .scrim{opacity:1;pointer-events:auto}.open .drawer{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1.5px solid var(--ink)}
+.dh h3{font-size:40px}
+.x{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);background:none;cursor:pointer;font-size:18px}
+.dbody{overflow:auto;padding:16px 22px;display:grid;gap:14px;align-content:start}
+.line{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center}
+.line img{width:52px;height:52px;border-radius:50%;object-fit:cover}
+.line b{font-weight:600}
+.line small{display:block;font:500 12px var(--mono);color:var(--muted)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--ink);background:none;cursor:pointer}
+.qty span{min-width:18px;text-align:center;font:500 13px var(--mono)}
+.empty{color:var(--muted);text-align:center;padding:40px 0}
+.empty b{display:block;font:900 44px/1 var(--display);color:var(--ink);text-transform:uppercase;margin-bottom:8px}
+.dfoot{border-top:1.5px solid var(--ink);padding:16px 22px;display:grid;gap:12px}
+.slots{display:flex;flex-wrap:wrap;gap:6px}
+.slots button{border:1.5px solid var(--ink);background:none;border-radius:999px;padding:6px 12px;font:500 12px var(--mono);cursor:pointer}
+.slots button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dfoot input{width:100%;border:1.5px solid var(--ink);border-radius:12px;padding:11px 12px;font:15px var(--body);background:var(--oat);color:var(--ink)}
+.dfoot input:focus{outline:none;border-color:var(--orange)}
+.sum{display:grid;gap:4px;font-size:14px;font-variant-numeric:tabular-nums}
+.sum div{display:flex;justify-content:space-between}
+.sum .total{font:800 28px/1 var(--display);padding-top:6px}
+.err{color:#B3361A;font-size:13px;min-height:1em}
+.done{display:grid;gap:14px;text-align:center;justify-items:center;padding:30px 4px}
+.done .tick{width:64px;height:64px;border-radius:50%;background:var(--orange);display:grid;place-items:center;color:#fff;font-size:30px}
+.done h3{font-size:56px}
+.done .oid{font:500 12px var(--mono);letter-spacing:.12em;color:var(--muted)}
+.track{display:grid;grid-template-columns:repeat(3,1fr);width:100%;margin-top:6px}
+.track div{display:grid;justify-items:center;gap:8px;font:500 10px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);position:relative}
+.track div::before{content:"";position:absolute;top:8px;left:-50%;right:50%;height:2px;background:var(--line)}
+.track div:first-child::before{display:none}
+.track div.on::before{background:var(--orange)}
+.track i{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);background:var(--paper);position:relative;z-index:1;transition:all .4s}
+.track div.on{color:var(--ink)}
+.track div.on i{border-color:var(--orange);background:var(--orange)}
+.track div.now i{box-shadow:0 0 0 6px rgba(242,84,27,.18)}
+.demo{font:500 10px var(--mono);color:var(--muted)}
+.flyer{position:fixed;z-index:80;border-radius:50%;pointer-events:none;object-fit:contain}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:90}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* reveals */
+.motion .rv{opacity:0;transform:translateY(34px);transition:opacity .8s ease calc(var(--d,0)*80ms),transform 1s cubic-bezier(.16,.8,.12,1) calc(var(--d,0)*80ms)}
+.motion .rv.in{opacity:1;transform:none}
+/* headings: words rise into place one by one */
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .02em .08em;margin:-.04em -.02em -.08em}
+.split .w>span{display:inline-block}
+.motion .split .w>span{transform:translateY(108%) rotate(4deg);transform-origin:left bottom;transition:transform 1s cubic-bezier(.16,.8,.12,1) calc(var(--i)*75ms + 120ms)}
+.motion .rv.in .split .w>span,.motion .split.in .w>span{transform:none}
+.motion .rv.split{opacity:1;transform:none}
+/* brew guide: cells arrive one after another, calculator slides in from the side */
+.motion .stats.rv{opacity:1;transform:none}
+.motion .stats .stat{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .9s cubic-bezier(.16,.8,.12,1)}
+.motion .stats .stat:nth-child(2){transition-delay:.12s}.motion .stats .stat:nth-child(3){transition-delay:.24s}.motion .stats .stat:nth-child(4){transition-delay:.36s}
+.motion .stats.in .stat{opacity:1;transform:none}
+.motion .calc.rv{transform:translateX(70px)}
+.motion .calc.rv.in{transform:none;transition-delay:.25s}
+/* beans: dealt from a stack like cards */
+.motion .bag.rv{opacity:0;transform:translate(var(--dx,0),70px) rotate(var(--rot,0deg));transition:opacity .6s ease calc(var(--d)*120ms + 150ms),transform 1.1s cubic-bezier(.16,.8,.12,1) calc(var(--d)*120ms + 150ms)}
+.motion .bag.rv.in{opacity:1;transform:none}
+.beans{clip-path:inset(0 var(--ix,0px) 0 var(--ix,0px) round var(--ir,0px))}
+/* visit: rows slide in and their rules draw across */
+.motion .facts.rv{transform:translateY(40px) scale(.97)}
+.motion .facts.rv.in{transform:none}
+.motion .facts div{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .8s cubic-bezier(.16,.8,.12,1)}
+.motion .facts.in div{opacity:1;transform:none}
+.motion .facts div:nth-child(1){transition-delay:.25s}.motion .facts div:nth-child(2){transition-delay:.33s}.motion .facts div:nth-child(3){transition-delay:.41s}
+.motion .facts div:nth-child(4){transition-delay:.49s}.motion .facts div:nth-child(5){transition-delay:.57s}.motion .facts div:nth-child(6){transition-delay:.65s}
+/* bag photos (optional): the pouch floats at the top of each card */
+.bag .pic{position:absolute;right:14px;top:-6px;width:46%;max-width:210px;aspect-ratio:3/4;object-fit:contain;filter:drop-shadow(0 18px 22px rgba(0,0,0,.28));transform:rotate(6deg);transition:transform .6s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.bag:hover .pic{transform:rotate(2deg) translateY(-8px)}
+.bag.has-pic h3{max-width:58%}
+
+@media (max-width:1000px){
+  .nl{display:none}
+  .counter{grid-template-columns:1fr;padding:22px;gap:16px}
+  .counter::before{transform:translate(-50%,-70%);width:120%}
+  .stage{order:-1;max-width:460px;margin:0 auto;width:100%}
+  .list{grid-auto-flow:column;grid-auto-columns:minmax(200px,1fr);overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+  .list button{scroll-snap-align:start}
+  .ing-toggle{display:inline-flex}
+  .brew{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr 1fr}.facts div:nth-child(3n){border-right:1.5px solid var(--ink)}.facts div:nth-child(2n){border-right:0}
+  .facts div:nth-last-child(-n+3){border-bottom:1.5px solid var(--ink)}.facts div:nth-last-child(-n+2){border-bottom:0}
+  .bags{grid-template-columns:1fr}
+  .bag{min-height:0}
+  .scrolly{height:440vh}
+  .word{font-size:34vw;translate:0 -22vh}
+  .beat{top:auto;bottom:62px;transform:none;width:auto;right:20px;background:linear-gradient(transparent,var(--stage) 18px);padding-top:18px}
+  .beat.side{display:none}
+  .beat h1,.beat h2{font-size:clamp(40px,11vw,64px)}
+  .beat p{font-size:15px;margin-top:10px}
+  .beat .nums{gap:20px;margin-top:12px}.beat .nums b{font-size:30px}
+  .beat p{font-size:15px}
+  .prog span{min-width:52px}
+}
+@media (max-width:560px){.facts{grid-template-columns:1fr}.facts div{border-right:0!important;border-bottom:1.5px solid var(--ink)!important;padding:18px 20px}.facts div:last-child{border-bottom:0!important}.facts span{font-size:16px}.fbean.edge-in{display:none}.stats{grid-template-columns:1fr}.stat{border-right:0!important;border-bottom:1.5px solid var(--ink)!important}.stat:last-child{border-bottom:0!important}.facts div{grid-template-columns:1fr}.pair{grid-template-columns:1fr}section{padding-block:72px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}.motion .rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav id="nav"><div class="edge">
+  <a class="logo" href="#top"><i></i>Kaapi Theory</a>
+  <div class="nl"><a href="#menu">Menu</a><a href="#brew">Brew guide</a><a href="#beans">Beans</a><a href="#visit">Visit</a></div>
+  <button class="cartpill" type="button" id="cartbtn" aria-label="Open your order">Order <span class="tot" id="pilltot">₹0</span><span class="ct" id="pillct">0</span></button>
+</div></nav>
+
+<div class="scrolly" id="top">
+  <div class="pin">
+    <div class="words" aria-hidden="true">
+      <span class="word" data-in="-1" data-out=".36">Grind</span>
+      <span class="word" data-in=".43" data-out=".66">Brew</span>
+      <span class="word ink" data-in=".71" data-out="2">Kaapi</span>
+    </div>
+    <canvas id="seq" aria-label="Beans pour into a grinder, which opens to show its burrs; the grounds fall into a cup of steamed milk and swirl into a latte with a heart"></canvas>
+    <div class="beats">
+      <div class="beat" data-in="-1" data-out=".36">
+        <span class="num">01 / Grind</span>
+        <h1>Ground to <em>order.</em></h1>
+        <p>Single-origin beans from the Baba Budangiri hills of Chikmagalur, where coffee was first planted in India. Nothing here is ground until you order.</p>
+        <div class="nums"><div><b>1,200 m</b><span>Altitude</span></div><div><b>Tue</b><span>Roast day</span></div></div>
+      </div>
+      <div class="beat side" data-in="-1" data-out=".36">
+        <ul class="facts-mini">
+          <li><b>0 min on the shelf</b><span>Ground per order</span></li>
+          <li><b>18 g per cup</b><span>Weighed every time</span></li>
+          <li><b>7 days</b><span>Beans rest after roasting</span></li>
+        </ul>
+      </div>
+      <div class="beat" data-in=".43" data-out=".66">
+        <span class="num">02 / Brew</span>
+        <h2>Meets the <em>milk.</em></h2>
+        <p>Strong decoction swirls into frothed milk the Mysore way. The darker the swirl, the stronger your kaapi: ask for it strong, regular or light.</p>
+        <div class="nums"><div><b>1:3</b><span>Coffee : milk</span></div><div><b>65 °C</b><span>Milk</span></div></div>
+      </div>
+      <div class="beat side" data-in=".43" data-out=".66">
+        <ul class="facts-mini">
+          <li><b>Decoction</b><span>Brewed fresh every 2 hours</span></li>
+          <li><b>Oat or dairy</b><span>Same price, your call</span></li>
+          <li><b>Jaggery, not sugar</b><span>On request</span></li>
+        </ul>
+      </div>
+      <div class="beat" data-in=".71" data-out="2">
+        <span class="num">03 / Kaapi</span>
+        <h2>Ready in <em>10 min.</em></h2>
+        <p>Order ahead, pick a time and skip the queue. We start brewing when you're on your way to Jubilee Hills.</p>
+        <a class="btn btn-orange" href="#menu">Order a kaapi · ₹160 →</a>
+      </div>
+      <div class="beat side" data-in=".71" data-out="2">
+        <div class="kcards">
+          <div class="kcard"><span class="label">Origin</span><b>Baba Budangiri</b><p>Chikmagalur, Karnataka</p></div>
+          <div class="kcard"><span class="label">Roast</span><b>Medium-dark</b><p>Roasted in-house every Tuesday</p></div>
+          <div class="kcard"><span class="label">Tastes like</span><b>Jaggery · cocoa</b><p>With a toasted-almond finish</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="prog" id="prog" aria-hidden="true"><span data-at="0">Grind</span><span data-at=".43">Brew</span><span data-at=".71">Kaapi</span></div>
+    <span class="loading" id="loading">Loading</span>
+  </div>
+</div>
+
+<div class="band" aria-hidden="true"><div class="row" id="ticker"></div></div>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head rv"><div><span class="label">The counter <b>●</b> order for pickup</span><h2>What are you having?</h2></div><p>Hover a cup to see what's in it. Add it and it's on its way to your order. Prices include everything except 5% GST.</p></div>
+    <div class="counter rv" id="counter">
+      <div class="info" id="info" aria-live="polite"></div>
+      <div class="stage" id="stage">
+        <div class="plate" id="plate" tabindex="0" role="img" aria-label="Selected item"></div>
+        <svg class="callouts" id="callouts" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="arrows"><button type="button" id="prev" aria-label="Previous item">←</button><button type="button" id="next" aria-label="Next item">→</button></div>
+      </div>
+      <div class="list" id="list" role="list"></div>
+    </div>
+  </div>
+</section>
+
+<div class="mega" aria-hidden="true"><div class="row" id="mega"></div></div>
+
+<section id="brew">
+  <div class="wrap">
+    <div class="sec-head rv"><div><span class="label">Brew guide <b>●</b> pour-over at home</span><h2>The cup, by the numbers.</h2></div><p>Everything our baristas measure, so you can make the same cup at home with a V60 and a kitchen scale.</p></div>
+    <div class="brew">
+      <div class="stats rv">
+        <div class="stat"><b>15<small>g</small></b><span>Coffee</span><p>Medium-fine, like table salt. Grind right before brewing.</p></div>
+        <div class="stat"><b>250<small>ml</small></b><span>Water</span><p>Filtered. Tap water's minerals flatten the sweetness.</p></div>
+        <div class="stat"><b>93<small>°C</small></b><span>Temperature</span><p>About 45 seconds off the boil if you don't have a thermometer.</p></div>
+        <div class="stat"><b>3:30</b><span>Total time</span><p>Faster tastes sour; slower tastes bitter. Adjust the grind.</p></div>
+      </div>
+      <div class="calc rv" aria-label="Brew calculator">
+        <span class="label">Brew calculator</span>
+        <h3>How much for how many?</h3>
+        <label class="label" for="cups">Cups <b id="cupsv">2</b></label>
+        <input type="range" id="cups" min="1" max="4" value="2">
+        <div class="seg" role="group" aria-label="Strength" id="seg">
+          <button type="button" data-r="15" aria-pressed="false"><b>1:15</b><small>Strong</small></button>
+          <button type="button" data-r="16" aria-pressed="true"><b>1:16</b><small>Balanced</small></button>
+          <button type="button" data-r="17" aria-pressed="false"><b>1:17</b><small>Light</small></button>
+        </div>
+        <div class="out" aria-live="polite"><div><b id="o-coffee">31 g</b><span>Coffee</span></div><div><b id="o-water">500 ml</b><span>Water</span></div><div><b id="o-bloom">62 ml</b><span>Bloom</span></div></div>
+        <ol class="steps" id="o-steps"></ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="beans" class="beans">
+  <div class="wrap">
+    <div class="sec-head rv"><div><span class="label">Take it home <b>●</b> roasted every Tuesday</span><h2>Beans worth the trip.</h2></div><p>250 g bags, whole bean or ground for your brewer. Add them to a pickup order or ask for them at the counter.</p></div>
+    <div class="bags" id="bags"></div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="wrap visit">
+    <div class="vhead rv"><span class="label">Visit <b>●</b> or order ahead</span><h2>Road No. 36, Jubilee Hills.</h2></div>
+    <div class="facts rv">
+      <div><b>Hours</b><span>7 am – 11 pm<br>every day</span></div>
+      <div><b>Pickup</b><span>Ready in 10 minutes at the side counter</span></div>
+      <div><b>Seats</b><span>34 inside, 12 on the terrace</span></div>
+      <div><b>Address</b><span>Plot 1187, Road No. 36, Jubilee Hills, Hyderabad 500033</span></div>
+      <div><b>Phone</b><span><a href="tel:+914048003636">+91 40 4800 3636</a></span></div>
+      <div><b>Work-friendly</b><span>Wi-Fi and laptops welcome until 6 pm</span></div>
+    </div>
+    <div class="vcta rv"><a class="btn btn-ink" href="https://www.google.com/maps/search/?api=1&amp;query=Road+No.+36+Jubilee+Hills+Hyderabad" target="_blank" rel="noopener">Get directions →</a><a class="btn btn-orange" href="#menu">Order ahead</a></div>
+  </div>
+</section>
+
+<footer><div class="edge"><span>© 2026 Kaapi Theory · Hyderabad</span><span>Concept café · site by SEVORA</span></div></footer>
+
+<div id="cartroot">
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-label="Your order" aria-hidden="true">
+    <div class="dh"><h3>Your order</h3><button class="x" type="button" id="closecart" aria-label="Close">×</button></div>
+    <div class="dbody" id="dbody"></div>
+    <form class="dfoot" id="checkout" name="order" method="POST" data-netlify="true" novalidate>
+      <input type="hidden" name="form-name" value="order">
+      <input type="hidden" name="items" id="f-items"><input type="hidden" name="total" id="f-total"><input type="hidden" name="pickup" id="f-pickup">
+      <span class="label">Pickup time</span>
+      <div class="slots" id="slots" role="group" aria-label="Pickup time"></div>
+      <div class="pair"><input id="f-name" name="name" autocomplete="name" placeholder="Name for the order" aria-label="Name"><input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="Mobile" aria-label="Mobile number"></div>
+      <div class="sum"><div><span>Subtotal</span><span id="s-sub">₹0</span></div><div><span>GST 5%</span><span id="s-gst">₹0</span></div><div class="total"><span>Total</span><span id="s-tot">₹0</span></div></div>
+      <div class="err" id="err" role="alert"></div>
+      <button class="btn btn-orange" type="submit" id="placebtn">Place order · pay at pickup</button>
+    </form>
+  </aside>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ================= data ================= */
+const MENU=[
+  {id:'cappuccino',n:'Cappuccino',cat:'Espresso',p:220,note:'Cocoa · hazelnut · cream',d:'A double ristretto of our house blend under silky microfoam, finished with a rosetta.',
+   call:[{t:'Rosetta latte art',x:.47,y:.36},{t:'Double ristretto crema',x:.7,y:.62},{t:'Microfoam at 65 °C',x:.3,y:.56},{t:'Stoneware cup, pre-warmed',x:.9,y:.49}]},
+  {id:'filter',n:'Filter Kaapi',cat:'South Indian',p:120,note:'Jaggery · chicory · warm milk',d:'Decoction from a brass filter, 80:20 coffee and chicory, pulled high between davara and tumbler for a thick froth.',
+   call:[{t:'Hand-pulled froth',x:.46,y:.4},{t:'80:20 coffee–chicory decoction',x:.6,y:.62},{t:'Steel davara-tumbler',x:.1,y:.6}]},
+  {id:'coldbrew',n:'Cold Brew',cat:'Iced',p:240,note:'Dark chocolate · plum',d:'Steeped for 18 hours in cold water, served over hand-cut ice. Low acid, naturally sweet.',
+   call:[{t:'18-hour cold steep',x:.6,y:.68},{t:'Hand-cut ice',x:.4,y:.42},{t:'Etched glass coaster',x:.16,y:.76}]},
+  {id:'croissant',n:'Butter Croissant',cat:'Bakery',p:180,note:'Flaky · honeyed · crisp',d:'Laminated with cultured butter into 27 layers and baked every morning at six.',
+   call:[{t:'27 butter layers',x:.45,y:.5},{t:'Egg-wash glaze',x:.6,y:.34},{t:'Baked at 6 am',x:.72,y:.72}]},
+  {id:'avotoast',n:'Avocado Sourdough',cat:'All-day',p:340,note:'Lime · chilli · microgreens',d:'Smashed avocado with lime and chilli flakes on our 36-hour sourdough, topped with microgreens.',
+   call:[{t:'Smashed avocado & lime',x:.68,y:.5},{t:'Poached egg',x:.5,y:.42},{t:'36-hour sourdough',x:.27,y:.72},{t:'Microgreens & chilli',x:.33,y:.22}]},
+  {id:'tiramisu',n:'Tiramisu',cat:'Dessert',p:280,note:'Espresso · mascarpone · cocoa',d:'Savoiardi soaked in our espresso, layered with mascarpone cream and dusted with cocoa.',
+   call:[{t:'Dutch-process cocoa',x:.42,y:.3},{t:'Mascarpone cream',x:.62,y:.66},{t:'Espresso-soaked savoiardi',x:.36,y:.69}]}
+];
+const BAGS=[
+  {id:'bag-bb',cls:'b1',n:'Baba Budangiri Natural',o:'Chikmagalur · Natural process',notes:['Jaggery','Dark cherry','Cacao nib'],roast:55,acid:60,p:650},
+  {id:'bag-mm',cls:'b2',n:'Monsoon Malabar',o:'Malabar coast · Monsooned',notes:['Spice','Cocoa','Low acid'],roast:75,acid:20,p:590},
+  {id:'bag-hb',cls:'b3',n:'House Filter Blend',o:'80:20 with chicory · for filter',notes:['Caramel','Chicory','Bold'],roast:85,acid:25,p:480}
+];
+const ALL=[...MENU,...BAGS];
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc=s=>String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+
+/* dish images: real photos when present, drawn placeholders until then */
+const DISH_IMG=window.DISH_IMGS||{};
+function placeholder(id){
+  const fills={cappuccino:'<circle cx="100" cy="100" r="52" fill="#E9DCC8"/><circle cx="100" cy="100" r="44" fill="#B27A4E"/><path d="M100 78c-12 8-18 18-18 26 0 9 8 15 18 15s18-6 18-15c0-8-6-18-18-26z" fill="#F4EBDD"/>',
+    filter:'<circle cx="100" cy="100" r="66" fill="#B8893A"/><circle cx="100" cy="100" r="54" fill="#8E6629"/><circle cx="100" cy="100" r="36" fill="#C8A16A"/><circle cx="100" cy="100" r="30" fill="#E7CFA6"/>',
+    coldbrew:'<circle cx="100" cy="100" r="50" fill="#D6D8D2" opacity=".6"/><circle cx="100" cy="100" r="44" fill="#3B2416"/><rect x="80" y="78" width="20" height="20" rx="4" fill="#E8EEF0" opacity=".85"/><rect x="104" y="96" width="18" height="18" rx="4" fill="#E8EEF0" opacity=".75"/>',
+    croissant:'<path d="M58 112c10-30 74-30 84 0-14-8-24-6-30 2-6-8-18-8-24 0-6-8-16-10-30-2z" fill="#D9A35A"/><path d="M70 104c10-14 50-14 60 0" stroke="#A8692C" stroke-width="3" fill="none"/>',
+    avotoast:'<rect x="62" y="70" width="76" height="62" rx="16" fill="#C8955A"/><rect x="70" y="78" width="60" height="46" rx="12" fill="#8DB45A"/><circle cx="90" cy="92" r="3" fill="#C2301B"/><circle cx="112" cy="104" r="3" fill="#C2301B"/>',
+    tiramisu:'<rect x="68" y="70" width="64" height="64" rx="6" fill="#5B3A26"/><rect x="72" y="74" width="56" height="56" rx="4" fill="#6E4B34"/>'};
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><radialGradient id="g" cx=".4" cy=".35"><stop offset="0" stop-color="#4A4440"/><stop offset="1" stop-color="#25211E"/></radialGradient></defs><circle cx="100" cy="100" r="96" fill="url(#g)"/><circle cx="100" cy="100" r="80" fill="none" stroke="#3A3531" stroke-width="2"/>${fills[id]||''}</svg>`;
+  return 'data:image/svg+xml,'+encodeURIComponent(svg);
+}
+const imgSrc=id=>DISH_IMG[id]||`dishes/${id}.webp`;
+function setImg(el,id){el.onerror=()=>{el.onerror=null;el.src=placeholder(id)};el.src=imgSrc(id)}
+
+/* ================= hero: GRIND -> BREW -> KAAPI =================
+   Frames carry a transparent backdrop, so the giant chapter word shows behind the object.
+   Chapter 1 (grind) plays, then the scene slides up like a page while the grounds keep falling
+   into chapter 2 (the cup), whose last stretch is the KAAPI screen. */
+const EMB=window.SEQ_FRAMES||null;
+const CHS=[{"n": 100, "w": 800, "h": 720, "name": "grind"}, {"n": 100, "w": 800, "h": 570, "name": "brew"}];
+const N=EMB?EMB.length:CHS.reduce((a,c)=>a+c.n,0);
+const C1=CHS[0]||{n:N,w:800,h:720},C2=CHS[1]||null,N1=Math.min(C1.n,N),N2=C2?N-N1:0;
+const P1=.32,P2=C2?.42:1,P3=.93;      // grind ends, slide ends, cup finishes (then holds)
+const frameUrl=i=>EMB?EMB[i-1]:`frames/frame-${String(i).padStart(3,'0')}.webp`;
+const POSTER='data:image/webp;base64,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';
+const scrolly=document.querySelector('.scrolly'),seq=document.getElementById('seq'),ctx=seq.getContext('2d'),loadEl=document.getElementById('loading');
+const frames=new Array(N);let loaded=0,target=0,current=0;
+const ok=im=>im&&im.complete&&im.naturalWidth>0;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+function sizeSeq(){const d=Math.min(devicePixelRatio,2);seq.width=seq.clientWidth*d;seq.height=seq.clientHeight*d}
+function pick(idx,lo,hi){
+  if(ok(frames[idx]))return frames[idx];
+  for(let k=1;k<=hi-lo;k++){if(idx-k>=lo&&ok(frames[idx-k]))return frames[idx-k];if(idx+k<=hi&&ok(frames[idx+k]))return frames[idx+k]}
+  return null;
+}
+// one scale for every chapter (based on the tallest), object centred in the free middle area
+function layout(){const W=seq.width,H=seq.height,d=W/Math.max(1,seq.clientWidth),wide=W/H>=1.15;
+  const top=72*d,bot=(wide?56:0)*d,ah=wide?H-top-bot:H*.6-top;
+  const s=Math.min(ah/720,(wide?W*.46:W*1.15)/800);return {W,H,s,cx:W/2,cy:top+ah/2}}
+function put(img,c,dy){if(!img)return;const L=layout(),w=c.w*L.s,h=c.h*L.s;
+  // chapter 1 sits on the 720 line; chapter 2 (cropped top) is aligned so its cup sits where it would in the full frame
+  const y=L.cy-360*L.s+(c===C2?(720-c.h)*L.s:0)+dy;ctx.drawImage(img,L.cx-w/2,y,w,h)}
+const PARTS=[ // [x,y on the part, side, title, detail]
+  [728,105,1,'Glass hopper','Filled fresh every morning'],
+  [552,240,-1,'Grind dial','Set medium-fine for kaapi'],
+  [690,318,1,'Conical steel burrs','Cut the bean, never crush it'],
+  [694,440,1,'Low-speed motor','No heat reaches the grounds']];
+function callouts(k){ // k: 0..1 how far the labels have drawn in
+  if(k<=0)return;const L=layout(),d=seq.width/Math.max(1,seq.clientWidth),X=v=>L.cx+(v-640)*L.s,Y=v=>L.cy-360*L.s+v*L.s;
+  const wide=seq.width/seq.height>=1.15;if(!wide)return;
+  PARTS.forEach(([px,py,side,t,sub],i)=>{const a=clamp(k*1.6-i*.2);if(a<=0)return;
+    const x0=X(px),y0=Y(py),reach=(side>0?X(1010):X(270))-x0,x1=x0+reach*ease(a);
+    ctx.globalAlpha=a;ctx.strokeStyle='#1C130E';ctx.fillStyle='#1C130E';ctx.lineWidth=1.5*d;
+    ctx.beginPath();ctx.arc(x0,y0,4*d,0,7);ctx.fill();
+    ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y0);ctx.stroke();
+    if(a>.6){ctx.globalAlpha=(a-.6)/.4;ctx.textAlign=side>0?'left':'right';const tx=x1+side*10*d;
+      ctx.font=`800 ${22*d}px "Big Shoulders Display",Impact,sans-serif`;ctx.fillText(t.toUpperCase(),tx,y0+2*d);
+      ctx.font=`500 ${10.5*d}px "DM Mono",monospace`;ctx.fillStyle='#6E5F53';ctx.fillText(sub.toUpperCase(),tx,y0+18*d)}
+    ctx.globalAlpha=1});
+}
+function fadeTop(){ // whatever slides up fades out before it reaches the nav
+  const d=seq.width/Math.max(1,seq.clientWidth),g=ctx.createLinearGradient(0,0,0,96*d);
+  g.addColorStop(0,'#000');g.addColorStop(.45,'#000');g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.globalCompositeOperation='destination-out';ctx.fillStyle=g;ctx.fillRect(0,0,seq.width,96*d);ctx.globalCompositeOperation='source-over'}
+function drawHero(p){drawScene(p);fadeTop()}
+function drawScene(p){
+  ctx.clearRect(0,0,seq.width,seq.height);
+  if(p<=P1||!N2){const g=clamp(p/P1);put(pick(Math.round(g*(N1-1)),0,N1-1),C1,0);callouts(clamp((g-.66)/.3));return}
+  if(p>=P2){put(pick(N1+Math.round(clamp((p-P2)/(P3-P2))*(N2-1)),N1,N-1),C2,0);return}
+  // the page-slide: grind scene moves up and out, the cup rises in under the falling grounds
+  const t=ease(clamp((p-P1)/(P2-P1))),D=seq.height;
+  put(pick(N1-1,0,N1-1),C1,-t*D);put(pick(N1,N1,N-1),C2,(1-t)*D*.75);
+}
+function readProgress(){const r=scrolly.getBoundingClientRect(),span=scrolly.offsetHeight-innerHeight,v=span>1?-r.top/span:0;target=Number.isFinite(v)?clamp(v):0}
+addEventListener('scroll',readProgress,{passive:true});addEventListener('resize',()=>{readProgress();sizeSeq()});readProgress();current=target;sizeSeq();
+if(POSTER.startsWith('data:')){const p=new Image();p.onload=()=>{if(!ok(frames[0]))frames[0]=p};p.src=POSTER}
+function loadRange(lo,hi){const order=[],seen=new Set();[10,3,1].forEach(st=>{for(let i=lo;i<=hi;i+=st)if(!seen.has(i)){seen.add(i);order.push(i)}});
+  return order.map(i=>()=>new Promise(res=>{const im=new Image();im.decoding='async';im.onload=()=>{frames[i]=im;loaded++;loadEl.textContent=loaded<N?`Loading ${Math.round(loaded/N*100)}%`:'';if(loaded===N)loadEl.hidden=true;res()};im.onerror=res;im.src=frameUrl(i+1)}))}
+if(N>0){const q=[...loadRange(0,N1-1),...(N2?loadRange(N1,N-1):[])];let at=0;
+  const next=()=>{if(at<q.length)q[at++]().then(next)};for(let w=0;w<6;w++)next()}
+else loadEl.textContent='Animation coming soon';
+const beats=[...document.querySelectorAll('.beat')],words=[...document.querySelectorAll('.word')],progEls=[...document.querySelectorAll('#prog span')];
+const fadeOf=(el,p,f)=>{const a=+el.dataset.in,z=+el.dataset.out;return Math.max(0,Math.min(1,(p-a)/f,(z-p)/f))};
+function updateBeats(p){
+  const wide=innerWidth>1000;
+  beats.forEach(b=>{const o=fadeOf(b,p,.03);
+    b.style.opacity=o;b.style.visibility=o>0?'visible':'hidden';
+    b.style.transform=`translateY(${(1-o)*24}px)`;
+    b.classList.toggle('live',o>.6);
+    b.querySelectorAll('a').forEach(a=>a.tabIndex=o>.5?0:-1)});
+  words.forEach(w=>{const o=fadeOf(w,p,.05),a=+w.dataset.in,z=+w.dataset.out,mid=(Math.max(a,0)+Math.min(z,1))/2;
+    w.style.opacity=o;w.style.visibility=o>0?'visible':'hidden';w.style.transform=`translateY(${(mid-p)*18}vh) scale(${.94+o*.06})`});
+  progEls.forEach((s,i)=>{const at=+s.dataset.at,nx=progEls[i+1]?+progEls[i+1].dataset.at:2;s.classList.toggle('on',p>=at&&p<nx)});
+}
+
+/* ================= floating beans ================= */
+(function(){
+  const BEAN=window.BEAN_IMG||null;
+  // per section: [left %, top %, width px, rotation deg, blur px, drift speed, hide on small phones]
+  const SPOTS={
+    menu:[[-2,6,96,-28,0,.10,0],[94,18,64,40,2.5,.18,0],[90,78,120,12,0,.07,1],[3,88,54,70,3,.2,1]],
+    brew:[[95,4,84,150,0,.09,0],[-3,52,120,-60,3,.15,0],[60,96,58,20,0,.12,1]],
+    beans:[[-2,10,110,30,0,.08,0],[93,60,72,-35,2.5,.16,0],[45,-4,52,95,3,.2,1]],
+    visit:[[92,10,100,-20,0,.1,0],[2,70,66,55,2,.17,1]]};
+  const items=[];
+  Object.entries(SPOTS).forEach(([id,spots])=>{const sec=document.getElementById(id);if(!sec)return;
+    spots.forEach(([l,t,w,r,b,sp,edge])=>{const e=document.createElement('i');e.className='fbean'+(edge?' edge-in':'');e.setAttribute('aria-hidden','true');
+      const sm=innerWidth<700,lx=sm?(l<50?-9:97):l,ty=sm&&t<20?t+16:t;
+      e.style.cssText=`left:${lx}%;top:${ty}%;--w:${sm?w*.7:w}px;--b:${b}px`+(BEAN?`;background-image:url(${BEAN})`:'');
+      sec.appendChild(e);items.push({e,sec,r,sp})})});
+  function drift(){items.forEach(({e,sec,r,sp})=>{const rc=sec.getBoundingClientRect();if(rc.bottom<-200||rc.top>innerHeight+200)return;
+    const k=(rc.top+rc.height/2-innerHeight/2);e.style.transform=`translateY(${(-k*sp).toFixed(1)}px) rotate(${(r+k*sp*.08).toFixed(1)}deg)`})}
+  drift();if(!reduce)addEventListener('scroll',()=>requestAnimationFrame(drift),{passive:true});
+})();
+
+/* nav glass after the hero */
+const nav=document.getElementById('nav');
+function navState(){nav.classList.toggle('solid',scrolly.getBoundingClientRect().bottom<nav.offsetHeight+8)}
+addEventListener('scroll',navState,{passive:true});navState();
+
+/* ================= marquees ================= */
+(function(){const t=['Open 7 am – 11 pm','Pickup in 10 minutes','Roasted every Tuesday','Filter kaapi all day','Jubilee Hills, Hyderabad','Laptops welcome till 6 pm'];
+  const row=document.getElementById('ticker');row.innerHTML=[...t,...t,...t,...t].map(x=>`<span>${x}</span>`).join('');
+  const m=document.getElementById('mega');m.innerHTML=Array(8).fill('<span>Kaapi</span><span class="o">Theory</span><i></i><span>Filter</span><span class="o">Kaapi</span><i></i>').join('')})();
+
+/* ================= ordering counter ================= */
+const cart=new Map();let cur=0,spin=0,spinV=0,hover=false,switching=false,pouring=false;
+/* pour films: picking a drink plays it being made, landing on the exact menu photo */
+const POUR={"cappuccino": 40, "coldbrew": 40, "filter": 40},POUR_EMB=window.POUR_FRAMES||{},pourCache={};
+const pourUrl=(id,k)=>POUR_EMB[id]?POUR_EMB[id][k]:`pours/${id}/p-${String(k+1).padStart(2,'0')}.webp`;
+function loadPour(id){if(pourCache[id])return pourCache[id];const n=POUR[id];
+  return pourCache[id]=Promise.all(Array.from({length:n},(_,k)=>new Promise(res=>{const im=new Image();im.onload=()=>res(im);im.onerror=()=>res(null);im.src=pourUrl(id,k)})))}
+function playPour(id){if(reduce||!POUR[id])return;
+  loadPour(id).then(ims=>{if(ims.some(x=>!x)||MENU[cur].id!==id||switching||pouring)return;
+    pouring=true;spin=0;plateImg.style.transform='rotate(0deg)';stageEl.classList.remove('show');let k=0;
+    const step=()=>{if(MENU[cur].id!==id){pouring=false;return}
+      if(k<ims.length){plateImg.src=ims[k].src;k++;setTimeout(step,k<6?110:72)}
+      else{setImg(plateImg,id);pouring=false}};
+    step()})}
+const plate=document.getElementById('plate'),stageEl=document.getElementById('stage'),infoEl=document.getElementById('info'),listEl=document.getElementById('list'),callEl=document.getElementById('callouts'),counterEl=document.getElementById('counter');
+let plateImg=document.createElement('img');plateImg.alt='';plate.appendChild(plateImg);
+function renderInfo(){const m=MENU[cur];
+  infoEl.innerHTML=`<div class="idx" style="--k:${(cur+1)/MENU.length}"><span>${String(cur+1).padStart(2,'0')}</span><i></i><span>${String(MENU.length).padStart(2,'0')}</span></div>
+  <span class="cat">${m.cat}</span><h3>${m.n}</h3><span class="note">${m.note}</span><p>${m.d}</p>
+  <div class="buy"><span class="price">${inr(m.p)}</span><button class="btn btn-orange" type="button" id="addbtn">Add to order +</button><button class="btn btn-line ing-toggle" type="button" id="ingbtn" aria-pressed="false">What's in it</button></div>
+  <span class="hint">Hover the cup · ← → to browse</span>`;
+  document.getElementById('addbtn').onclick=()=>addToCart(m.id,plateImg);
+  const ib=document.getElementById('ingbtn');ib.onclick=()=>{hover=!hover;ib.setAttribute('aria-pressed',hover);counterEl.classList.toggle('focus',hover)};
+  plate.setAttribute('aria-label',m.n);
+}
+function renderList(){listEl.innerHTML='';MENU.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','listitem');b.setAttribute('aria-current',i===cur);
+  const im=document.createElement('img');im.alt='';setImg(im,m.id);b.appendChild(im);
+  b.insertAdjacentHTML('beforeend',`<span><b>${m.n}</b><small>${m.cat}</small></span><span class="pr">${inr(m.p)}</span>`);
+  b.onclick=()=>go(i);listEl.appendChild(b)})}
+function drawCallouts(){const m=MENU[cur];
+  // plate occupies 9%..91% of the stage box
+  const P=v=>9+v*82;let L=0,R=0;const left=m.call.filter(c=>c.x<.5).length,right=m.call.length-left;
+  callEl.innerHTML=m.call.map((c,i)=>{const sx=P(c.x),sy=P(c.y),isL=c.x<.5;const k=isL?L++:R++,n=isL?left:right;
+    const ly=50+(k-(n-1)/2)*13,lx=isL?-2:102,ex=isL?6:94;
+    const len=Math.hypot(ex-sx,ly-sy)+8;
+    return `<g style="--len:${len.toFixed(1)};--dl:${i*90}ms"><line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ly}" vector-effect="non-scaling-stroke"/><circle cx="${sx}" cy="${sy}" r="1.3" vector-effect="non-scaling-stroke"/></g>`}).join('');
+  // labels as HTML so text doesn't stretch with the viewBox
+  stageEl.querySelectorAll('.clabel').forEach(n=>n.remove());L=0;R=0;
+  m.call.forEach((c,i)=>{const isL=c.x<.5;const k=isL?L++:R++,n=isL?left:right;const ly=50+(k-(n-1)/2)*13;
+    const s=document.createElement('span');s.className='clabel';s.textContent=c.t;
+    Object.assign(s.style,{position:'absolute',top:ly+'%',[isL?'right':'left']:(isL?'94%':'94%'),transform:'translateY(-50%)',font:'500 12px var(--mono)',whiteSpace:'nowrap',background:'var(--paper)',padding:'3px 8px',borderRadius:'999px',border:'1.5px solid var(--ink)',opacity:0,transition:`opacity .4s ${i*90+350}ms`,pointerEvents:'none'});
+    if(isL){s.style.right='94%'}else{s.style.left='94%'}
+    stageEl.appendChild(s)});
+}
+function go(i,dir){if(switching||i===cur)return;dir=dir||(i>cur?1:-1);switching=true;
+  const old=plateImg;old.classList.add(dir>0?'out-l':'out-r');
+  const nu=document.createElement('img');nu.alt='';setImg(nu,MENU[i].id);
+  nu.style.transform=`translateX(${dir>0?130:-130}%) rotate(${dir>0?200:-200}deg)`;nu.style.opacity='0';plate.appendChild(nu);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{nu.style.transition='transform .75s cubic-bezier(.2,.7,.2,1),opacity .6s';nu.style.transform='rotate(0deg)';nu.style.opacity='1'}));
+  setTimeout(()=>{old.remove();nu.style.transition='';plateImg=nu;spin=0;switching=false;playPour(MENU[cur].id)},780);
+  if(POUR[MENU[i].id])loadPour(MENU[i].id);
+  cur=i;renderInfo();renderList();drawCallouts();
+}
+document.getElementById('prev').onclick=()=>go((cur-1+MENU.length)%MENU.length,-1);
+document.getElementById('next').onclick=()=>go((cur+1)%MENU.length,1);
+plate.addEventListener('click',()=>playPour(MENU[cur].id));   // tap a drink to watch it made again
+if('IntersectionObserver' in window){const po=new IntersectionObserver(es=>{if(es[0].isIntersecting){playPour(MENU[cur].id);po.disconnect()}},{threshold:.55});po.observe(counterEl)}
+plate.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){hover=true;counterEl.classList.add('focus')}});
+plate.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'){hover=false;counterEl.classList.remove('focus')}});
+plate.addEventListener('focus',()=>{hover=true;counterEl.classList.add('focus')});plate.addEventListener('blur',()=>{hover=false;counterEl.classList.remove('focus')});
+document.addEventListener('keydown',e=>{const r=counterEl.getBoundingClientRect();if(r.top>innerHeight||r.bottom<0||e.target.closest('input'))return;
+  if(e.key==='ArrowRight')go((cur+1)%MENU.length,1);if(e.key==='ArrowLeft')go((cur-1+MENU.length)%MENU.length,-1)});
+setImg(plateImg,MENU[0].id);renderInfo();renderList();drawCallouts();
+
+/* ================= cart ================= */
+const root=document.getElementById('cartroot'),drawer=document.getElementById('drawer'),dbody=document.getElementById('dbody');
+const pillTot=document.getElementById('pilltot'),pillCt=document.getElementById('pillct'),toastEl=document.getElementById('toast');
+let shownTotal=0;
+function toast(t){toastEl.textContent=t;toastEl.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>toastEl.classList.remove('show'),1700)}
+function totals(){let sub=0,ct=0;cart.forEach((q,id)=>{sub+=ALL.find(x=>x.id===id).p*q;ct+=q});return{sub,ct,gst:sub*.05,tot:sub*1.05}}
+function countTo(n){const from=shownTotal,t0=performance.now();shownTotal=n;
+  (function st(now){const q=Math.min(1,(now-t0)/600),e=1-Math.pow(1-q,3);pillTot.textContent=inr(from+(n-from)*e);if(q<1)requestAnimationFrame(st)})(t0)}
+function refreshPill(){const T=totals();pillCt.textContent=T.ct;countTo(T.tot);pillCt.classList.add('bump');setTimeout(()=>pillCt.classList.remove('bump'),300)}
+function addToCart(id,fromEl){
+  cart.set(id,(cart.get(id)||0)+1);
+  const item=ALL.find(x=>x.id===id);
+  const tgt=document.getElementById('cartbtn').getBoundingClientRect();
+  if(fromEl&&!reduce){const r=fromEl.getBoundingClientRect();const f=document.createElement('img');f.className='flyer';f.src=fromEl.src||placeholder(id);
+    Object.assign(f.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});document.body.appendChild(f);
+    const dx=tgt.left+tgt.width-24-(r.left+r.width/2),dy=tgt.top+tgt.height/2-(r.top+r.height/2);
+    const a=f.animate([{transform:'translate(0,0) scale(1) rotate(0)'},{transform:`translate(${dx*.45}px,${dy*.45-160}px) scale(.55) rotate(200deg)`,offset:.5},{transform:`translate(${dx}px,${dy}px) scale(.06) rotate(420deg)`,opacity:.6}],{duration:900,easing:'cubic-bezier(.45,0,.25,1)'});
+    a.onfinish=()=>{f.remove();refreshPill()}}
+  else refreshPill();
+  toast(`${item.n} added`);renderCart();
+}
+function renderCart(){
+  if(!cart.size){dbody.innerHTML='<div class="empty"><b>Nothing yet</b>Pick something from the counter and it lands here.</div>'}
+  else{dbody.innerHTML='';cart.forEach((q,id)=>{const it=ALL.find(x=>x.id===id);const d=document.createElement('div');d.className='line';
+    const im=document.createElement('img');im.alt='';if(MENU.includes(it))setImg(im,id);else{im.src='data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle cx="26" cy="26" r="26" fill="${it.cls==='b1'?'#F2541B':it.cls==='b3'?'#B8893A':'#1C130E'}"/></svg>`)}
+    d.appendChild(im);d.insertAdjacentHTML('beforeend',`<div><b>${esc(it.n)}</b><small>${inr(it.p)}${it.cls?' · 250 g':''}</small></div>`);
+    const qd=document.createElement('div');qd.className='qty';
+    const mi=document.createElement('button');mi.type='button';mi.textContent='−';mi.setAttribute('aria-label','One fewer '+it.n);mi.onclick=()=>{q>1?cart.set(id,q-1):cart.delete(id);renderCart();refreshPill()};
+    const pl=document.createElement('button');pl.type='button';pl.textContent='+';pl.setAttribute('aria-label','One more '+it.n);pl.onclick=()=>{cart.set(id,q+1);renderCart();refreshPill()};
+    const sp=document.createElement('span');sp.textContent=q;qd.append(mi,sp,pl);d.appendChild(qd);dbody.appendChild(d)})}
+  const T=totals();document.getElementById('s-sub').textContent=inr(T.sub);document.getElementById('s-gst').textContent=inr(T.gst);document.getElementById('s-tot').textContent=inr(T.tot);
+  document.getElementById('placebtn').disabled=!cart.size;document.getElementById('placebtn').style.opacity=cart.size?1:.45;
+}
+function openCart(o){root.classList.toggle('open',o);drawer.setAttribute('aria-hidden',!o);if(o){buildSlots();document.getElementById('closecart').focus()}}
+document.getElementById('cartbtn').onclick=()=>openCart(true);document.getElementById('closecart').onclick=()=>openCart(false);document.getElementById('scrim').onclick=()=>openCart(false);
+addEventListener('keydown',e=>{if(e.key==='Escape')openCart(false)});
+
+/* pickup slots: ASAP when open, then every 15 minutes within 7 am – 11 pm */
+let slot=null;
+function buildSlots(){const el=document.getElementById('slots');el.innerHTML='';const now=new Date(),out=[];
+  const fmt=d=>d.toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'}).replace(' ',' ');
+  const open=h=>h>=7&&h<23;
+  if(open(now.getHours())&&!(now.getHours()===22&&now.getMinutes()>45))out.push({k:'ASAP · 10 min',v:'ASAP (10 min)'});
+  let t=new Date(now);t.setMinutes(Math.ceil((t.getMinutes()+20)/15)*15,0,0);
+  if(!open(t.getHours())){t=new Date(now);if(now.getHours()>=23)t.setDate(t.getDate()+1);t.setHours(7,15,0,0)}
+  while(out.length<7){if(open(t.getHours())){const tomorrow=t.getDate()!==now.getDate();out.push({k:(tomorrow?'Tmrw ':'')+fmt(t),v:(tomorrow?'Tomorrow ':'')+fmt(t)})}
+    t=new Date(t.getTime()+15*60000);if(t.getHours()>=23){t.setDate(t.getDate()+1);t.setHours(7,0,0,0)}}
+  if(!slot||!out.some(o=>o.v===slot))slot=out[0].v;
+  out.forEach(o=>{const b=document.createElement('button');b.type='button';b.textContent=o.k;b.setAttribute('aria-pressed',o.v===slot);b.onclick=()=>{slot=o.v;buildSlots()};el.appendChild(b)})}
+
+document.getElementById('checkout').addEventListener('submit',async e=>{e.preventDefault();
+  const err=document.getElementById('err'),name=document.getElementById('f-name').value.trim(),ph=document.getElementById('f-phone').value.replace(/\D/g,'');
+  if(!cart.size){err.textContent='Add something to your order first.';return}
+  if(!name){err.textContent='Add a name so we can call it out at the counter.';return}
+  if(ph.length<10){err.textContent='Enter a 10-digit mobile number for pickup updates.';return}
+  err.textContent='';const T=totals();
+  document.getElementById('f-items').value=[...cart].map(([id,q])=>q+'× '+ALL.find(x=>x.id===id).n).join(', ');
+  document.getElementById('f-total').value=inr(T.tot);document.getElementById('f-pickup').value=slot;
+  if(window.SEVORA_LIVE){try{await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(e.target)).toString()})}catch(_){}}
+  const oid='KT-'+String(Date.now()).slice(-4),lines=[...cart].map(([id,q])=>`<div style="display:flex;justify-content:space-between;width:100%;font-size:14px"><span>${q} × ${esc(ALL.find(x=>x.id===id).n)}</span><span>${inr(ALL.find(x=>x.id===id).p*q)}</span></div>`).join('');
+  dbody.innerHTML=`<div class="done" role="status"><span class="tick">✓</span><span class="oid">ORDER ${oid}</span><h3>Thanks, ${esc(name.split(' ')[0])}.</h3><p style="margin:0;color:var(--muted)">Pickup ${esc(slot)} · ${inr(T.tot)} paid at the counter</p>
+    <div class="track" id="track"><div class="on now"><i></i>Received</div><div><i></i>Brewing</div><div><i></i>Ready</div></div><span class="demo">Demo: tracker runs at 10× speed</span>${lines}</div>`;
+  e.target.hidden=true;cart.clear();refreshPill();
+  const st=[...document.querySelectorAll('#track div')];
+  setTimeout(()=>{st[0].classList.remove('now');st[1].classList.add('on','now')},3000);
+  setTimeout(()=>{st[1].classList.remove('now');st[2].classList.add('on','now');toast('Your order is ready at the side counter')},9000);
+  const back=document.createElement('button');back.className='btn btn-ink';back.type='button';back.textContent='Back to the menu';
+  back.onclick=()=>{e.target.hidden=false;renderCart();openCart(false)};dbody.querySelector('.done').appendChild(back);
+});
+renderCart();
+
+/* ================= brew calculator ================= */
+(function(){let ratio=16;const cups=document.getElementById('cups');
+  function calc(){const c=+cups.value,water=c*250,coffee=water/ratio,bloom=coffee*2;
+    document.getElementById('cupsv').textContent=c;
+    document.getElementById('o-coffee').textContent=Math.round(coffee)+' g';document.getElementById('o-water').textContent=water+' ml';document.getElementById('o-bloom').textContent=Math.round(bloom)+' ml';
+    const p2=Math.round(water*.6),secs=180+c*15;
+    document.getElementById('o-steps').innerHTML=[`Rinse the paper filter with hot water, then add ${Math.round(coffee)} g of coffee.`,`Pour ${Math.round(bloom)} ml at 93 °C and wait 30 seconds for the bloom.`,`Pour in slow circles up to ${p2} ml by 1:15.`,`Finish at ${water} ml; it should drain by about ${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}.`].map(t=>`<li>${t}</li>`).join('')}
+  cups.addEventListener('input',calc);
+  document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{ratio=+b.dataset.r;document.querySelectorAll('#seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));calc()});
+  calc()})();
+
+/* ================= beans ================= */
+(function(){const el=document.getElementById('bags');
+  const deal=[['105%','-7deg'],['0%','4deg'],['-105%','9deg']];
+  BAGS.forEach((b,i)=>{const c=document.createElement('article');c.className='bag rv '+b.cls;c.style.setProperty('--d',i);c.style.setProperty('--dx',deal[i%3][0]);c.style.setProperty('--rot',deal[i%3][1]);
+    c.innerHTML=`<div><span class="origin">${b.o}</span><h3 style="margin-top:12px">${b.n}</h3></div><div class="notes">${b.notes.map(n=>`<span>${n}</span>`).join('')}</div>
+      <div style="display:grid;gap:10px"><div class="meter">Roast<i style="--v:${b.roast}%"></i></div><div class="meter">Acidity<i style="--v:${b.acid}%"></i></div></div>
+      <div class="foot"><span class="price">${inr(b.p)} <small>/ 250 g</small></span><button class="btn" type="button"><span>Add bag +</span></button></div>`;
+    c.querySelector('button').onclick=e=>addToCart(b.id,null);
+    const pic=new Image();pic.className='pic';pic.alt='';pic.onload=()=>{c.classList.add('has-pic');c.prepend(pic)};pic.src=(window.BAG_IMGS||{})[b.id]||`img/${b.id}.webp`;
+    if(!reduce&&matchMedia('(hover:hover)').matches){c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`rotateY(${x*10}deg) rotateX(${-y*8}deg)`});c.addEventListener('pointerleave',()=>c.style.transform='')}
+    el.appendChild(c)})})();
+
+/* ================= section transitions ================= */
+// split big headings into words so they can rise in one by one
+document.querySelectorAll('.sec-head h2,.visit h2').forEach(h=>{let i=0;
+  h.innerHTML=h.textContent.trim().split(/\s+/).map(w=>`<span class="w"><span style="--i:${i++}">${w}</span></span>`).join(' ');h.classList.add('split')});
+// brew numbers count up when the cells arrive
+(function(){const st=document.querySelector('.stats');if(!st)return;
+  const nums=[...st.querySelectorAll('.stat b')].map(b=>{const t=b.firstChild;const raw=t.textContent.trim();const isTime=raw.includes(':');
+    const to=isTime?(+raw.split(':')[0]*60 + +raw.split(':')[1]):+raw;const n=document.createElement('span');n.textContent=raw;b.replaceChild(n,t);return {n,to,isTime}});
+  const fmt=(v,t)=>t?`${Math.floor(v/60)}:${String(Math.round(v%60)).padStart(2,'0')}`:String(Math.round(v));
+  if(reduce||!('IntersectionObserver' in window))return;nums.forEach(o=>o.n.textContent=fmt(0,o.isTime));
+  const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();const t0=performance.now();
+    (function tick(now){const k=Math.min(1,(now-t0)/1500);nums.forEach((o,i)=>{const e=Math.min(1,Math.max(0,k*1.25-i*.08));o.n.textContent=fmt(o.to*(1-Math.pow(1-e,3)),o.isTime)});if(k<1)requestAnimationFrame(tick)})(t0)},{threshold:.35});
+  io.observe(st)})();
+// beans: the dark section grows from a rounded card into the full page as it scrolls in, and shrinks back as it leaves
+(function(){const sec=document.getElementById('beans');if(!sec||reduce)return;
+  const upd=()=>{const r=sec.getBoundingClientRect(),H=innerHeight;if(r.bottom<0||r.top>H)return;
+    const pin=Math.min(1,Math.max(0,(H-r.top)/(H*.75))),pout=Math.min(1,Math.max(0,r.bottom/(H*.75))),k=Math.min(pin,pout),e=1-Math.pow(1-k,2);
+    sec.style.setProperty('--ix',((1-e)*Math.min(64,innerWidth*.05)).toFixed(1)+'px');sec.style.setProperty('--ir',((1-e)*48).toFixed(1)+'px')};
+  upd();addEventListener('scroll',()=>requestAnimationFrame(upd),{passive:true});addEventListener('resize',upd)})();
+
+/* ================= reveals ================= */
+(function(){if(reduce||!('IntersectionObserver' in window))return;document.documentElement.classList.add('motion');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.1});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+  addEventListener('load',()=>setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0)el.classList.add('in')}),1200))})();
+
+/* ================= main loop ================= */
+let last=performance.now();
+(function loop(now){const dt=Math.min(50,now-last)/1000;last=now;
+  current+=(target-current)*(reduce?1:.16);if(Math.abs(target-current)<.0005)current=target;
+  updateBeats(current);drawHero(current);
+  // plate: spins slowly, eases back to upright on hover, then the callouts draw
+  if(!switching&&!pouring){
+    if(hover){const tgt=Math.round(spin/360)*360;spin+=(tgt-spin)*.14;stageEl.classList.toggle('show',Math.abs(tgt-spin)<1.5)}
+    else{stageEl.classList.remove('show');if(!reduce)spin+=dt*9}
+    plateImg.style.transform=`rotate(${spin.toFixed(2)}deg)`;
+  }
+  stageEl.querySelectorAll('.clabel').forEach(l=>l.style.opacity=stageEl.classList.contains('show')?1:0);
+  requestAnimationFrame(loop)})(last);
+</script>
+</body>
+</html>
