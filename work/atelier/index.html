@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Atelier Nine, Kokapet: interior design and build for apartments and villas in Hyderabad. Estimate your home and book a free site visit.">
+<link rel="preload" as="image" href="frames/frame-001.webp">
+<script>window.SEVORA_LIVE=true;</script>
+<title>Atelier Nine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<style>
+:root{
+  --stone:#D8CCB7; --lime:#EEE7DB; --walnut:#2A211B; --soft:#6B5D50; --sage:#6F7A63; --sage-d:#4F5946; --brass:#A88A55; --brass-l:#C9AE7A;
+  --line:rgba(42,33,27,.22);
+  --display:"DM Serif Display",Georgia,serif; --body:"Hanken Grotesk",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--stone);color:var(--walnut);font:17px/1.65 var(--body);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.04;letter-spacing:-.008em;margin:0;text-wrap:balance}
+p{text-wrap:pretty}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:clamp(20px,4vw,48px)}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:2px;padding:15px 24px;font:600 15px var(--body);cursor:pointer;text-decoration:none;transition:background .25s,color .25s}
+.btn-sage{background:var(--sage);color:var(--lime)}.btn-sage:hover{background:var(--sage-d)}
+.btn-lime{background:var(--lime);color:var(--walnut)}.btn-lime:hover{background:#fff}
+
+/* nav */
+nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .4s,box-shadow .4s}
+nav .row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px clamp(20px,3vw,40px)}
+nav.solid{background:rgba(216,204,183,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.logo{display:flex;align-items:baseline;gap:7px;text-decoration:none;font:400 23px var(--display);letter-spacing:0;color:var(--lime);transition:color .4s}
+.logo i{font-style:italic;font-weight:400;color:var(--brass-l)}
+nav.solid .logo,nav.solid .links a{color:var(--walnut)}
+nav.solid .logo i{color:var(--brass)}
+.links{display:flex;gap:28px}
+.links a{text-decoration:none;color:var(--lime);font-size:15px;transition:color .4s}
+nav .btn{padding:11px 18px;font-size:14px}
+
+/* ============ the house tour ============ */
+.tour{position:relative;height:calc(1150vh + var(--open,0vh));background:#1d1814}
+:root{--open:170vh}
+.tour .pin{position:sticky;top:0;height:100vh;overflow:hidden}
+#tour{position:absolute;inset:0;width:100%;height:100%;display:block}
+.tour .shade{position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,rgba(20,16,13,.62) 0%,rgba(20,16,13,.28) 34%,rgba(20,16,13,0) 56%),
+  linear-gradient(180deg,rgba(20,16,13,.45) 0%,rgba(20,16,13,0) 18%)}
+/* one panel per stop */
+.stop{position:absolute;left:clamp(20px,4vw,56px);top:50%;width:min(430px,calc(100vw - 40px));color:var(--lime);
+  opacity:0;visibility:hidden;transform:translateY(calc(-50% + 22px));will-change:opacity,transform}
+.stop .where{display:block;font-size:15px;color:var(--brass-l);margin-bottom:12px}
+.stop h1,.stop h2{font-size:clamp(40px,4.6vw,72px)}
+.stop p{margin:16px 0 0;font-size:17px;color:rgba(238,231,219,.88);max-width:40ch}
+.stop dl{margin:22px 0 0;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;padding-top:18px;border-top:1px solid rgba(238,231,219,.28);font-size:15px}
+.stop dt{color:rgba(238,231,219,.62)}
+.stop dd{margin:0}
+.stop .budget{margin-top:18px;display:flex;align-items:baseline;gap:10px;font-size:15px;color:rgba(238,231,219,.7)}
+.stop .budget b{font:400 30px var(--display);color:var(--lime);letter-spacing:-.01em}
+.stop .btn{margin-top:24px;pointer-events:auto}
+.stop .hint{display:inline-flex;gap:10px;align-items:center;margin-top:26px;font-size:15px;color:rgba(238,231,219,.75)}
+.stop .hint i{width:22px;height:34px;border:1.5px solid currentColor;border-radius:12px;position:relative}
+.stop .hint i::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:currentColor;animation:wheel 1.6s ease-in-out infinite}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(10px);opacity:0}100%{opacity:0}}
+/* material pins on the room */
+.pins{position:absolute;inset:0;pointer-events:none}
+.pin-dot{position:absolute;transform:translate(-50%,-50%);opacity:0;transition:opacity .45s;pointer-events:none}
+.pin-dot.on{opacity:1;pointer-events:auto}
+.pin-dot button{all:unset;cursor:pointer;display:block;width:16px;height:16px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 5px rgba(238,231,219,.3),0 4px 12px rgba(0,0,0,.35)}
+.pin-dot button::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(238,231,219,.7);animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.pin-dot span{position:absolute;left:24px;top:50%;transform:translateY(-50%);white-space:nowrap;background:rgba(238,231,219,.94);color:var(--walnut);padding:6px 11px;font-size:14px;line-height:1.3;border-radius:2px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.pin-dot span small{display:block;color:var(--soft);font-size:12.5px}
+.pin-dot.l span{left:auto;right:24px}
+/* the route on the right */
+.route{position:absolute;right:clamp(16px,2.4vw,32px);top:50%;transform:translateY(-50%);list-style:none;margin:0;padding:14px 18px;display:grid;gap:4px;background:rgba(29,24,20,.42);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:2px}
+.route li button{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:6px 0;font-size:14px;color:rgba(238,231,219,.55);transition:color .3s}
+.route li button i{width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;transition:background .3s,transform .3s}
+.route li.on button{color:var(--lime)}
+.route li.on button i{background:var(--brass-l);border-color:var(--brass-l);transform:scale(1.3)}
+.route li.done button i{background:currentColor}
+.route .rail{position:absolute;right:22px;top:26px;bottom:26px;width:1px;background:rgba(238,231,219,.25);z-index:-1}
+.loading{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:13px;color:rgba(238,231,219,.7)}
+
+/* ============ opener: letters arrive one by one as you scroll, then the screen splits onto the tour ============ */
+.opener{position:fixed;inset:0;z-index:80;display:grid;place-items:center;color:var(--lime);pointer-events:none}
+.opener .half{position:absolute;left:0;right:0;height:50.5%;background:#1d1814;will-change:transform}
+.opener .half.t{top:0}.opener .half.b{bottom:0}
+.opener .in{position:relative;text-align:center;padding:24px;will-change:opacity,transform}
+.opener .mark{display:block;font:400 clamp(64px,11vw,184px)/1 var(--display);letter-spacing:-.01em;white-space:nowrap}
+.opener .mark .ch{display:inline-block;opacity:0;transform:translateY(.35em);filter:blur(10px);will-change:opacity,transform,filter}
+.opener .mark .sp{display:inline-block;width:.24em}
+.opener .mark .it{font-style:italic;color:var(--brass-l)}
+.opener .tag{display:block;margin-top:20px;font-size:clamp(16px,1.5vw,20px);color:rgba(238,231,219,.82)}
+.opener .cue{position:absolute;left:50%;bottom:clamp(70px,12vh,120px);transform:translateX(-50%);display:grid;justify-items:center;gap:12px;font-size:16px;letter-spacing:.02em;color:rgba(238,231,219,.85)}
+.opener .cue i{width:1px;height:46px;background:linear-gradient(rgba(238,231,219,.8),rgba(238,231,219,0));animation:cue 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}55%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.opener .meta{position:absolute;left:0;right:0;bottom:30px;display:flex;justify-content:space-between;padding:0 clamp(20px,3vw,40px);font-size:13px;color:rgba(238,231,219,.55)}
+.opener .bar{position:absolute;left:0;right:0;top:0;height:2px;background:transparent}
+.opener .bar i{position:absolute;inset:0;background:var(--brass-l);transform-origin:left;transform:scaleX(var(--p,0));transition:transform .4s}
+.opener.off{display:none}
+body.locked{overflow:hidden}
+
+/* ============ motion system for the rest of the page ============ */
+.split .w{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .03em .1em;margin:-.06em -.03em -.1em}
+.split .w>span{display:inline-block;transform:translateY(110%);transition:transform 1.1s cubic-bezier(.16,.8,.12,1) calc(var(--i)*60ms)}
+.split.in .w>span{transform:none}
+.fade{opacity:0;transform:translateY(22px);transition:opacity .9s ease var(--d,0s),transform 1.1s cubic-bezier(.16,.8,.12,1) var(--d,0s)}
+.fade.in{opacity:1;transform:none}
+.reveal{clip-path:inset(18% 0 0 0);transition:clip-path 1.4s cubic-bezier(.76,0,.24,1) var(--d,0s)}
+.reveal img{transform:scale(1.18);transition:transform 1.8s cubic-bezier(.16,.8,.12,1) var(--d,0s)}
+.reveal.in{clip-path:inset(0 0 0 0)}.reveal.in img{transform:none}
+.rule{position:relative}
+.rule::before{content:"";position:absolute;left:0;right:0;top:-1.5px;height:1.5px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(.76,0,.24,1) var(--d,0s)}
+.rule.in::before{transform:none}
+.no-motion .split .w>span,.no-motion .fade,.no-motion .reveal,.no-motion .reveal img,.no-motion .rule::before{transform:none!important;opacity:1!important;clip-path:none!important}
+
+/* studio intro */
+.intro{padding-block:clamp(90px,14vh,150px)}
+.intro .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,90px);align-items:end}
+.intro h2{font-size:clamp(40px,5vw,72px)}
+.intro p{margin:0 0 18px;color:var(--soft);max-width:52ch}
+.facts{display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,56px);margin-top:44px;padding-top:26px}
+.facts div{display:grid;gap:2px}
+.facts b{font:400 clamp(38px,3.8vw,56px)/1 var(--display);letter-spacing:-.02em}
+.facts span{font-size:14px;color:var(--soft)}
+
+/* before / after */
+.ba{padding-block:clamp(70px,10vh,120px);background:var(--walnut);color:var(--lime)}
+.ba .top{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:36px}
+.ba h2{font-size:clamp(38px,4.6vw,68px)}
+.ba .top p{margin:0;color:rgba(238,231,219,.72);max-width:46ch}
+.slider{position:relative;aspect-ratio:1024/572;overflow:hidden;background:#3a2f27;user-select:none;touch-action:pan-y;cursor:ew-resize}
+.slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.slider .after{clip-path:inset(0 0 0 var(--x,50%))}
+.slider .handle{position:absolute;top:0;bottom:0;left:var(--x,50%);width:2px;background:var(--lime);transform:translateX(-1px)}
+.slider .handle button{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;border:0;background:var(--lime);color:var(--walnut);font:600 18px var(--body);cursor:ew-resize;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.slider .tag{position:absolute;top:18px;padding:6px 12px;background:rgba(238,231,219,.92);color:var(--walnut);font-size:14px;font-weight:500}
+.slider .tag.l{left:18px}.slider .tag.r{right:18px}
+.ba .notes{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:30px}
+.ba .notes b{display:block;font:400 22px var(--display);margin-bottom:4px}
+.ba .notes span{color:rgba(238,231,219,.7);font-size:15px}
+
+/* process */
+.process{padding-block:clamp(80px,12vh,130px);background:var(--lime)}
+.process h2{font-size:clamp(38px,4.6vw,68px);max-width:16ch}
+.steps{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr)}
+.steps li{padding:26px 26px 6px 0}
+.steps li+li{padding-left:26px;border-left:1px solid var(--line)}
+.steps .n{font:italic 400 44px/1 var(--display);color:var(--brass)}
+.steps h3{font-size:26px;margin:14px 0 10px}
+.steps p{margin:0;color:var(--soft);font-size:16px}
+.steps .wk{display:block;margin-top:14px;font-size:14px;color:var(--brass);font-weight:600}
+
+/* estimator */
+.est{padding-block:clamp(90px,14vh,150px)}
+.est .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);align-items:start}
+.est h2{font-size:clamp(38px,4.6vw,68px)}
+.est .lead{color:var(--soft);max-width:44ch}
+.q{margin-top:28px}
+.q legend{font-weight:600;margin-bottom:10px;padding:0}
+fieldset{border:0;margin:0;padding:0}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{border:1.5px solid var(--walnut);background:transparent;color:var(--walnut);padding:10px 16px;border-radius:2px;font:500 15px var(--body);cursor:pointer;transition:background .2s,color .2s}
+.opts button[aria-pressed="true"]{background:var(--walnut);color:var(--lime)}
+.result{background:var(--walnut);color:var(--lime);padding:clamp(28px,4vw,44px);position:sticky;top:110px}
+.result small{display:block;color:rgba(238,231,219,.7);font-size:15px}
+.result .range{font:400 clamp(44px,5vw,72px)/1 var(--display);letter-spacing:-.02em;margin:12px 0 6px;font-variant-numeric:tabular-nums}
+.result ul{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:10px;border-top:1px solid rgba(238,231,219,.2);padding-top:20px}
+.result li{display:flex;justify-content:space-between;gap:16px;font-size:15px}
+.result li span:last-child{color:rgba(238,231,219,.75);text-align:right}
+.result .note{margin:20px 0 0;font-size:14px;color:rgba(238,231,219,.6)}
+.result .btn{margin-top:26px}
+
+/* more homes */
+.more{padding-block:0 clamp(90px,14vh,150px)}
+.more h2{font-size:clamp(34px,3.8vw,54px);margin-bottom:28px}
+.homes{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px}
+.homes figure{margin:0}
+.homes .ph{overflow:hidden;aspect-ratio:4/3;background:#b9ab94}
+.homes img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.homes figure:hover img{transform:scale(1.04)}
+.homes figcaption{display:flex;justify-content:space-between;gap:12px;padding-top:12px;font-size:15px}
+.homes figcaption span{color:var(--soft)}
+
+/* visit form */
+.visit{padding-block:clamp(80px,12vh,130px);background:var(--sage);color:var(--lime)}
+.visit .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);align-items:start}
+.visit h2{font-size:clamp(40px,5vw,76px)}
+.visit .addr{margin-top:28px;display:grid;gap:4px;color:rgba(238,231,219,.85)}
+form{display:grid;gap:14px}
+label{display:grid;gap:6px;font-size:15px;font-weight:500}
+input,select,textarea{width:100%;font:16px var(--body);color:var(--walnut);background:var(--lime);border:0;border-radius:2px;padding:13px 14px}
+textarea{min-height:96px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+form .btn{justify-self:start;background:var(--walnut);color:var(--lime)}
+.sent{display:none;padding:28px;background:rgba(238,231,219,.12)}
+.sent h3{font-size:30px;margin-bottom:8px}
+.done form{display:none}.done .sent{display:block}
+
+footer{background:var(--walnut);color:rgba(238,231,219,.6);font-size:14px;overflow:hidden}
+footer .big{display:block;padding:clamp(40px,7vw,90px) clamp(20px,4vw,48px) 0;font:400 clamp(64px,15vw,250px)/.9 var(--display);letter-spacing:-.02em;color:var(--lime);white-space:nowrap}
+footer .big i{font-style:italic;font-weight:400;color:var(--brass-l)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-block:24px}
+
+
+@media (max-width:900px){
+  .links{display:none}
+  .route{display:none}
+  .tour .shade{background:linear-gradient(180deg,rgba(20,16,13,.4) 0%,rgba(20,16,13,0) 20%,rgba(20,16,13,0) 40%,rgba(20,16,13,.88) 70%)}
+  .stop{top:auto;bottom:26px;transform:translateY(22px)}
+  .stop h1,.stop h2{font-size:clamp(32px,9vw,46px)}
+  .stop p{font-size:15.5px;margin-top:10px}
+  .stop dl{margin-top:14px;padding-top:12px;font-size:14px;gap:4px 14px}
+  .pin-dot span{display:none}
+  .intro .grid,.ba .top,.est .grid,.visit .grid{grid-template-columns:1fr}
+  .ba .notes{grid-template-columns:1fr;gap:14px}
+  .steps{grid-template-columns:1fr 1fr}.steps li:nth-child(3){padding-left:0;border-left:0}
+  .steps li:nth-child(n+3){border-top:1px solid var(--line)}
+  .result{position:static}
+  .homes{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .steps{grid-template-columns:1fr}.steps li{padding-left:0!important;border-left:0!important}.steps li+li{border-top:1px solid var(--line)}
+  .two{grid-template-columns:1fr}
+  nav .btn{display:none}
+  .stop dl{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="opener" id="opener" aria-hidden="true">
+  <span class="half t"></span><span class="half b"></span>
+  <span class="bar"><i id="obar"></i></span>
+  <div class="in" id="oin">
+    <span class="mark" id="omark">Atelier Nine</span>
+    <span class="tag" id="otag">Interiors designed and built in Kokapet, Hyderabad</span>
+  </div>
+  <div class="cue" id="ocue"><span>Scroll to enter</span><i></i></div>
+  <div class="meta"><span>Est. 2016</span><span id="opct">Preparing the tour</span></div>
+</div>
+
+<nav id="nav"><div class="row">
+  <a class="logo" href="#top">Atelier <i>Nine</i></a>
+  <div class="links"><a href="#top">House tour</a><a href="#before">Before and after</a><a href="#estimate">Estimate</a></div>
+  <a class="btn btn-sage" href="#visit">Book a site visit</a>
+</div></nav>
+
+<section class="tour" id="top" aria-label="A scroll-driven tour of a finished 3BHK apartment">
+  <div class="pin">
+    <canvas id="tour" aria-hidden="true"></canvas>
+    <div class="shade"></div>
+    <div class="pins" id="pins"></div>
+
+    <div class="stop" data-stop="0">
+      <span class="where">Atelier Nine · Interiors in Kokapet</span>
+      <h1>Every home we finish starts as a drawing.</h1>
+      <p>Scroll to walk through a 3BHK we handed over this spring, from the first sketch to the balcony, with what went into every room.</p>
+      <span class="hint"><i></i>Scroll to start the tour</span>
+    </div>
+    <div class="stop" data-stop="1">
+      <span class="where">Living room · 22 × 15 ft</span>
+      <h2>Drawn around the evening light.</h2>
+      <p>The sofa faces the west windows, so the travertine wall catches the sunset and the room glows without a single lamp on.</p>
+      <dl><dt>Wall</dt><dd>Honed travertine, Rajasthan</dd><dt>Floor</dt><dd>Engineered European oak</dd><dt>Seating</dt><dd>Bouclé sofa, made to measure</dd></dl>
+      <div class="budget">Share of this home's budget <b>₹4.2 L</b></div>
+    </div>
+    <div class="stop" data-stop="2">
+      <span class="where">Dining and kitchen · open plan</span>
+      <h2>A kitchen that disappears into the room.</h2>
+      <p>Walnut cabinetry runs floor to ceiling and hides the appliances. The travertine island carries on from the living room wall, so both rooms read as one.</p>
+      <dl><dt>Island</dt><dd>Travertine with a 40 mm edge</dd><dt>Cabinets</dt><dd>Walnut veneer, soft-close</dd><dt>Seats</dt><dd>Six at a solid oak table</dd></dl>
+      <div class="budget">Share of this home's budget <b>₹6.8 L</b></div>
+    </div>
+    <div class="stop" data-stop="3">
+      <span class="where">Master bedroom · 16 × 14 ft</span>
+      <h2>Quiet on purpose.</h2>
+      <p>A short travertine corridor separates the bedroom from the living spaces, and the palette softens to cream, linen and walnut so the room feels like the end of the day.</p>
+      <dl><dt>Headboard</dt><dd>Upholstered, full wall width</dd><dt>Lighting</dt><dd>Warm 2700 K, dimmable</dd><dt>Curtains</dt><dd>Linen sheers with blackout behind</dd></dl>
+      <div class="budget">Share of this home's budget <b>₹3.6 L</b></div>
+    </div>
+    <div class="stop" data-stop="4">
+      <span class="where">Balcony · 28th floor</span>
+      <h2>And the view was always there.</h2>
+      <p>Teak deck, outdoor lighting and planters for the balcony that most new owners never get round to. Handed over in twelve weeks, ready to live in.</p>
+      <div class="budget">Total for this 3BHK <b>₹21 L</b></div>
+      <a class="btn btn-lime" href="#visit">Book a site visit</a>
+    </div>
+
+    <ul class="route" id="route" aria-label="Tour stops"><span class="rail"></span></ul>
+    <span class="loading" id="loading">Loading the tour</span>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="wrap grid">
+    <h2 class="split">A small studio in Kokapet that finishes what it draws.</h2>
+    <div class="fade" style="--d:.2s">
+      <p>We take on twelve homes a year so the same designer who sketches your plan is on site the day the carpenter fits the wardrobes.</p>
+      <p>Most of our clients have just bought into a new tower or gated villa community and want it lived-in from day one, not five years later.</p>
+    </div>
+  </div>
+  <div class="wrap"><div class="facts rule fade" style="--d:.1s">
+    <div><b>140+</b><span>homes completed</span></div>
+    <div><b>12 weeks</b><span>typical handover</span></div>
+    <div><b>10 years</b><span>warranty on joinery</span></div>
+    <div><b>9</b><span>designers and site leads</span></div>
+  </div></div>
+</section>
+
+<section class="ba" id="before">
+  <div class="wrap">
+    <div class="top">
+      <h2 class="split">The same dining room, twelve weeks apart.</h2>
+      <p class="fade" style="--d:.25s">This is the room from the tour on the day the keys were handed over. Drag the line to see what changed.</p>
+    </div>
+    <div class="slider reveal" id="slider" role="group" aria-label="Before and after comparison">
+      <img id="baBefore" alt="The dining and kitchen area before: bare plaster walls, a cement floor and loose wiring">
+      <img id="baAfter" class="after" alt="The same area after: walnut kitchen, travertine island, oak table and brass pendants">
+      <span class="tag l">Handover day</span><span class="tag r">Twelve weeks later</span>
+      <div class="handle"><button type="button" id="handle" aria-label="Drag to compare before and after">⇆</button></div>
+    </div>
+    <div class="notes fade" style="--d:.2s">
+      <div><b>Wiring moved, not hidden</b><span>Pendant points were relocated over the table and island before the false ceiling went up.</span></div>
+      <div><b>One stone, two rooms</b><span>The travertine on the island is cut from the same lot as the living room wall.</span></div>
+      <div><b>Floor laid last</b><span>Oak goes down after joinery, so nothing is dragged across it during the build.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="wrap">
+    <h2 class="split">Four steps, one designer from start to finish.</h2>
+    <ol class="steps">
+      <li class="rule fade" style="--d:0.00s"><span class="n">1</span><h3>Site visit</h3><p>We measure, photograph and listen to how you actually use each room.</p><span class="wk">Week 1</span></li>
+      <li class="rule fade" style="--d:0.12s"><span class="n">2</span><h3>Design and 3D</h3><p>Layouts, materials and a walkthrough like the one above, before anything is ordered.</p><span class="wk">Weeks 2–4</span></li>
+      <li class="rule fade" style="--d:0.24s"><span class="n">3</span><h3>Build</h3><p>Our own carpenters and site lead, with photo updates every evening on WhatsApp.</p><span class="wk">Weeks 5–11</span></li>
+      <li class="rule fade" style="--d:0.36s"><span class="n">4</span><h3>Style and hand over</h3><p>Lighting, linen, art and plants in place, so you move into a finished home.</p><span class="wk">Week 12</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="est" id="estimate">
+  <div class="wrap grid">
+    <div>
+      <h2 class="split">What would yours cost?</h2>
+      <p class="lead fade" style="--d:.15s">A rough range before we meet. Your exact quote comes after the site visit, itemised room by room.</p>
+      <fieldset class="q fade" style="--d:.25s"><legend>Home</legend><div class="opts" data-k="home">
+        <button type="button" data-v="2bhk">2BHK</button><button type="button" data-v="3bhk" aria-pressed="true">3BHK</button><button type="button" data-v="4bhk">4BHK</button><button type="button" data-v="villa">Villa</button></div></fieldset>
+      <fieldset class="q fade" style="--d:.25s"><legend>Scope</legend><div class="opts" data-k="scope">
+        <button type="button" data-v="kw">Kitchen and wardrobes</button><button type="button" data-v="full" aria-pressed="true">Full home</button></div></fieldset>
+      <fieldset class="q fade" style="--d:.25s"><legend>Finish</legend><div class="opts" data-k="tier">
+        <button type="button" data-v="ess">Essential</button><button type="button" data-v="sig" aria-pressed="true">Signature, like the tour</button><button type="button" data-v="bes">Bespoke</button></div></fieldset>
+    </div>
+    <div class="result fade" style="--d:.3s" aria-live="polite">
+      <small>Estimated range</small>
+      <div class="range" id="range">₹19 – 25 L</div>
+      <small id="rsub">Full home · 3BHK · Signature finish</small>
+      <ul id="rlist"></ul>
+      <p class="note">Includes design, materials, labour and styling. Excludes appliances and loose furniture beyond the pieces we design.</p>
+      <a class="btn btn-sage" href="#visit">Book a site visit</a>
+    </div>
+  </div>
+</section>
+
+<section class="more">
+  <div class="wrap">
+    <h2 class="split">More from this year.</h2>
+    <div class="homes">
+      <figure class="fade" style="--d:0.00s"><div class="ph reveal" style="--d:0.00s"><img data-img="p-bedroom" alt="A bedroom with a cream headboard, travertine wall and city view" loading="lazy"></div><figcaption><b>Guest bedroom</b><span>Villa · Kokapet</span></figcaption></figure>
+      <figure class="fade" style="--d:0.14s"><div class="ph reveal" style="--d:0.14s"><img data-img="room" alt="A living room with a bouclé sofa and travertine wall at sunset" loading="lazy"></div><figcaption><b>Living room</b><span>Apartment · Narsingi</span></figcaption></figure>
+      <figure class="fade" style="--d:0.28s"><div class="ph reveal" style="--d:0.28s"><img data-img="sketch" alt="The architect's sketch of the same living room" loading="lazy"></div><figcaption><b>Where it started</b><span>Concept sketch</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="wrap grid">
+    <div>
+      <h2 class="split">Book a site visit.</h2>
+      <p class="fade" style="--d:.2s">We'll come to your flat or villa, measure up and talk through what you have in mind. The visit is free in Kokapet, Narsingi, Gachibowli and the Financial District.</p>
+      <div class="addr fade" style="--d:.3s"><b>Atelier Nine studio</b><span>Level 2, Kokapet One, Kokapet, Hyderabad 500075</span><span>Mon–Sat, 10 am – 7 pm · <a href="tel:+914048009999">+91 40 4800 9999</a></span></div>
+    </div>
+    <div id="formbox" class="fade" style="--d:.25s">
+      <form name="visit" method="POST" data-netlify="true" netlify-honeypot="bot" id="vform">
+        <input type="hidden" name="form-name" value="visit"><p hidden><label>Leave empty <input name="bot"></label></p>
+        <input type="hidden" name="estimate" id="festimate">
+        <div class="two"><label>Name<input name="name" required autocomplete="name"></label><label>Phone<input name="phone" required type="tel" autocomplete="tel" inputmode="tel"></label></div>
+        <div class="two"><label>Home<select name="home"><option>2BHK</option><option selected>3BHK</option><option>4BHK</option><option>Villa</option></select></label>
+          <label>Possession<select name="possession"><option>Already have keys</option><option>Within 3 months</option><option>Later this year</option></select></label></div>
+        <label>Project or community<input name="project" placeholder="The tower or community your home is in"></label>
+        <label>Anything we should know<textarea name="notes" placeholder="Rooms you care most about, a style you love, a move-in date"></textarea></label>
+        <button class="btn" type="submit">Request the visit</button>
+      </form>
+      <div class="sent" role="status"><h3>Visit requested.</h3><p>We'll call you within one working day to fix a time. Your estimate has been saved with the request.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer><span class="big split" aria-hidden="true">Atelier <i>Nine</i></span><div class="wrap"><span>© 2026 Atelier Nine Interiors · Kokapet, Hyderabad</span><span>Concept studio · site by SEVORA</span></div></footer>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const IMG=window.ATELIER_IMGS||{};
+const src=n=>IMG[n]||`img/${n}.webp`;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+
+/* ================= the house tour ================= */
+const LEGS=[[0, 41], [42, 126], [127, 213], [214, 308]];                        // [[firstFrame,lastFrame], ...] one per walk between rooms
+const EMB=window.SEQ_FRAMES||null,N=EMB?EMB.length:(LEGS.length?LEGS[LEGS.length-1][1]+1:0);
+const DIR=innerWidth<=900?'frames-m':'frames';
+const frameUrl=i=>EMB?EMB[i]:`${DIR}/frame-${String(i+1).padStart(3,'0')}.webp`;
+const STOPS=['Sketch','Living room','Dining and kitchen','Bedroom','Balcony'];
+// scroll timeline: dwell at a stop, walk a leg, dwell at the next stop...
+const DWELL=[.07,.1,.1,.1,.06],WALK=[.11,.16,.16,.14];
+const PLAN=[];{let t=0;for(let s=0;s<STOPS.length;s++){PLAN.push({kind:'stop',s,a:t,b:t+DWELL[s]});t+=DWELL[s];if(s<WALK.length){PLAN.push({kind:'walk',leg:s,a:t,b:t+WALK[s]});t+=WALK[s]}}
+  PLAN.forEach(p=>{p.a/=t;p.b/=t})}
+// material pins, in image coordinates (0..1) of the frame where each stop rests
+const PINS={1:[[.36,.2,'Travertine wall','Honed, unfilled'],[.43,.6,'Bouclé sofa','Made to measure'],[.6,.67,'Walnut table','Solid wood'],[.74,.36,'Linen sheers','Floor to ceiling']],
+  2:[[.5,.22,'Brass pendant','Hand-spun'],[.64,.55,'Travertine island','40 mm edge'],[.4,.34,'Walnut cabinetry','Handle-less'],[.55,.66,'Oak table','Seats six']],
+  3:[[.47,.33,'Artwork','Commissioned'],[.45,.6,'Bouclé headboard','Full width'],[.68,.48,'Pleated lamps','2700 K'],[.76,.26,'Blackout sheers','Two layers']],
+  4:[[.55,.4,'Skyline','Financial District']]};
+
+const tour=document.querySelector('.tour'),cv=document.getElementById('tour'),ctx=cv.getContext('2d');
+const stops=[...document.querySelectorAll('.stop')],pinsEl=document.getElementById('pins'),routeEl=document.getElementById('route'),loadEl=document.getElementById('loading');
+const frames=new Array(N);let target=0,cur=0,loaded=0;
+const ok=im=>im&&im.complete&&im.naturalWidth>0;
+// load leg by leg, coarse to fine, so the first room is ready almost immediately
+(function(){const order=[];const seen=new Set();
+  const SKIP=DIR==='frames-m'&&!EMB;                  // phones load every other frame (the lighter set)
+  LEGS.forEach(([a,b])=>[6,2,1].forEach(st=>{for(let i=a;i<=b;i+=st)if(!seen.has(i)&&!(SKIP&&i%2)){seen.add(i);order.push(i)}}));
+  let at=0;const next=()=>{if(at>=order.length)return;const i=order[at++];const im=new Image();im.decoding='async';
+    im.onload=im.onerror=()=>{frames[i]=im;loaded++;openerProgress();loadEl.textContent=loaded<N?`Loading the tour ${Math.round(loaded/N*100)}%`:'';if(loaded>=N)loadEl.hidden=true;next()};im.src=frameUrl(i)};
+  for(let k=0;k<6;k++)next();if(!N)loadEl.textContent='Tour coming soon'})();
+function size(){const d=Math.min(devicePixelRatio,2);cv.width=cv.clientWidth*d;cv.height=cv.clientHeight*d;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high'}
+function geom(img){const W=cv.width,H=cv.height,iw=img.naturalWidth,ih=img.naturalHeight,s=Math.max(W/iw,H/ih);
+  const wide=W/H>1.1;const dx=wide?(W-iw*s)/2:(W-iw*s)*.42;return {x:dx,y:(H-ih*s)/2,w:iw*s,h:ih*s}}
+function nearest(i){if(ok(frames[i]))return frames[i];for(let k=1;k<N;k++){if(ok(frames[i-k]))return frames[i-k];if(ok(frames[i+k]))return frames[i+k]}return null}
+// where are we: frame index and which stop is showing (with its strength)
+function locate(p){let f=0,stop=-1,o=0;
+  for(const seg of PLAN){if(p>=seg.a&&p<=seg.b){const k=(p-seg.a)/(seg.b-seg.a);
+    if(seg.kind==='stop'){stop=seg.s;f=seg.s===0?0:LEGS[seg.s-1][1];o=Math.min(1,k/.18,(1-k)/.18);if(seg.s===0)o=Math.min(1,(1-k)/.18);if(seg.s===STOPS.length-1)o=Math.min(1,k/.18)}
+    else{const [a,b]=LEGS[seg.leg];f=a+ease(k)*(b-a)}break}}
+  if(p>=1){stop=STOPS.length-1;o=1;f=N-1}
+  return {f,stop,o:clamp(o)}}
+function draw(L){if(!N)return;const img=nearest(Math.round(L.f));if(!img)return;const g=geom(img);ctx.drawImage(img,g.x,g.y,g.w,g.h);placePins(L,g)}
+// pins
+const pinNodes={};Object.entries(PINS).forEach(([s,list])=>{pinNodes[s]=list.map(([x,y,t,sub])=>{const d=document.createElement('div');d.className='pin-dot'+(x>.7?' l':'');
+  d.innerHTML=`<button type="button" aria-label="${t}: ${sub}"></button><span>${t}<small>${sub}</small></span>`;pinsEl.appendChild(d);return {d,x,y}})});
+function placePins(L,g){const dpr=cv.width/Math.max(1,cv.clientWidth);
+  Object.entries(pinNodes).forEach(([s,list])=>{const on=+s===L.stop&&L.o>.85;list.forEach(({d,x,y},i)=>{
+    d.style.left=((g.x+x*g.w)/dpr)+'px';d.style.top=((g.y+y*g.h)/dpr)+'px';d.style.transitionDelay=on?(i*.12+.1)+'s':'0s';d.classList.toggle('on',on)})})}
+// stop panels and route
+function panels(L){stops.forEach((el,i)=>{const o=i===L.stop?L.o:0;const wide=innerWidth>900;
+  el.style.opacity=o;el.style.visibility=o>0?'visible':'hidden';el.style.transform=wide?`translateY(calc(-50% + ${(1-o)*22}px))`:`translateY(${(1-o)*22}px)`;
+  el.querySelectorAll('a').forEach(a=>a.tabIndex=o>.5?0:-1)});
+  routeItems.forEach((li,i)=>{li.classList.toggle('on',i===L.stop||(L.stop<0&&i===lastStop(L.f)));li.classList.toggle('done',i<lastStop(L.f))})}
+function lastStop(f){let s=0;LEGS.forEach(([a,b],i)=>{if(f>=b-.5)s=i+1});return s}
+const routeItems=STOPS.map((n,i)=>{const li=document.createElement('li');li.innerHTML=`<button type="button">${n}<i></i></button>`;
+  li.querySelector('button').onclick=()=>{const seg=PLAN.find(p=>p.kind==='stop'&&p.s===i),O=openSpan(),span=tour.offsetHeight-innerHeight-O;
+    scrollTo({top:tour.offsetTop+O+span*((seg.a+seg.b)/2),behavior:reduce?'auto':'smooth'})};routeEl.appendChild(li);return li});
+let openQ=0;
+function openSpan(){return reduce?0:innerHeight*1.7}
+function read(){const r=tour.getBoundingClientRect(),O=openSpan(),span=tour.offsetHeight-innerHeight-O,v=span>1?(-r.top-O)/span:0;target=Number.isFinite(v)?clamp(v):0;openQ=-r.top/Math.max(1,O)}
+addEventListener('scroll',read,{passive:true});addEventListener('resize',()=>{size();read()});size();read();cur=target;
+
+/* nav turns solid after the tour */
+const nav=document.getElementById('nav');addEventListener('scroll',()=>nav.classList.toggle('solid',tour.getBoundingClientRect().bottom<80),{passive:true});
+
+/* ================= before / after ================= */
+const slider=document.getElementById('slider');
+document.getElementById('baBefore').src=src('before');document.getElementById('baAfter').src=src('dining');
+function setX(v){slider.style.setProperty('--x',clamp(v,2,98)+'%')}
+let dragging=false;
+slider.addEventListener('pointerdown',e=>{dragging=true;slider.setPointerCapture(e.pointerId);move(e)});
+slider.addEventListener('pointermove',e=>{if(dragging)move(e)});slider.addEventListener('pointerup',()=>dragging=false);
+function move(e){const r=slider.getBoundingClientRect();setX((e.clientX-r.left)/r.width*100)}
+document.getElementById('handle').addEventListener('keydown',e=>{const v=parseFloat(getComputedStyle(slider).getPropertyValue('--x'))||50;if(e.key==='ArrowLeft'){setX(v-4);e.preventDefault()}if(e.key==='ArrowRight'){setX(v+4);e.preventDefault()}});
+if(!reduce&&'IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();const t0=performance.now();
+  (function nud(now){const k=Math.min(1,(now-t0)/1600);setX(50+Math.sin(k*Math.PI*2)*18*(1-k));if(k<1)requestAnimationFrame(nud)})(t0)},{threshold:.6});io.observe(slider)}
+
+/* more homes */
+document.querySelectorAll('img[data-img]').forEach(im=>im.src=src(im.dataset.img));
+
+/* ================= estimator ================= */
+const SQFT={'2bhk':1250,'3bhk':1850,'4bhk':2600,villa:4200};
+const RATE={ess:[750,950],sig:[1050,1350],bes:[1500,2100]};
+const SPLIT=[['Kitchen and utility',.24],['Wardrobes and storage',.22],['Living and dining',.2],['Bedrooms',.16],['Lighting, ceilings, styling',.18]];
+const state={home:'3bhk',scope:'full',tier:'sig'};
+let shown=null;
+function tweenRange(L,H){const el=document.getElementById('range'),from=shown||[L,H],t0=performance.now();shown=[L,H];
+  const fmt=(l,h)=>`₹${lakh(l).replace(/ (L|Cr)$/,'')} – ${lakh(h)}`;if(reduce){el.textContent=fmt(L,H);return}
+  (function tick(now){const k=Math.min(1,(now-t0)/600),e=1-Math.pow(1-k,3);el.textContent=fmt(from[0]+(L-from[0])*e,from[1]+(H-from[1])*e);if(k<1)requestAnimationFrame(tick)})(t0)}
+const lakh=v=>v>=1e7?`${(v/1e7).toFixed(2).replace(/\.?0+$/,'')} Cr`:`${Math.round(v/1e5)} L`;
+function estimate(){const a=SQFT[state.home],[lo,hi]=RATE[state.tier],f=state.scope==='full'?1:.46,L=a*lo*f,H=a*hi*f;
+  tweenRange(L,H);
+  const names={'2bhk':'2BHK','3bhk':'3BHK','4bhk':'4BHK',villa:'Villa'},tiers={ess:'Essential',sig:'Signature',bes:'Bespoke'};
+  document.getElementById('rsub').textContent=`${state.scope==='full'?'Full home':'Kitchen and wardrobes'} · ${names[state.home]} · ${tiers[state.tier]} finish · about ${a.toLocaleString('en-IN')} sq ft`;
+  const parts=state.scope==='full'?SPLIT:[['Kitchen and utility',.52],['Wardrobes and storage',.48]];
+  document.getElementById('rlist').innerHTML=parts.map(([n,k])=>`<li><span>${n}</span><span>₹${lakh(L*k)} – ${lakh(H*k)}</span></li>`).join('');
+  document.getElementById('festimate').value=`₹${lakh(L).replace(/ (L|Cr)$/,'')} – ${lakh(H)} (${document.getElementById('rsub').textContent})`;
+  const sel=document.querySelector('select[name=home]');if(sel)sel.value=names[state.home]}
+document.querySelectorAll('.opts').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));state[g.dataset.k]=b.dataset.v;estimate()}));
+estimate();
+
+/* ================= visit form ================= */
+document.getElementById('vform').addEventListener('submit',e=>{e.preventDefault();const f=e.target;
+  const done=()=>document.getElementById('formbox').classList.add('done');
+  if(window.SEVORA_LIVE){fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(done).catch(done)}else done()});
+
+
+/* keyboard: inside the tour, Space / Page Down / arrows move one stop at a time */
+addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,select,textarea,button'))return;
+  const r=tour.getBoundingClientRect();if(r.top>1||r.bottom<innerHeight)return;
+  const fwd=['PageDown','ArrowDown',' '].includes(e.key)&&!e.shiftKey,back=['PageUp','ArrowUp'].includes(e.key)||(e.key===' '&&e.shiftKey);if(!fwd&&!back)return;
+  const O=openSpan(),span=tour.offsetHeight-innerHeight-O;if(-r.top<O)return;
+  const mids=PLAN.filter(p=>p.kind==='stop').map(p=>(p.a+p.b)/2),now=target;
+  const next=fwd?mids.find(m=>m>now+.004):[...mids].reverse().find(m=>m<now-.004);
+  if(next===undefined)return;e.preventDefault();scrollTo({top:tour.offsetTop+O+span*next,behavior:'smooth'})});
+
+/* ================= opener: scroll-driven ================= */
+const opener=document.getElementById('opener'),obar=document.getElementById('obar'),opct=document.getElementById('opct');
+const omark=document.getElementById('omark'),otag=document.getElementById('otag'),oin=document.getElementById('oin'),ocue=document.getElementById('ocue');
+const halves=opener.querySelectorAll('.half');
+// split the wordmark into letters; "Nine" in italic gold
+omark.innerHTML=[...'Atelier Nine'].map((c,i)=>c===' '?'<span class="sp"></span>':`<span class="ch${i>7?' it':''}">${c}</span>`).join('');
+const letters=[...omark.querySelectorAll('.ch')];
+function firstLegLoaded(){if(!LEGS.length)return 1;const [a,b]=LEGS[0],st=(DIR==='frames-m'&&!EMB)?2:1;let c=0,t=0;for(let i=a;i<=b;i+=st){t++;if(frames[i])c++}return c/t}
+function openerProgress(){const k=firstLegLoaded();obar.parentElement.style.setProperty('--p',k.toFixed(3));opct.textContent=k<1?`Preparing the tour · ${Math.round(k*100)}%`:'Tour ready'}
+// q: 0 at the top of the page, 1 when the opener has fully split open
+function drawOpener(q){if(reduce){opener.classList.add('off');return}
+  q=clamp(q,0,1.2);opener.classList.toggle('off',q>=1.02);
+  const A=-.04,B=.52;                                          // letters arrive between A and B
+  letters.forEach((el,i)=>{const s=A+(B-A)*i/letters.length,k=clamp((q-s)/((B-A)/letters.length*2.2)),e=1-Math.pow(1-k,3);
+    el.style.opacity=e;el.style.transform=`translateY(${(1-e)*.35}em)`;el.style.filter=`blur(${(1-e)*10}px)`});
+  const t=clamp((q-.56)/.1);otag.style.opacity=t;otag.style.transform=`translateY(${(1-t)*12}px)`;
+  ocue.style.opacity=1-clamp(q/.12);
+  const sp=clamp((q-.74)/.26),e=sp<.5?4*sp*sp*sp:1-Math.pow(-2*sp+2,3)/2;    // the split
+  halves[0].style.transform=`translateY(${-e*101}%)`;halves[1].style.transform=`translateY(${e*101}%)`;
+  oin.style.opacity=1-clamp((q-.7)/.16);oin.style.transform=`scale(${1+e*.06})`;
+  opener.querySelector('.meta').style.opacity=1-clamp((q-.7)/.1);obar.parentElement.style.opacity=1-clamp((q-.7)/.1);
+  const nv=document.getElementById('nav');nv.style.opacity=clamp((q-.8)/.2);nv.style.pointerEvents=q>.9?'auto':'none'}
+openerProgress();
+/* ================= motion for the rest of the page ================= */
+document.querySelectorAll('.split').forEach(h=>{let i=0;[...h.childNodes].forEach(c=>{
+  if(c.nodeType===3){const frag=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(p=>{if(!p)return;
+      if(/^\s+$/.test(p)){frag.appendChild(document.createTextNode(' '));return}
+      const w=document.createElement('span');w.className='w';const n=document.createElement('span');n.style.setProperty('--i',i++);n.textContent=p;w.appendChild(n);frag.appendChild(w)});c.replaceWith(frag)}
+  else if(c.nodeType===1){const w=document.createElement('span');w.className='w';const n=document.createElement('span');n.style.setProperty('--i',i++);c.replaceWith(w);n.appendChild(c);w.appendChild(n)}})});
+function countUp(el){const m=el.textContent.match(/^(\D*)(\d[\d,]*)(.*)$/);if(!m)return;const to=+m[2].replace(/,/g,''),t0=performance.now();
+  (function tick(now){const k=Math.min(1,(now-t0)/1400),v=Math.round(to*(1-Math.pow(1-k,3)));el.textContent=m[1]+v.toLocaleString('en-IN')+m[3];if(k<1)requestAnimationFrame(tick)})(t0)}
+if(reduce||!('IntersectionObserver' in window)){document.documentElement.classList.add('no-motion')}else{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target);
+    if(e.target.classList.contains('facts'))e.target.querySelectorAll('b').forEach(countUp)}),{threshold:.18,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.split,.fade,.reveal,.rule').forEach(el=>io.observe(el))}
+
+/* loop */
+(function loop(){{const d=(target-cur)*(reduce?1:.12),MAX=reduce?1:.0028;cur+=Math.max(-MAX,Math.min(MAX,d));if(Math.abs(target-cur)<.0003)cur=target;}const L=locate(cur);draw(L);panels(L);drawOpener(openQ);requestAnimationFrame(loop)})();
+</script>
+</body>
+</html>
