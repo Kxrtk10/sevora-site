@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="ARETÉ, Jubilee Hills: a coached strength club in Hyderabad. 12-week programmes, recovery lab, nutrition bar. Claim 3 free days.">
+<meta name="theme-color" content="#09090b">
+<link rel="preload" as="image" href="frames/frame-001.webp">
+<script>window.SEVORA_LIVE=true;</script>
+<title>ARETÉ — Strength Club, Jubilee Hills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root{--bg:#09090b;--bg2:#111114;--steel:#1b1c20;--ink:#f3f1ec;--mute:#9b9ba1;--dim:#5d5d64;--line:rgba(243,241,236,.12);--red:#e3261c;--red2:#ff4a3a;
+  --cond:"Archivo",system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--pad:clamp(20px,4.5vw,64px)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--cond);font-size:16px;line-height:1.55;font-variation-settings:"wdth" 100;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--red);color:#fff}
+.h{font-family:var(--cond);font-weight:800;font-stretch:66%;font-variation-settings:"wdth" 66;text-transform:uppercase;letter-spacing:-.005em;line-height:.9}
+.it{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0;font-variation-settings:normal}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);font-weight:600;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--red)}
+.wrap{padding:0 var(--pad);max-width:1440px;margin:0 auto}
+.red{color:var(--red2)}
+.grain{position:fixed;inset:-50%;pointer-events:none;z-index:90;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1.2s steps(4) infinite}
+@keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px var(--pad);transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+nav.solid{background:rgba(9,9,11,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.logo{font-size:22px;text-decoration:none;letter-spacing:.06em}
+.logo .ac{color:var(--red2);font-style:normal}
+.links{display:flex;gap:30px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.links a{text-decoration:none;color:var(--mute);transition:color .25s}
+.links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;padding:13px 22px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;text-decoration:none;border-radius:2px;transition:background .25s,transform .25s}
+.btn:hover{background:var(--red2);transform:translateY(-1px)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn.ghost:hover{border-color:var(--ink);background:transparent}
+.btn .ar{transition:transform .25s}.btn:hover .ar{transform:translateX(3px)}
+@media(max-width:900px){.links{display:none}nav .btn{padding:11px 16px;font-size:12px}}
+
+/* film */
+#film{position:relative;height:720vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
+#cv{position:absolute;inset:0;width:100%;height:100%}
+.shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 55%,rgba(0,0,0,.75) 100%),radial-gradient(ellipse at 50% 60%,transparent 40%,rgba(0,0,0,.45) 100%)}
+.cap{position:absolute;opacity:0;will-change:opacity,transform;pointer-events:none}
+.cap.on{pointer-events:auto}
+.c-intro{left:var(--pad);right:var(--pad);bottom:clamp(40px,9vh,96px)}
+.c-intro .def{font-family:var(--serif);font-style:italic;font-size:clamp(18px,1.6vw,22px);color:#d8d5cf;margin-bottom:18px}
+.c-intro .def span{font-style:normal;font-family:var(--cond);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-left:10px}
+.c-intro h1{font-size:clamp(46px,8.4vw,132px);max-width:12ch}
+.hint{position:absolute;right:var(--pad);bottom:clamp(40px,9vh,96px);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:12px}
+.hint i{width:1px;height:54px;background:linear-gradient(var(--ink),transparent);animation:dr 1.8s ease-in-out infinite;transform-origin:top}
+@keyframes dr{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+.c-step{left:var(--pad);bottom:clamp(40px,9vh,96px);max-width:min(560px,86vw)}
+.c-step .n{font-size:13px;letter-spacing:.2em;color:var(--red2);font-weight:700;margin-bottom:12px}
+.c-step h2{font-size:clamp(40px,6vw,92px)}
+.c-step p{margin-top:16px;color:#cfccc6;font-size:clamp(15px,1.15vw,17px);max-width:44ch}
+.c-mark{inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--pad)}
+.mark{display:flex;font-size:clamp(84px,21vw,330px);line-height:.8;letter-spacing:.01em}
+.mark span{display:inline-block;will-change:transform,opacity}
+.mark .acc{color:var(--red2)}
+.c-mark .sub{margin-top:clamp(18px,3vh,32px);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#d7d4ce}
+.c-mark .cta{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.rail{position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:14px;align-items:flex-end}
+.rail b{display:block;width:16px;height:2px;background:rgba(255,255,255,.25);transition:width .35s,background .35s}
+.rail b.on{width:34px;background:var(--red2)}
+@media(max-width:760px){.rail{display:none}.hint{display:none}}
+
+/* manifesto */
+#manifesto{padding:clamp(110px,18vh,200px) 0 clamp(90px,14vh,160px)}
+.mani{font-size:clamp(30px,4.3vw,64px);line-height:1.12;font-weight:500;font-variation-settings:"wdth" 88;letter-spacing:-.01em;max-width:22ch;margin-top:30px}
+.mani .w{opacity:.14;transition:opacity .35s}
+.mani .w.lit{opacity:1}
+.mani .it{font-size:1.08em}
+.mani-foot{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:clamp(60px,9vh,110px);border-top:1px solid var(--line);padding-top:28px}
+.mani-foot div{font-size:14px;color:var(--mute)}
+.mani-foot b{display:block;font-size:clamp(40px,4vw,60px);color:var(--ink);line-height:1;margin-bottom:8px}
+@media(max-width:760px){.mani-foot{grid-template-columns:1fr}}
+
+/* club (horizontal) */
+#club{position:relative}
+.club-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding-top:60px}
+.club-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;padding:0 var(--pad);margin-bottom:clamp(22px,4vh,40px)}
+.club-head h2{font-size:clamp(44px,6.6vw,104px)}
+.club-head .cnt{font-size:13px;letter-spacing:.2em;color:var(--mute);white-space:nowrap}
+.club-head .cnt b{color:var(--ink)}
+.track{display:flex;gap:clamp(14px,2vw,28px);padding:0 var(--pad);will-change:transform}
+.zone{flex:0 0 auto;width:min(64vw,900px,calc((100vh - 470px)*1.778));position:relative}
+.zone .ph{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--steel);border-radius:2px}
+.zone .ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);will-change:transform}
+.zone .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.6))}
+.zone .num{position:absolute;left:22px;top:18px;z-index:2;font-size:13px;letter-spacing:.2em;font-weight:700}
+.zone .num::before{content:"";display:inline-block;width:8px;height:8px;background:var(--red2);margin-right:10px;vertical-align:1px}
+.zone .meta{display:flex;justify-content:space-between;gap:24px;margin-top:18px;align-items:flex-start}
+.zone h3{font-size:clamp(28px,3vw,44px)}
+.zone p{color:var(--mute);font-size:15px;max-width:38ch;margin-top:6px}
+.zone .spec{display:flex;flex-direction:column;gap:6px;text-align:right;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#cfccc6;white-space:nowrap}
+.zone .spec span{border-bottom:1px solid var(--line);padding-bottom:6px}
+.zone.end{width:min(40vw,520px);display:flex;flex-direction:column;justify-content:center;gap:22px}
+.zone.end h3{font-size:clamp(34px,4vw,62px)}
+@media(max-width:760px){.zone{width:84vw}.zone.end{width:76vw}.zone .meta{flex-direction:column}.zone .spec{text-align:left}}
+
+/* method */
+#method{position:relative;height:380vh;background:var(--bg2)}
+.m-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,5vw,80px);align-items:center;padding:clamp(80px,12vh,120px) var(--pad) clamp(30px,6vh,60px);max-width:1440px;margin:0 auto}
+.m-pin .eyebrow{margin-bottom:18px}
+.wk{font-size:clamp(130px,19vw,300px);line-height:.78;display:flex;align-items:flex-end;gap:10px}
+.wk small{font-size:clamp(14px,1.2vw,16px);letter-spacing:.2em;color:var(--mute);font-variation-settings:"wdth" 100;font-weight:600;margin-bottom:.6em;writing-mode:vertical-rl;transform:rotate(180deg)}
+.phase{margin-top:26px;min-height:150px}
+.phase .pn{font-size:13px;letter-spacing:.2em;color:var(--red2);font-weight:700}
+.phase h3{font-size:clamp(34px,3.6vw,56px);margin:10px 0 10px}
+.phase p{color:#cfccc6;max-width:42ch}
+.bar{display:flex;gap:6px;margin-top:22px}
+.bar i{flex:1;height:3px;background:rgba(255,255,255,.12);position:relative;overflow:hidden}
+.bar i::after{content:"";position:absolute;inset:0;background:var(--red2);transform:scaleX(var(--k,0));transform-origin:left}
+.chart{position:relative;border:1px solid var(--line);padding:22px 22px 14px;background:rgba(255,255,255,.015)}
+.chart .lg{display:flex;gap:22px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:10px}
+.chart .lg i{display:inline-block;width:18px;height:2px;margin-right:8px;vertical-align:3px}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:18px}
+.stat{background:var(--bg2);padding:16px 16px 14px}
+.stat .l{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.stat .v{font-size:clamp(26px,2.4vw,40px);margin-top:6px;white-space:nowrap}
+.stat .d{font-size:12px;color:var(--red2);font-weight:600;margin-top:2px}
+.fine{font-size:11.5px;color:var(--dim);margin-top:12px}
+@media(max-width:900px){#method{height:420vh}.m-pin{grid-template-columns:1fr;gap:18px;align-content:center;padding-top:84px}.wk{font-size:clamp(96px,28vw,150px)}.phase{min-height:0;margin-top:12px}.phase p{font-size:14px}.phase h3{margin:6px 0}.stats{grid-template-columns:repeat(2,1fr)}.chart{padding:14px}.chart svg{max-height:22vh}}
+
+/* why */
+#why{padding:clamp(110px,16vh,180px) 0}
+.sec-h{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:clamp(40px,7vh,70px);flex-wrap:wrap}
+.sec-h h2{font-size:clamp(46px,7vw,112px);margin-top:18px}
+.sec-h p{color:var(--mute);max-width:40ch}
+.usp{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.u{padding:34px 30px 38px 0;border-bottom:1px solid var(--line);position:relative}
+.u:not(:nth-child(3n+1)){padding-left:30px;border-left:1px solid var(--line)}
+.u .k{font-size:clamp(54px,5.4vw,84px);line-height:.9}
+.u .k sup{font-size:.36em;vertical-align:top;margin-left:4px;color:var(--red2)}
+.u h3{font-size:22px;margin:16px 0 8px;font-variation-settings:"wdth" 80;letter-spacing:.02em}
+.u p{color:var(--mute);font-size:15px;max-width:36ch}
+.u::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--red2);transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.u:not(:nth-child(3n+1))::before{left:-1px}
+.u:hover::before{width:100%}
+@media(max-width:900px){.usp{grid-template-columns:1fr 1fr}.u,.u:not(:nth-child(3n+1)){padding:28px 18px 30px;border-left:0}.u:nth-child(2n){border-left:1px solid var(--line)}}
+@media(max-width:560px){.usp{grid-template-columns:1fr}.u:nth-child(2n){border-left:0}.u,.u:not(:nth-child(3n+1)){padding:26px 0}}
+
+/* promise band */
+.promise{position:relative;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(70px,11vh,120px) 0;background:radial-gradient(ellipse at 80% 50%,rgba(227,38,28,.16),transparent 60%)}
+.promise .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:50px;align-items:center}
+.promise h2{font-size:clamp(46px,6.4vw,100px)}
+.promise p{color:#cfccc6;font-size:clamp(16px,1.3vw,19px)}
+.promise .fine{margin-top:18px}
+@media(max-width:900px){.promise .wrap{grid-template-columns:1fr;gap:20px}}
+
+/* finder */
+#finder{padding:clamp(110px,16vh,170px) 0}
+.fd{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:start}
+.q{margin-bottom:30px}
+.q .ql{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:12px;font-weight:600}
+.q .ql b{color:var(--red2);margin-right:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);padding:12px 18px;font-size:14px;font-weight:600;border-radius:2px;transition:border-color .25s,background .25s,color .25s}
+.chip:hover{border-color:rgba(243,241,236,.45)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.res{position:sticky;top:110px;border:1px solid var(--line);padding:clamp(26px,3vw,40px);background:linear-gradient(160deg,rgba(255,255,255,.035),transparent);min-height:420px;display:flex;flex-direction:column}
+.res .tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--red2);font-weight:700}
+.res h3{font-size:clamp(44px,5vw,76px);margin:14px 0 14px}
+.res p{color:#cfccc6}
+.res ul{list-style:none;margin:22px 0 28px;display:grid;gap:10px}
+.res li{display:flex;gap:12px;font-size:15px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.res li span{color:var(--mute);min-width:96px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding-top:2px}
+.res .btn{margin-top:auto;align-self:flex-start}
+.res.swap h3,.res.swap p,.res.swap ul{animation:sw .55s cubic-bezier(.2,.7,.2,1)}
+@keyframes sw{from{opacity:0;transform:translateY(12px)}}
+@media(max-width:900px){.fd{grid-template-columns:1fr}.res{position:relative;top:0;min-height:0}}
+
+/* classes */
+#classes{padding:clamp(100px,14vh,160px) 0;background:var(--bg2)}
+.days{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{padding:14px 18px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--mute);position:relative;white-space:nowrap}
+.day[aria-selected="true"]{color:var(--ink)}
+.day[aria-selected="true"]::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;background:var(--red2)}
+.tt{min-height:380px}
+.row{display:grid;grid-template-columns:110px 1.4fr 1fr .8fr 150px;gap:20px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);animation:sw .5s cubic-bezier(.2,.7,.2,1) both}
+.row .t{font-size:24px;font-variation-settings:"wdth" 70;font-weight:800}
+.row .c{font-size:18px;font-weight:700}
+.row .c small{display:block;font-size:13px;color:var(--mute);font-weight:400}
+.row .co,.row .lv{font-size:14px;color:#cfccc6}
+.lv i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:8px;background:var(--dim)}
+.lv.l1 i{background:#7bd88f}.lv.l2 i{background:#f2c14e}.lv.l3 i{background:var(--red2)}
+.row .sp{justify-self:end;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;border:1px solid var(--line);padding:9px 14px;border-radius:2px;transition:all .25s}
+.row .sp:hover{border-color:var(--ink)}
+.row .sp.low{color:var(--red2);border-color:rgba(255,74,58,.4)}
+.row .sp.ok{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+@media(max-width:760px){.row{grid-template-columns:70px 1fr auto;gap:12px}.row .co,.row .lv{display:none}.row .t{font-size:20px}.row .c{font-size:16px}}
+
+/* membership */
+#join{padding:clamp(110px,16vh,180px) 0}
+.toggle{display:inline-flex;border:1px solid var(--line);padding:4px;border-radius:2px;gap:4px}
+.toggle button{padding:10px 16px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--mute);border-radius:2px}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.toggle em{font-style:normal;color:var(--red2);margin-left:6px}
+@media(max-width:560px){.toggle{width:100%}.toggle button{flex:1;padding:10px 6px;font-size:11px;letter-spacing:.08em}.toggle em{display:block;margin:2px 0 0}}
+.toggle button[aria-pressed="true"] em{color:var(--red)}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+.tier{border:1px solid var(--line);padding:clamp(26px,2.6vw,38px);display:flex;flex-direction:column;position:relative;background:var(--bg)}
+.tier.feat{border-color:rgba(255,74,58,.55);background:linear-gradient(180deg,rgba(227,38,28,.1),transparent 55%)}
+.tier .badge{position:absolute;top:-1px;right:24px;background:var(--red);color:#fff;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:7px 12px}
+.tier h3{font-size:clamp(36px,3.4vw,52px)}
+.tier .for{color:var(--mute);font-size:14px;margin-top:6px;min-height:44px}
+.price{margin:24px 0 4px;display:flex;align-items:baseline;gap:8px}
+.price b{font-size:clamp(46px,4.4vw,66px);font-variation-settings:"wdth" 66;font-weight:800;line-height:1}
+.price span{color:var(--mute);font-size:14px}
+.bill{font-size:12.5px;color:var(--dim);min-height:20px}
+.tier ul{list-style:none;margin:24px 0 30px;display:grid;gap:12px;font-size:15px}
+.tier li{display:flex;gap:12px;color:#d8d5cf}
+.tier li::before{content:"";flex:0 0 12px;height:1px;background:var(--red2);margin-top:12px}
+.tier .btn{margin-top:auto;justify-content:center}
+@media(max-width:900px){.tiers{grid-template-columns:1fr}}
+
+/* trial */
+#trial{position:relative;padding:clamp(110px,16vh,180px) 0;overflow:hidden;border-top:1px solid var(--line)}
+#trial .bgimg{position:absolute;inset:0;opacity:.85;background-size:cover;background-position:center}
+#trial .bgimg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 22%,rgba(9,9,11,.45) 70%,rgba(9,9,11,.3)),linear-gradient(180deg,var(--bg),transparent 25%,transparent 75%,var(--bg))}
+.tr{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:start}
+.tr h2{font-size:clamp(56px,8.4vw,136px);margin-top:18px}
+.tr .lede{color:#cfccc6;max-width:40ch;margin-top:20px;font-size:17px}
+.visit{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:460px}
+.visit div{font-size:14px;color:var(--mute)}
+.visit b{display:block;color:var(--ink);font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+form{background:rgba(17,17,20,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);padding:clamp(24px,3vw,40px)}
+.f{margin-bottom:18px}
+.f label{display:block;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;font-weight:600}
+.f input,.f select{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(243,241,236,.25);color:var(--ink);font:inherit;font-size:17px;padding:10px 0;border-radius:0;outline:none;transition:border-color .25s;-webkit-appearance:none;appearance:none}
+.f select{background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);background-position:calc(100% - 12px) 55%,calc(100% - 7px) 55%;background-size:5px 5px;background-repeat:no-repeat}
+.f select option{background:#151518;color:var(--ink)}
+.f input:focus,.f select:focus{border-color:var(--red2)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+form .btn{width:100%;justify-content:center;margin-top:10px;padding:17px}
+.small{font-size:12px;color:var(--dim);margin-top:14px;text-align:center}
+.done{display:none;text-align:center;padding:40px 10px}
+.done h3{font-size:48px;margin-bottom:10px}
+.done p{color:#cfccc6}
+form.sent .fields{display:none}form.sent .done{display:block}
+.hide{position:absolute;left:-9999px}
+@media(max-width:900px){.tr{grid-template-columns:1fr}.f2{grid-template-columns:1fr}}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:60px 0 0;overflow:hidden}
+.ft{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;font-size:14px;color:var(--mute)}
+.ft a{text-decoration:none;color:var(--mute)}.ft a:hover{color:var(--ink)}
+.ft .col{display:grid;gap:8px}
+.ft b{color:var(--ink);font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px}
+.big{font-size:clamp(120px,29vw,470px);line-height:.8;text-align:center;margin-top:60px;user-select:none;transform:translateY(6%);color:transparent;background:linear-gradient(180deg,#f3f1ec 20%,rgba(243,241,236,.55) 60%,rgba(243,241,236,.08) 95%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 20px 60px rgba(0,0,0,.6))}
+.big span{background:linear-gradient(180deg,#ff4a3a 20%,rgba(227,38,28,.55) 60%,rgba(227,38,28,.08) 95%);-webkit-background-clip:text;background-clip:text}
+.credit{text-align:center;font-size:12px;color:var(--dim);padding:20px 0 26px;letter-spacing:.1em}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.split .ln{display:block;overflow:hidden;padding-bottom:.04em}
+.split .ln>span{display:inline-block;transform:translateY(105%);transition:transform 1.1s cubic-bezier(.2,.75,.15,1)}
+.split.in .ln>span{transform:none}
+.split.in .ln:nth-child(2)>span{transition-delay:.08s}.split.in .ln:nth-child(3)>span{transition-delay:.16s}
+@media(prefers-reduced-motion:reduce){.rv,.split .ln>span{opacity:1;transform:none;transition:none}.grain{animation:none}.mani .w{opacity:1}}
+:focus-visible{outline:2px solid var(--red2);outline-offset:3px}
+/* photographic backgrounds */
+.has-bg{position:relative;overflow:clip}
+.has-bg>.wrap{position:relative;z-index:1}
+.bgl{position:absolute;left:0;right:0;top:-14%;bottom:-14%;background-size:cover;background-position:center;z-index:0;will-change:transform;pointer-events:none}
+.bgl::after{content:"";position:absolute;inset:0;background:var(--ov,linear-gradient(180deg,var(--bg) 0%,rgba(9,9,11,.82) 22%,rgba(9,9,11,.82) 78%,var(--bg) 100%))}
+.m-pin .bgl{left:calc(50% - 50vw);right:calc(50% - 50vw);top:0;bottom:0}
+.m-pin>div:not(.bgl){position:relative;z-index:1}
+/* interlude */
+.inter{position:relative;height:100vh;height:100svh;min-height:560px;overflow:clip;display:flex;align-items:flex-end}
+.inter .bgl{--ov:linear-gradient(180deg,var(--bg) 0%,rgba(9,9,11,.15) 25%,rgba(9,9,11,.25) 60%,var(--bg) 100%),linear-gradient(90deg,rgba(9,9,11,.75),transparent 60%)}
+.inter .wrap{position:relative;z-index:1;width:100%;padding-bottom:clamp(60px,12vh,130px)}
+.inter h2{font-size:clamp(54px,9vw,150px);max-width:11ch}
+.inter p{color:#d8d5cf;max-width:40ch;margin-top:22px;font-size:clamp(16px,1.3vw,19px)}
+/* usp cards with photos */
+.u .thumb{aspect-ratio:16/10;overflow:hidden;margin-bottom:26px;background:var(--steel);border-radius:2px}
+.u .thumb i{display:block;width:100%;height:100%;background-size:cover;background-position:center;filter:grayscale(.85) brightness(.75);transform:scale(1.06);transition:filter .8s,transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.u:hover .thumb i{filter:none;transform:scale(1)}
+/* finder card photo */
+.res{overflow:hidden}
+.res>*{position:relative;z-index:1}
+.res .rbg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;opacity:0;transition:opacity .9s}
+.res .rbg.on{opacity:1}
+.res .rbg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,11,.6),rgba(9,9,11,.92) 55%,rgba(9,9,11,.97))}
+/* tier photos */
+.tier .tp{height:150px;margin:calc(-1*clamp(26px,2.6vw,38px)) calc(-1*clamp(26px,2.6vw,38px)) 26px;background-size:cover;background-position:center;position:relative}
+.tier .tp::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,11,.1),var(--bg))}
+.tier.feat .tp::after{background:linear-gradient(180deg,rgba(227,38,28,.12),#140b0b)}
+.tier{overflow:hidden}
+footer.has-bg .bgl{--ov:linear-gradient(180deg,var(--bg) 0%,rgba(9,9,11,.88) 40%,rgba(9,9,11,.7) 100%)}
+footer>.wrap,footer>.big,footer>.credit{position:relative;z-index:1}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<nav id="nav">
+  <a class="logo h" href="#top">ARET<em class="ac">É</em></a>
+  <div class="links"><a href="#club">The Club</a><a href="#method">Method</a><a href="#classes">Classes</a><a href="#join">Membership</a></div>
+  <a class="btn" href="#trial">3 free days <span class="ar">→</span></a>
+</nav>
+
+<section id="film" aria-label="The club builds itself">
+  <div class="stage" id="top">
+    <canvas id="cv"></canvas>
+    <div class="shade"></div>
+    <div class="cap c-intro" data-a="0" data-b=".08">
+      <p class="def">ἀρετή — excellence; living up to your full potential.<span>/a·re·tay/ · n.</span></p>
+      <h1 class="h">Every standard starts in an <span class="it">empty</span> room.</h1>
+    </div>
+    <div class="hint cap" data-a="0" data-b=".05">Scroll<i></i></div>
+    <div class="cap c-step" data-a=".08" data-b=".2">
+      <div class="n">01 — Foundation</div>
+      <h2 class="h">First, the ground you stand on.</h2>
+      <p>Forty millimetres of rubber over raw concrete, wooden platforms for every lift. Built to take a dropped deadlift, every day, for years.</p>
+    </div>
+    <div class="cap c-step" data-a=".23" data-b=".38">
+      <div class="n">02 — Iron</div>
+      <h2 class="h">Then the iron arrives.</h2>
+      <p>Calibrated plates, dumbbells from 2.5 to 60 kg in pairs, cable stations and racks — chosen by coaches, not catalogues.</p>
+    </div>
+    <div class="cap c-step" data-a=".42" data-b=".56">
+      <div class="n">03 — Light</div>
+      <h2 class="h">And then the lights come on.</h2>
+      <p>The room is ready. The only thing missing is you.</p>
+    </div>
+    <div class="cap c-step" data-a=".6" data-b=".8">
+      <div class="n">04 — Yours</div>
+      <h2 class="h">Walk in. Get to work.</h2>
+      <p>Eighteen thousand square feet, twelve racks and not a minute spent waiting for one. This is the floor you'll train on.</p>
+    </div>
+    <div class="cap c-mark" data-a=".85" data-b="2">
+      <div class="mark h" id="mark" aria-label="ARETÉ"><span>A</span><span>R</span><span>E</span><span>T</span><span class="acc">É</span></div>
+      <div class="sub">Strength club · Jubilee Hills, Hyderabad</div>
+      <div class="cta"><a class="btn" href="#trial">Claim 3 free days <span class="ar">→</span></a><a class="btn ghost" href="#club">See the club</a></div>
+    </div>
+    <div class="rail" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b><b></b></div>
+  </div>
+</section>
+
+<section id="manifesto" class="has-bg"><div class="bgl" data-k="zone-dumbbell" style="--ov:linear-gradient(90deg,var(--bg) 30%,rgba(9,9,11,.72) 65%,rgba(9,9,11,.5)),linear-gradient(180deg,var(--bg),transparent 25%,transparent 75%,var(--bg))"></div>
+  <div class="wrap">
+    <div class="eyebrow rv">The idea</div>
+    <p class="mani" id="mani">Areté is the old Greek word for <span class="it">excellence</span> — the quality of living up to everything you are capable of. Not a number on a scale. A standard you keep, one session at a time.</p>
+    <div class="mani-foot">
+      <div class="rv"><b class="h" data-count="1:6">1:6</b>Coach-to-member ratio on every coached session.</div>
+      <div class="rv"><b class="h" data-count="12">12</b>Weeks in every programme block, with a scan at each end.</div>
+      <div class="rv"><b class="h" data-count="18000">18,000</b>Square feet of floor, recovery and kitchen under one roof.</div>
+    </div>
+  </div>
+</section>
+
+<section class="inter" aria-label="Strength is a skill">
+  <div class="bgl" data-k="zone-barbell"></div>
+  <div class="wrap">
+    <div class="eyebrow rv">The craft</div>
+    <h2 class="h split" style="margin-top:18px"><span class="ln"><span>Strength is a skill.</span></span><span class="ln"><span class="it red">We teach it.</span></span></h2>
+    <p class="rv">Every member learns the lifts properly before they load them. Chalk, a coach and a plan — the rest is repetition.</p>
+  </div>
+</section>
+
+<section id="club" aria-label="The club">
+  <div class="club-pin">
+    <div class="club-head">
+      <div><div class="eyebrow">The club</div><h2 class="h split" style="margin-top:16px"><span class="ln"><span>Seven rooms.</span></span><span class="ln"><span class="it" style="color:var(--mute)">One standard.</span></span></h2></div>
+      <div class="cnt"><b id="zc">01</b> / 07</div>
+    </div>
+    <div class="track" id="track">
+      <article class="zone"><div class="ph"><span class="num">01</span><img data-k="zone-strength" data-ph="ph-rack" alt="The strength floor with power racks and platforms"></div>
+        <div class="meta"><div><h3 class="h">Strength floor</h3><p>Twelve power racks on solid oak platforms. Room to lift heavy without waiting.</p></div><div class="spec"><span>12 racks</span><span>8 platforms</span></div></div></article>
+      <article class="zone"><div class="ph"><span class="num">02</span><img data-k="zone-dumbbell" data-ph="ph-dumbbell" alt="A long rack of matte black dumbbells"></div>
+        <div class="meta"><div><h3 class="h">The dumbbell wall</h3><p>2.5 to 60 kg, in pairs, always racked. A floor team keeps it that way.</p></div><div class="spec"><span>2.5 – 60 kg</span><span>48 pairs</span></div></div></article>
+      <article class="zone"><div class="ph"><span class="num">03</span><img data-k="zone-functional" data-ph="ph-floor" alt="Functional training turf with sleds and kettlebells"></div>
+        <div class="meta"><div><h3 class="h">Functional turf</h3><p>Thirty metres of turf for sleds, carries, ropes and conditioning work.</p></div><div class="spec"><span>30 m turf</span><span>Sleds · ropes</span></div></div></article>
+      <article class="zone"><div class="ph"><span class="num">04</span><img data-k="zone-cardio" data-ph="ph-lights" alt="Cardio deck facing the city skyline"></div>
+        <div class="meta"><div><h3 class="h">Cardio deck</h3><p>Treadmills and rowers facing the skyline. Zone 2 has never looked better.</p></div><div class="spec"><span>24 machines</span><span>City view</span></div></div></article>
+      <article class="zone"><div class="ph"><span class="num">05</span><img data-k="zone-recovery" data-ph="ph-floor" alt="Recovery lab with cold plunge and sauna"></div>
+        <div class="meta"><div><h3 class="h">Recovery lab</h3><p>Cold plunge, cedar sauna and compression loungers. Recovery is half the work.</p></div><div class="spec"><span>Plunge 6°C</span><span>Sauna 85°C</span></div></div></article>
+      <article class="zone"><div class="ph"><span class="num">06</span><img data-k="zone-nutrition" data-ph="ph-lights" alt="The nutrition bar"></div>
+        <div class="meta"><div><h3 class="h">Nutrition bar</h3><p>Bowls and shakes built to your macros, ready when your session ends.</p></div><div class="spec"><span>Macro-built</span><span>App ordering</span></div></div></article>
+      <article class="zone"><div class="ph"><span class="num">07</span><img data-k="zone-locker" data-ph="ph-rack" alt="The locker lounge"></div>
+        <div class="meta"><div><h3 class="h">Locker lounge</h3><p>Oak lockers, rain showers, fresh towels. Walk in from work, walk out to dinner.</p></div><div class="spec"><span>Towels in</span><span>Laundry</span></div></div></article>
+      <div class="zone end"><h3 class="h">Come see it <span class="it">in person.</span></h3><a class="btn" href="#trial">Book a free tour <span class="ar">→</span></a></div>
+    </div>
+  </div>
+</section>
+
+<section id="method" aria-label="The 12-week method">
+  <div class="m-pin"><div class="bgl" data-k="zone-strength" style="--ov:linear-gradient(180deg,rgba(17,17,20,.93),rgba(17,17,20,.86) 50%,rgba(17,17,20,.95))"></div>
+    <div>
+      <div class="eyebrow">The 12-week method</div>
+      <div class="wk h" aria-live="polite"><small>Week</small><span id="wk">00</span></div>
+      <div class="bar" id="bar"><i></i><i></i><i></i></div>
+      <div class="phase" id="phase">
+        <div class="pn">Day one</div>
+        <h3 class="h">The scan.</h3>
+        <p>A full InBody scan, a movement screen and a conversation about where you want to be. Your coach writes the next 12 weeks from that.</p>
+      </div>
+    </div>
+    <div>
+      <div class="chart">
+        <div class="lg"><span><i style="background:var(--ink)"></i>Strength</span><span><i style="background:var(--red2)"></i>Body fat</span></div>
+        <svg viewBox="0 0 600 260" id="svg" aria-label="Strength rising and body fat falling over 12 weeks">
+          <g stroke="rgba(243,241,236,.08)" stroke-width="1">
+            <line x1="0" y1="40" x2="600" y2="40"/><line x1="0" y1="110" x2="600" y2="110"/><line x1="0" y1="180" x2="600" y2="180"/><line x1="0" y1="250" x2="600" y2="250"/>
+            <line x1="200" y1="20" x2="200" y2="250" stroke-dasharray="3 5"/><line x1="400" y1="20" x2="400" y2="250" stroke-dasharray="3 5"/>
+          </g>
+          <g font-size="11" fill="#5d5d64" font-family="Archivo" letter-spacing="1.5"><text x="4" y="268">WK 0</text><text x="186" y="268">WK 4</text><text x="386" y="268">WK 8</text><text x="560" y="268">WK 12</text></g>
+          <path id="ls" d="M0 225 C60 220 110 205 160 188 S260 150 320 128 S440 82 500 66 S570 50 600 46" fill="none" stroke="#f3f1ec" stroke-width="2.5"/>
+          <path id="lf" d="M0 70 C70 74 120 88 180 104 S290 138 350 152 S470 178 530 186 S580 190 600 192" fill="none" stroke="#ff4a3a" stroke-width="2.5"/>
+          <circle id="ds" r="5" fill="#f3f1ec"/><circle id="df" r="5" fill="#ff4a3a"/>
+        </svg>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="l">Body fat</div><div class="v h" id="s1">26.0%</div><div class="d" id="d1">—</div></div>
+        <div class="stat"><div class="l">Lean mass</div><div class="v h" id="s2">+0.0 kg</div><div class="d" id="d2">—</div></div>
+        <div class="stat"><div class="l">Deadlift</div><div class="v h" id="s3">60 kg</div><div class="d" id="d3">—</div></div>
+        <div class="stat"><div class="l">Resting HR</div><div class="v h" id="s4">78</div><div class="d" id="d4">—</div></div>
+      </div>
+      <p class="fine">Illustrative numbers for a typical member on the Coached plan. Individual results vary.</p>
+    </div>
+  </div>
+</section>
+
+<section class="promise has-bg"><div class="bgl" data-k="zone-functional" style="--ov:linear-gradient(90deg,var(--bg) 25%,rgba(9,9,11,.7) 60%,rgba(60,8,6,.55)),linear-gradient(180deg,var(--bg),transparent 30%,transparent 70%,var(--bg))"></div>
+  <div class="wrap">
+    <h2 class="h split"><span class="ln"><span>The 12-week</span></span><span class="ln"><span class="it red">promise.</span></span></h2>
+    <div class="rv"><p>Show up for your coached sessions for twelve weeks. If your end-of-block scan hasn't moved, your next block is on us. We can make that promise because we know what the method does.</p><p class="fine">Applies to Coached and Black memberships with 85% session attendance.</p></div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-h"><div><div class="eyebrow rv">Why ARETÉ</div><h2 class="h split"><span class="ln"><span>Not a gym.</span></span><span class="ln"><span class="it" style="color:var(--mute)">A standard.</span></span></h2></div><p class="rv">Most gyms sell you access to equipment. We sell you the outcome — and everything in the building is designed around getting you there.</p></div>
+    <div class="usp">
+      <div class="u rv"><div class="thumb"><i data-bg="zone-functional"></i></div><div class="k h">1:6</div><h3 class="h">Real coaching</h3><p>Every coached session is capped at six members, so your coach actually watches your form.</p></div>
+      <div class="u rv"><div class="thumb"><i data-bg="zone-strength"></i></div><div class="k h">12<sup>wk</sup></div><h3 class="h">Programmes, not workouts</h3><p>Twelve-week blocks written for your goal, tracked in the app, adjusted every month.</p></div>
+      <div class="u rv"><div class="thumb"><i data-bg="zone-dumbbell"></i></div><div class="k h">30<sup>day</sup></div><h3 class="h">Monthly InBody scans</h3><p>Muscle, fat and water measured every month, so progress is a number, not a feeling.</p></div>
+      <div class="u rv"><div class="thumb"><i data-bg="zone-recovery"></i></div><div class="k h">6°<sup>c</sup></div><h3 class="h">Recovery lab, included</h3><p>Cold plunge, sauna and compression — part of your membership, not an upsell.</p></div>
+      <div class="u rv"><div class="thumb"><i data-bg="zone-barbell"></i></div><div class="k h">0<sup>min</sup></div><h3 class="h">Waiting for a rack</h3><p>Twelve racks, eight platforms and live floor capacity in the app. Train when you planned to.</p></div>
+      <div class="u rv"><div class="thumb"><i data-bg="zone-cardio"></i></div><div class="k h">5<sup>am</sup></div><h3 class="h">Open early, open late</h3><p>5 am to midnight, every day. Black members get 24/7 access with their key card.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="finder">
+  <div class="wrap">
+    <div class="sec-h"><div><div class="eyebrow rv">Programme finder</div><h2 class="h split"><span class="ln"><span>Find your</span></span><span class="ln"><span class="it red">twelve weeks.</span></span></h2></div><p class="rv">Three quick questions. Your coach fine-tunes the rest after your first scan.</p></div>
+    <div class="fd">
+      <div class="rv">
+        <div class="q"><div class="ql"><b>01</b>What do you want most?</div><div class="chips" data-q="goal"><button class="chip" aria-pressed="true" data-v="strength">Get stronger</button><button class="chip" aria-pressed="false" data-v="lean">Lose fat</button><button class="chip" aria-pressed="false" data-v="move">Move better</button><button class="chip" aria-pressed="false" data-v="sport">Perform in a sport</button></div></div>
+        <div class="q"><div class="ql"><b>02</b>How much have you trained?</div><div class="chips" data-q="exp"><button class="chip" aria-pressed="true" data-v="new">I'm new</button><button class="chip" aria-pressed="false" data-v="some">On and off</button><button class="chip" aria-pressed="false" data-v="pro">Consistently</button></div></div>
+        <div class="q"><div class="ql"><b>03</b>Days a week you can give us?</div><div class="chips" data-q="days"><button class="chip" aria-pressed="false" data-v="2">2</button><button class="chip" aria-pressed="true" data-v="3">3</button><button class="chip" aria-pressed="false" data-v="4">4</button><button class="chip" aria-pressed="false" data-v="5">5+</button></div></div>
+      </div>
+      <div class="res rv" id="res"><div class="rbg" data-g="strength" data-bg="zone-strength"></div><div class="rbg" data-g="lean" data-bg="zone-nutrition"></div><div class="rbg" data-g="move" data-bg="zone-recovery"></div><div class="rbg" data-g="sport" data-bg="zone-functional"></div>
+        <div class="tag">Your programme</div>
+        <h3 class="h" id="rn">Strength 12</h3>
+        <p id="rd"></p>
+        <ul id="rl"></ul>
+        <a class="btn" href="#trial" id="rb">Start with 3 free days <span class="ar">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="classes" class="has-bg"><div class="bgl" data-k="zone-cardio" style="--ov:linear-gradient(180deg,rgba(17,17,20,.7),rgba(17,17,20,.94) 35%,var(--bg2))"></div>
+  <div class="wrap">
+    <div class="sec-h"><div><div class="eyebrow rv">Classes</div><h2 class="h split"><span class="ln"><span>This week</span></span><span class="ln"><span class="it" style="color:var(--mute)">on the floor.</span></span></h2></div><p class="rv">Every class is coached and capped. Reserve a spot in a tap — members book in the app.</p></div>
+    <div class="days" role="tablist" id="days"></div>
+    <div class="tt" id="tt"></div>
+  </div>
+</section>
+
+<section id="join" class="has-bg"><div class="bgl" data-k="zone-locker" style="--ov:linear-gradient(180deg,var(--bg) 0%,rgba(9,9,11,.9) 30%,rgba(9,9,11,.96) 100%)"></div>
+  <div class="wrap">
+    <div class="sec-h"><div><div class="eyebrow rv">Membership</div><h2 class="h split"><span class="ln"><span>Choose your</span></span><span class="ln"><span class="it red">standard.</span></span></h2></div>
+      <div class="toggle rv" id="bill"><button aria-pressed="true" data-m="1">Monthly</button><button aria-pressed="false" data-m="3">Quarterly<em>−10%</em></button><button aria-pressed="false" data-m="12">Annual<em>−20%</em></button></div></div>
+    <div class="tiers">
+      <div class="tier rv" data-p="4500"><div class="tp" data-bg="zone-dumbbell"></div><h3 class="h">Club</h3><p class="for">Full access for people who know what they're doing.</p>
+        <div class="price"><b>₹4,500</b><span>/ month</span></div><div class="bill"></div>
+        <ul><li>Full floor access, 5 am – midnight</li><li>All group classes</li><li>Monthly InBody scan</li><li>ARETÉ app with tracking</li></ul>
+        <a class="btn ghost" href="#trial" data-plan="Club">Start free trial</a></div>
+      <div class="tier feat rv" data-p="9900"><div class="tp" data-bg="zone-functional"></div><span class="badge">Most chosen</span><h3 class="h">Coached</h3><p class="for">The full 12-week method with a coach in your corner.</p>
+        <div class="price"><b>₹9,900</b><span>/ month</span></div><div class="bill"></div>
+        <ul><li>Everything in Club</li><li>Small-group coaching, 1:6, 3× a week</li><li>Your own 12-week programme</li><li>Nutrition consult every block</li><li>Recovery lab access</li><li>The 12-week promise</li></ul>
+        <a class="btn" href="#trial" data-plan="Coached">Start free trial <span class="ar">→</span></a></div>
+      <div class="tier rv" data-p="18500"><div class="tp" data-bg="zone-locker"></div><h3 class="h">Black</h3><p class="for">One-to-one, around the clock, with nothing left to chance.</p>
+        <div class="price"><b>₹18,500</b><span>/ month</span></div><div class="bill"></div>
+        <ul><li>Everything in Coached</li><li>8 one-to-one PT sessions a month</li><li>24/7 key-card access</li><li>Unlimited recovery & laundry</li><li>Private locker, 2 guest passes</li></ul>
+        <a class="btn ghost" href="#trial" data-plan="Black">Start free trial</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="trial">
+  <div class="bgimg" id="trialbg"></div>
+  <div class="wrap tr">
+    <div>
+      <div class="eyebrow rv">Free trial</div>
+      <h2 class="h split"><span class="ln"><span>Three days.</span></span><span class="ln"><span class="it red">On us.</span></span></h2>
+      <p class="lede rv">A full tour, an InBody scan, a coached session and three days on the floor. No card, no pressure — just see if this is your place.</p>
+      <div class="visit rv"><div><b>Find us</b>Road No. 45, Jubilee Hills<br>Hyderabad 500033</div><div><b>Hours</b>5 am – midnight, daily<br>24/7 for Black members</div></div>
+    </div>
+    <form name="trial" method="POST" data-netlify="true" netlify-honeypot="bot" id="tform" class="rv">
+      <input type="hidden" name="form-name" value="trial">
+      <p class="hide"><label>Leave empty <input name="bot"></label></p>
+      <div class="fields">
+        <div class="f"><label for="n">Your name</label><input id="n" name="name" required autocomplete="name"></div>
+        <div class="f2">
+          <div class="f"><label for="p">Phone</label><input id="p" name="phone" type="tel" required autocomplete="tel" placeholder="+91"></div>
+          <div class="f"><label for="d">Start date</label><input id="d" name="date" type="date" required></div>
+        </div>
+        <div class="f2">
+          <div class="f"><label for="tm">Best time</label><select id="tm" name="time"><option>Early morning (5–8 am)</option><option>Morning (8–11 am)</option><option>Afternoon</option><option selected>Evening (5–9 pm)</option><option>Late (9 pm–12)</option></select></div>
+          <div class="f"><label for="pl">Interested in</label><select id="pl" name="plan"><option>Not sure yet</option><option>Club</option><option selected>Coached</option><option>Black</option></select></div>
+        </div>
+        <input type="hidden" name="programme" id="prog" value="">
+        <button class="btn" type="submit">Claim my 3 days <span class="ar">→</span></button>
+        <p class="small">We'll WhatsApp you within the hour to confirm.</p>
+      </div>
+      <div class="done"><h3 class="h">See you <span class="it red">soon.</span></h3><p>Your trial is booked. We'll WhatsApp you within the hour with everything you need.</p></div>
+    </form>
+  </div>
+</section>
+
+<footer class="has-bg"><div class="bgl" data-k="zone-strength"></div>
+  <div class="wrap ft">
+    <div class="col"><span class="logo h" style="color:var(--ink);font-size:26px">ARET<em class="ac">É</em></span><span>Strength club · Jubilee Hills</span></div>
+    <div class="col"><b>Visit</b><span>Road No. 45, Jubilee Hills</span><span>Hyderabad 500033</span></div>
+    <div class="col"><b>Talk to us</b><a href="#trial">Book a tour</a><a href="#trial">WhatsApp the front desk</a></div>
+    <div class="col"><b>Explore</b><a href="#club">The club</a><a href="#method">The method</a><a href="#join">Membership</a></div>
+  </div>
+  <div class="big h" aria-hidden="true">ARET<span>É</span></div>
+  <div class="credit">A concept site by SEVORA</div>
+</footer>
+
+<script>
+(()=>{
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const AV=new Set(["zone-barbell", "zone-cardio", "zone-dumbbell", "zone-functional", "zone-locker", "zone-nutrition", "zone-recovery", "zone-strength"]);
+const EMBI=window.ARETE_IMGS||null;
+const IMG=k=>EMBI?EMBI[k]:'img/'+k+'.webp';
+document.querySelectorAll('img[data-k]').forEach(im=>{const k=AV.has(im.dataset.k)?im.dataset.k:im.dataset.ph;im.src=IMG(k);im.loading='lazy';im.decoding='async'});
+document.getElementById('trialbg').style.backgroundImage='url('+IMG('zone-cardio')+')';
+const bgls=[...document.querySelectorAll('.bgl')];
+const setBg=(el,k)=>{el.style.backgroundImage='url('+IMG(k)+')'};
+const lazy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target;setBg(el,el.dataset.k||el.dataset.bg);lazy.unobserve(el)}}),{rootMargin:'600px 0px'});
+document.querySelectorAll('.bgl,[data-bg]').forEach(el=>lazy.observe(el));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),ease=t=>t*t*(3-2*t);
+const $=s=>document.querySelector(s);
+
+/* ---------- film ---------- */
+const film=$('#film'),cv=$('#cv'),ctx=cv.getContext('2d');
+const EMB=window.SEQ_FRAMES||null,PHONE=innerWidth<=900&&!EMB,DIR=PHONE?'frames-m':'frames',N=EMB?EMB.length:(PHONE?136:271);
+const frames=new Array(N);let lastDrawn=-1;
+function load(i){if(frames[i]||i<0||i>=N)return;const im=new Image();im.decoding='async';im.src=EMB?EMB[i]:DIR+'/frame-'+String(i+1).padStart(3,'0')+'.webp';im.onload=()=>{frames[i]=im;if(lastDrawn<0||Math.abs(i-want)<Math.abs(lastDrawn-want))lastDrawn=-2};}
+let want=0;
+for(let i=0;i<N;i+=8)load(i);for(let i=0;i<N;i++)load(i);
+function size(){const d=Math.min(devicePixelRatio||1,2);cv.width=innerWidth*d;cv.height=innerHeight*d;lastDrawn=-2}
+addEventListener('resize',size);size();
+function nearest(i){for(let d=0;d<N;d++){if(frames[i-d])return i-d;if(frames[i+d])return i+d}return -1}
+function draw(f){want=f;const j=nearest(f);if(j<0||j===lastDrawn)return;lastDrawn=j;const im=frames[j],W=cv.width,H=cv.height,s=Math.max(W/im.width,H/im.height)*1.02,w=im.width*s,h=im.height*s;ctx.drawImage(im,(W-w)/2,(H-h)/2,w,h)}
+const caps=[...film.querySelectorAll('.cap')].map(el=>({el,a:+el.dataset.a,b:+el.dataset.b}));
+const marks=[...document.querySelectorAll('#mark span')],rails=[...document.querySelectorAll('.rail b')],STOPS=[0,.14,.3,.49,.7,.95];
+// progress -> frame: mats slowly, then the iron, then the lights; holds on the last frame for the wordmark
+const KEYS=[[0,0],[.2,.1],[.4,.29],[.58,.56],[.88,1]];
+function frameAt(p){for(let i=1;i<KEYS.length;i++){const [a,fa]=KEYS[i-1],[b,fb]=KEYS[i];if(p<=b)return fa+(fb-fa)*clamp((p-a)/(b-a),0,1)}return 1}
+function filmP(){const r=film.getBoundingClientRect(),span=film.offsetHeight-innerHeight;return span>1?clamp(-r.top/span,0,1):0}
+let target=filmP(),cur=target;
+function renderFilm(p){
+  draw(Math.round(frameAt(p)*(N-1)));
+  for(const c of caps){const fi=c.a===0?1:clamp((p-c.a)/.035,0,1),fo=clamp((c.b-p)/.035,0,1),o=Math.min(fi,fo);c.el.style.opacity=o;c.el.style.transform=c.el.classList.contains('c-mark')?'':`translateY(${(1-o)*18}px)`;c.el.classList.toggle('on',o>.5)}
+  const m=clamp((p-.85)/.1,0,1);marks.forEach((s,i)=>{const k=ease(clamp(m*1.6-i*.15,0,1));s.style.transform=`translateY(${(1-k)*60}%)`;s.style.opacity=k});
+  let st=0;STOPS.forEach((s,i)=>{if(p>=s-.02)st=i});rails.forEach((b,i)=>b.classList.toggle('on',i===st));
+}
+/* stop-by-stop keys inside the film */
+addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,select,textarea,button,a'))return;
+  const k=e.key,fwd=k===' '&&!e.shiftKey||k==='PageDown'||k==='ArrowDown',back=k===' '&&e.shiftKey||k==='PageUp'||k==='ArrowUp';if(!fwd&&!back)return;
+  const span=film.offsetHeight-innerHeight,p=filmP();if(p>=.999&&fwd||p<=0&&back)return;
+  let n=fwd?STOPS.find(s=>s>p+.01):[...STOPS].reverse().find(s=>s<p-.01);
+  if(n===undefined){if(fwd)n=1;else return}
+  e.preventDefault();scrollTo({top:film.offsetTop+n*span,behavior:'smooth'})});
+
+/* ---------- nav ---------- */
+const nav=$('#nav');
+
+/* ---------- manifesto words ---------- */
+const mani=$('#mani');
+(function splitWords(el){const out=[];el.childNodes.forEach(n=>{if(n.nodeType===3){n.textContent.split(/(\s+)/).forEach(t=>{if(!t)return;if(/^\s+$/.test(t))out.push(document.createTextNode(t));else{const s=document.createElement('span');s.className='w';s.textContent=t;out.push(s)}})}else{n.classList.add('w');out.push(n)}});el.textContent='';out.forEach(o=>el.appendChild(o))})(mani);
+const words=[...mani.querySelectorAll('.w')];
+function renderMani(){const r=mani.getBoundingClientRect(),q=clamp((innerHeight*.85-r.top)/(r.height+innerHeight*.35),0,1),n=Math.round(q*words.length);words.forEach((w,i)=>w.classList.toggle('lit',i<n||reduce))}
+
+/* ---------- club horizontal ---------- */
+const club=$('#club'),track=$('#track'),zc=$('#zc'),zimgs=[...track.querySelectorAll('.ph img')];
+function clubH(){const extra=Math.max(0,track.scrollWidth-innerWidth);club.style.height=(innerHeight+extra*1.1)+'px';return extra}
+let extra=clubH();addEventListener('resize',()=>{extra=clubH()});addEventListener('load',()=>{extra=clubH()});
+function renderClub(){const r=club.getBoundingClientRect(),span=club.offsetHeight-innerHeight,q=span>1?clamp(-r.top/span,0,1):0;track.style.transform=`translate3d(${-q*extra}px,0,0)`;
+  zimgs.forEach(im=>{const b=im.parentNode.getBoundingClientRect(),c=(b.left+b.width/2-innerWidth/2)/innerWidth;im.style.transform=`scale(1.12) translateX(${-c*6}%)`});
+  zc.textContent=String(Math.min(7,1+Math.floor(q*7.4))).padStart(2,'0')}
+
+/* ---------- method ---------- */
+const method=$('#method'),wk=$('#wk'),ph=$('#phase'),bars=[...document.querySelectorAll('#bar i')];
+const ls=$('#ls'),lf=$('#lf'),ds=$('#ds'),df=$('#df'),Ls=ls.getTotalLength(),Lf=lf.getTotalLength();
+[ls,lf].forEach((p,i)=>{const L=i?Lf:Ls;p.style.strokeDasharray=L;p.style.strokeDashoffset=L});
+const PH=[
+ ['Day one','The scan.','A full InBody scan, a movement screen and a conversation about where you want to be. Your coach writes the next 12 weeks from that.'],
+ ['Weeks 1 – 4','Foundation.','Form first. You learn the big lifts properly, build the habit and find your working weights. The scale barely moves — your technique does.'],
+ ['Weeks 5 – 8','Build.','Volume climbs and the numbers start to move. Your coach adjusts the plan after your week-4 scan, and the nutrition bar does the maths.'],
+ ['Weeks 9 – 12','Peak.','Heavier, faster, sharper. Week 12 ends with a re-scan and a test day — and a new block written from what you\'ve become.']];
+let lastPh=-1;
+const S=[[26,19,v=>v.toFixed(1)+'%',(a,b)=>(b-a).toFixed(1)+' pts'],[0,3.8,v=>'+'+v.toFixed(1)+' kg',()=>'muscle gained'],[60,115,v=>Math.round(v)+' kg',(a,b)=>'+'+Math.round(b-a)+' kg'],[78,64,v=>Math.round(v)+'',(a,b)=>Math.round(b-a)+' bpm']];
+function renderMethod(){const r=method.getBoundingClientRect(),span=method.offsetHeight-innerHeight,q0=span>1?clamp(-r.top/span,0,1):0,q=clamp((q0-.06)/.86,0,1);
+  const w=Math.round(q*12);wk.textContent=String(w).padStart(2,'0');
+  const pi=q<=0?0:q<1/3?1:q<2/3?2:3;if(pi!==lastPh){lastPh=pi;ph.innerHTML=`<div class="pn">${PH[pi][0]}</div><h3 class="h">${PH[pi][1]}</h3><p>${PH[pi][2]}</p>`;ph.querySelectorAll('h3,p').forEach(e=>{e.style.animation='sw .55s cubic-bezier(.2,.7,.2,1)'})}
+  bars.forEach((b,i)=>b.style.setProperty('--k',clamp(q*3-i,0,1)));
+  ls.style.strokeDashoffset=Ls*(1-q);lf.style.strokeDashoffset=Lf*(1-q);
+  const a=ls.getPointAtLength(Ls*q),b=lf.getPointAtLength(Lf*q);ds.setAttribute('cx',a.x);ds.setAttribute('cy',a.y);df.setAttribute('cx',b.x);df.setAttribute('cy',b.y);
+  S.forEach((s,i)=>{const v=s[0]+(s[1]-s[0])*q;$('#s'+(i+1)).textContent=s[2](v);$('#d'+(i+1)).textContent=q>.02?s[3](s[0],v):'starting point'})}
+
+/* ---------- parallax backgrounds ---------- */
+function renderBgs(){if(reduce)return;for(const b of bgls){const r=b.parentNode.getBoundingClientRect();if(r.bottom<-200||r.top>innerHeight+200)continue;const c=(r.top+r.height/2-innerHeight/2)/innerHeight;b.style.transform=`translate3d(0,${(-c*9).toFixed(2)}%,0)`}}
+/* ---------- main loop ---------- */
+function loop(){
+  target=filmP();
+  const d=(target-cur)*(reduce?1:.12),MAX=reduce?1:.0028;cur+=clamp(d,-MAX,MAX);if(Math.abs(target-cur)<.0003)cur=target;
+  const r=film.getBoundingClientRect();
+  if(r.bottom>0)renderFilm(cur);
+  nav.classList.toggle('solid',r.bottom<innerHeight*.5);
+  renderMani();renderClub();renderMethod();renderBgs();
+  requestAnimationFrame(loop)}
+loop();
+
+/* ---------- reveals & counters ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);const c=e.target.querySelector('[data-count]');if(c)count(c)}}),{threshold:.18,rootMargin:'0px 0px -6% 0px'});
+document.querySelectorAll('.rv,.split').forEach(el=>io.observe(el));
+function count(el){const v=el.dataset.count;if(v.includes(':')||reduce)return;const to=+v,t0=performance.now();(function t(now){const k=Math.min(1,(now-t0)/1400),e=1-Math.pow(1-k,3);el.textContent=Math.round(to*e).toLocaleString('en-IN');if(k<1)requestAnimationFrame(t)})(t0)}
+
+/* ---------- finder ---------- */
+const P={
+ strength:{n:'Strength 12',d:'Squat, bench, deadlift and the accessories that make them move. Built on progressive overload and coached technique.'},
+ lean:{n:'Lean 12',d:'Strength training to keep muscle, conditioning to burn fat, and a nutrition plan from the bar that you will actually stick to.'},
+ move:{n:'Move 12',d:'Mobility, stability and pain-free strength. For desk-bound backs, stiff hips and anyone coming back from a break.'},
+ sport:{n:'Athlete 12',d:'Speed, power and conditioning mapped to your sport and your season — from cricket and football to running and racquets.'}};
+const ans={goal:'strength',exp:'new',days:'3'};
+const res=$('#res');
+function renderRes(swap){const p=P[ans.goal],d=+ans.days,plan=ans.exp==='new'||d<=3?'Coached':'Coached or Black';
+  res.querySelectorAll('.rbg').forEach(b=>b.classList.toggle('on',b.dataset.g===ans.goal));
+  $('#rn').textContent=p.n;$('#rd').textContent=p.d;
+  const split=d===2?'2 full-body sessions':d===3?'3 sessions · 2 coached, 1 solo':d===4?'4 sessions · upper / lower split':'5 sessions · strength + conditioning';
+  const start=ans.exp==='new'?'Technique blocks first, weights second':ans.exp==='some'?'Re-test, then build from your numbers':'Straight into your working weights';
+  $('#rl').innerHTML=`<li><span>Your week</span>${split}</li><li><span>Week one</span>${start}</li><li><span>Best plan</span>${plan}</li><li><span>Check-ins</span>InBody scans at weeks 0, 4, 8, 12</li>`;
+  $('#prog').value=p.n+' · '+d+' days · '+ans.exp;
+  if(swap){res.classList.remove('swap');void res.offsetWidth;res.classList.add('swap')}}
+document.querySelectorAll('.chips').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;g.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));ans[g.dataset.q]=b.dataset.v;renderRes(true)}));
+renderRes(false);
+$('#rb').addEventListener('click',()=>{$('#pl').value='Coached'});
+
+/* ---------- timetable ---------- */
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const C={bb:['Barbell Club','Squat · bench · deadlift','Arjun',3],hy:['Engine','Hyrox-style conditioning','Meera',3],kb:['Kettlebell Flow','Full-body strength','Kabir',2],mo:['Mobility Lab','Hips, spine, shoulders','Sana',1],bx:['Boxing Conditioning','Bag work & footwork','Rohan',2],ws:["Women's Strength",'Coached lifting','Meera',1],rc:['Run Club','5K from the club, all paces','Kabir',1],fs:['Foundations','Learn the big lifts','Arjun',1]};
+const PLAN={Mon:[['06:00','bb',2],['07:30','mo',5],['18:00','hy',1],['19:30','ws',3],['20:30','bx',4]],Tue:[['06:00','kb',3],['07:30','fs',4],['18:00','bb',1],['19:30','mo',6],['20:30','hy',2]],Wed:[['06:00','hy',1],['07:30','ws',2],['18:00','kb',3],['19:30','bx',2],['20:30','fs',5]],Thu:[['06:00','bb',3],['07:30','mo',4],['18:00','hy',0],['19:30','ws',2],['20:30','kb',5]],Fri:[['06:00','kb',2],['07:30','fs',5],['18:00','bx',1],['19:30','bb',3]],Sat:[['06:30','rc',9],['08:00','hy',2],['09:30','bb',3],['11:00','mo',6]],Sun:[['07:00','mo',5],['08:30','kb',4],['10:00','fs',6]]};
+const LV=['','Everyone','Intermediate','Advanced'];
+const daysEl=$('#days'),tt=$('#tt');const today=DAYS[(new Date().getDay()+6)%7];
+DAYS.forEach(d=>{const b=document.createElement('button');b.className='day';b.role='tab';b.textContent=d;b.setAttribute('aria-selected',d===today);b.onclick=()=>{daysEl.querySelectorAll('.day').forEach(x=>x.setAttribute('aria-selected',x===b));renderTT(d)};daysEl.appendChild(b)});
+function renderTT(d){tt.innerHTML=PLAN[d].map(([t,k,s],i)=>{const c=C[k];const sp=s===0?'<button class="sp" disabled style="opacity:.45">Waitlist</button>':`<button class="sp${s<=2?' low':''}">${s<=2?s+' left':'Reserve'}</button>`;return `<div class="row" style="animation-delay:${i*.05}s"><div class="t">${t}</div><div class="c">${c[0]}<small>${c[1]}</small></div><div class="co">Coach ${c[2]}</div><div class="lv l${c[3]}"><i></i>${LV[c[3]]}</div>${sp}</div>`}).join('');
+  tt.querySelectorAll('.sp:not([disabled])').forEach(b=>b.onclick=()=>{b.classList.remove('low');b.classList.add('ok');b.textContent='Reserved ✓'})}
+renderTT(today);
+
+/* ---------- membership ---------- */
+const DISC={1:0,3:.1,12:.2};
+function renderBill(m){document.querySelectorAll('.tier').forEach(t=>{const p=+t.dataset.p,per=Math.round(p*(1-DISC[m])/50)*50;t.querySelector('.price b').textContent='₹'+per.toLocaleString('en-IN');t.querySelector('.bill').textContent=m===1?'Billed monthly · cancel anytime':`₹${(per*m).toLocaleString('en-IN')} billed every ${m===3?'3 months':'year'}`})}
+$('#bill').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$('#bill').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderBill(+b.dataset.m)});
+renderBill(1);
+document.querySelectorAll('[data-plan]').forEach(a=>a.addEventListener('click',()=>{$('#pl').value=a.dataset.plan}));
+
+/* ---------- trial form ---------- */
+const dt=$('#d'),t=new Date();t.setDate(t.getDate()+1);dt.min=new Date().toISOString().slice(0,10);dt.value=t.toISOString().slice(0,10);
+$('#tform').addEventListener('submit',e=>{e.preventDefault();const f=e.target,done=()=>f.classList.add('sent');
+  if(window.SEVORA_LIVE){fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(done).catch(done)}else done()});
+})();
+</script>
+</body>
+</html>
