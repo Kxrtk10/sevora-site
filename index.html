@@ -435,7 +435,7 @@ body.menu-open{overflow:hidden}
 .lab article:hover .lthumb img{transform:scale(1);filter:none}
 
 /* origin: Sreenivasa + Altiora -> SEVORA */
-.origin{position:relative;height:320vh}
+.origin{position:relative;height:200vh}
 .o-pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;overflow:hidden}
 .o-in{width:100%;display:grid;gap:clamp(18px,4vh,40px);justify-items:center;text-align:center}
 .o-stage{position:relative;width:100%;height:clamp(150px,30vw,330px)}
@@ -481,7 +481,7 @@ body.menu-open{overflow:hidden}
 #dawn{z-index:1}footer{position:relative;z-index:2}
 
 /* the globe is drawn by the world itself now */
-.earth{height:300vh}
+.earth{height:180vh}
 .earth-pin{background:transparent}
 .earth-pin::after{background:linear-gradient(90deg,rgba(11,10,9,.78),rgba(11,10,9,0) 55%)}
 .fallback .earth-pin{background:#030303 url(media/earth.webp) center/cover}
@@ -595,6 +595,60 @@ body.menu-open{overflow:hidden}
 @media(max-width:1100px){.five{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.five{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.five{grid-template-columns:1fr}}
+
+/* ---------- carousels: "cover" = 3D coverflow of cards, "turn" = one big slide that turns in 3D ---------- */
+.spin{position:relative;margin-top:34px;touch-action:pan-y}
+.spin-track{position:relative;perspective:1600px;transition:height .5s cubic-bezier(.2,.7,.2,1)}
+.spin-it{transition:transform .8s cubic-bezier(.2,.75,.15,1),opacity .6s ease,filter .6s ease;will-change:transform,opacity}
+.spin.cover .spin-it{position:absolute;top:0;left:50%;width:min(380px,78vw);margin-left:calc(min(380px,78vw) / -2);cursor:pointer}
+.spin.cover .spin-it.on{cursor:auto}
+.spin.cover .spin-it:not(.on) *{pointer-events:none}
+.spin.turn .spin-track{perspective:2200px}
+.spin.turn .spin-it{position:absolute;inset:0 0 auto 0;transform-origin:50% 50% -260px}
+.spin.turn .spin-it:not(.on){pointer-events:none}
+.spin-nav{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:22px}
+.spin-nav button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line2);background:rgba(14,13,12,.7);color:var(--bone);display:grid;place-items:center;font-size:18px;transition:border-color .3s,background .3s}
+.spin-nav button:hover{border-color:var(--gold);background:rgba(28,26,23,.9)}
+.spin-dots{display:flex;gap:8px;align-items:center}
+.spin-dots i{width:7px;height:7px;border-radius:999px;background:rgba(239,233,223,.25);transition:width .4s,background .4s;cursor:pointer}
+.spin-dots i.on{width:26px;background:var(--gold)}
+.spin-time{position:absolute;left:0;right:0;bottom:-10px;height:2px;background:rgba(239,233,223,.08);border-radius:2px;overflow:hidden}
+.spin-time i{display:block;height:100%;width:0;background:var(--gold);opacity:.6}
+/* doors inside a coverflow */
+.spin.cover .door{min-height:260px;height:100%}
+/* product tabs above the turning showcase */
+.ptabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
+.ptabs button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 18px;border-radius:16px;border:1px solid var(--line);background:rgba(14,13,12,.7);text-align:left;transition:border-color .4s,background .4s;min-width:0}
+.ptabs button .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.ptabs button .p{font-family:var(--display);font-size:20px;line-height:1.2}
+.ptabs button .s{font-size:12.5px;color:var(--mute)}
+.ptabs button[aria-selected="true"]{border-color:var(--c);background:rgba(28,26,23,.92)}
+.prodslide>.wrap{padding-left:0;padding-right:0;max-width:none}
+.prodslide{padding-block:10px}
+/* website cards inside a coverflow */
+.wsl{border:1px solid var(--line2);border-radius:22px;overflow:hidden;background:linear-gradient(160deg,#1a1815,#100f0d)}
+.wsl .screen{aspect-ratio:16/10;border-right:0;border-bottom:1px solid var(--line)}
+.wsl .info{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px}
+.wsl h3{font-family:var(--display);font-weight:360;font-size:24px;line-height:1.1}
+.wsl .pitch{font-size:14.5px;color:#ddd5c9}
+.wsl .ind{display:flex;gap:8px;flex-wrap:wrap}
+.wsl .btn{background:var(--c);color:#0b0a09;align-self:flex-start;padding:11px 18px;font-size:14px}
+.spin.cover.wide .spin-it{width:min(520px,84vw);margin-left:calc(min(520px,84vw) / -2)}
+.more{display:flex;justify-content:center;margin-top:30px}
+@media(prefers-reduced-motion:reduce){.spin-it{transition:opacity .2s}}
+.spin{overflow-x:clip;overflow-y:visible;padding-inline:4px}
+@media(max-width:760px){
+  .ptabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px;padding:2px 4px}
+  .ptabs::-webkit-scrollbar{display:none}
+  .ptabs button{flex:0 0 auto;padding:9px 14px}.ptabs button .s{display:none}.ptabs button .p{font-size:17px}
+  /* swipe rows instead of tall stacks */
+  .five,.lv{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;scrollbar-width:none;padding-bottom:6px;margin-right:calc(-1 * max(clamp(20px,5vw,72px),env(safe-area-inset-right,0px)))}
+  .five::-webkit-scrollbar,.lv::-webkit-scrollbar{display:none}
+  .five>.fv{flex:0 0 74vw;scroll-snap-align:start}
+  .lv>.lv-card{flex:0 0 86vw;scroll-snap-align:start}
+  .swipe-hint{display:block!important}
+}
+.swipe-hint{display:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:10px}
 </style>
 </head>
 <body data-world="home">
@@ -655,14 +709,14 @@ body.menu-open{overflow:hidden}
 <section class="ch" id="doors" data-stage="6" data-core=".5">
   <div class="wrap" style="width:100%">
     <div class="sec-h"><div><p class="label reveal">Where should we start?</p><h2 class="d h2 reveal" style="max-width:14ch">Tell us what you need. <em>We'll show you the way.</em></h2></div><p class="lede reveal" style="max-width:38ch">Whether you're curious about AI or ready to build, there's a page made for you.</p></div>
-    <div class="doors">
-      <a class="door reveal" href="ai-for-business.html"><span class="label">New to AI</span><span class="q">What can AI actually do for my business?</span><span class="a">Plain-language answers for your industry. No jargon, no pressure.</span><span class="go">Explore <i>→</i></span></a>
-      <a class="door reveal" href="automations.html"><span class="label">Save time</span><span class="q">I want repetitive work to run itself.</span><span class="a">Automations and AI agents for enquiries, bookings, follow-ups and documents.</span><span class="go">See automations <i>→</i></span></a>
-      <a class="door reveal" href="custom.html"><span class="label">Build something</span><span class="q">I need a system built around how we work.</span><span class="a">Custom AI systems and software, from first sketch to ongoing support.</span><span class="go">Custom systems <i>→</i></span></a>
-      <a class="door reveal" href="websites.html"><span class="label">Be seen</span><span class="q">I want a website people remember.</span><span class="a">Immersive, scroll-driven sites with booking and enquiries built in.</span><span class="go">Websites <i>→</i></span></a>
-      <a class="door reveal" href="products.html"><span class="label">Our products</span><span class="q">Show me what SEVORA has built.</span><span class="a">ClinicFlow, Astra, FuelFlow and the projects in our lab.</span><span class="go">Products <i>→</i></span></a>
-      <a class="door reveal" href="contact.html"><span class="label">Not sure yet</span><span class="q">I just want to talk to someone.</span><span class="a">Tell us what's slowing you down. A person replies within one working day.</span><span class="go">Start a conversation <i>→</i></span></a>
-    </div>
+    <div class="spin cover" data-auto="6000" aria-label="Where to start"><div class="spin-track">
+      <div class="spin-it"><a class="door" href="ai-for-business.html"><span class="label">New to AI</span><span class="q">What can AI actually do for my business?</span><span class="a">Plain-language answers for your industry. No jargon, no pressure.</span><span class="go">Explore <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="automations.html"><span class="label">Save time</span><span class="q">I want repetitive work to run itself.</span><span class="a">Automations and AI agents for enquiries, bookings, follow-ups and documents.</span><span class="go">See automations <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="custom.html"><span class="label">Build something</span><span class="q">I need a system built around how we work.</span><span class="a">Custom AI systems and software, from first sketch to ongoing support.</span><span class="go">Custom systems <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="websites.html"><span class="label">Be seen</span><span class="q">I want a website people remember.</span><span class="a">Immersive, scroll-driven sites with booking and enquiries built in.</span><span class="go">Websites <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="products.html"><span class="label">Our products</span><span class="q">Show me what SEVORA has built.</span><span class="a">ClinicFlow, Astra, FuelFlow and the projects in our lab.</span><span class="go">Products <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="contact.html"><span class="label">Not sure yet</span><span class="q">I just want to talk to someone.</span><span class="a">Tell us what's slowing you down. A person replies within one working day.</span><span class="go">Start a conversation <i>→</i></span></a></div>
+    </div></div>
     <div class="five-h reveal"><p class="label">What SEVORA builds</p><p class="five-l">Five services, one studio. Every live one has a working demo you can try.</p></div>
     <div class="five">
       <a class="fv reveal" href="websites.html"><span class="st on">Live</span><b>Immersive websites</b><span>Scroll-driven 3D sites with booking and enquiries built in.</span><i>6 sites to explore →</i></a>
@@ -671,24 +725,20 @@ body.menu-open{overflow:hidden}
       <a class="fv reveal" href="contact.html"><span class="st">Coming soon</span><b>AI client acquisition</b><span>Find the businesses that need you, and reach them with the right pitch. We’re proving it on SEVORA first.</span><i>Join the early list →</i></a>
       <a class="fv reveal" href="contact.html"><span class="st">Coming soon</span><b>Games &amp; interactive experiences</b><span>Branded games and playable 3D worlds that people remember and share.</span><i>Join the early list →</i></a>
     </div>
+    <p class="swipe-hint">Swipe for more →</p>
   </div>
 </section>
 
-<section class="ch" id="products" data-stage="2" data-core=".8">
-  <div class="wrap" style="width:100%">
-    <div class="col" style="max-width:none">
-      <p class="label reveal">Our products</p>
-      <h2 class="d h2 reveal" style="max-width:15ch">Three places AI should quietly make life <em>better.</em></h2>
-      <div class="wll reveal">
-        <a href="products.html#clinicflow" style="--c:var(--sage)"><span class="k">Work</span><span class="p">ClinicFlow</span><span class="s">The operating system for a clinic's day.</span></a>
-        <a href="products.html#astra" style="--c:var(--indigo)"><span class="k">Learn</span><span class="p">Astra</span><span class="s">Tutoring that adapts to every student.</span></a>
-        <a href="products.html#fuelflow" style="--c:var(--ember)"><span class="k">Live</span><span class="p">FuelFlow</span><span class="s">Food, mood and recovery, one habit at a time.</span></a>
-      </div>
+<section class="ch" id="products" data-stage="3" data-core=".3">
+  <div class="wrap" style="width:100%;display:block">
+    <div class="sec-h"><div><p class="label reveal">Our products</p><h2 class="d h2 reveal" style="max-width:15ch">Three places AI should quietly make life <em>better.</em></h2></div><p class="lede reveal" style="max-width:40ch">Products we build and run ourselves. Tap one, or let them turn.</p></div>
+    <div class="ptabs" id="ptabs" role="tablist" aria-label="Products">
+      <button type="button" role="tab" data-i="0" style="--c:var(--sage)"><span class="k">Work</span><span class="p">ClinicFlow</span><span class="s">The operating system for a clinic's day.</span></button>
+      <button type="button" role="tab" data-i="1" style="--c:var(--indigo)"><span class="k">Learn</span><span class="p">Astra</span><span class="s">Tutoring that adapts to every student.</span></button>
+      <button type="button" role="tab" data-i="2" style="--c:var(--ember)"><span class="k">Live</span><span class="p">FuelFlow</span><span class="s">Food, mood and recovery, one habit at a time.</span></button>
     </div>
-  </div>
-</section>
-
-<section class="ch" id="clinicflow" data-stage="3" data-core=".3" style="--c:var(--sage)">
+    <div class="spin turn" data-auto="9000" data-stages="3,4,5" data-spintabs="#ptabs"><div class="spin-track">
+<div class="spin-it prodslide" id="p-clinicflow" style="--c:var(--sage)">
   <div class="wrap prod">
     <div class="col" style="max-width:none">
       <div class="meta reveal"><span class="label">Work · Healthcare</span></div>
@@ -709,9 +759,9 @@ body.menu-open{overflow:hidden}
     </div>
     </div>
   </div>
-</section>
+</div>
 
-<section class="ch" id="astra" data-stage="4" data-core=".3" style="--c:var(--indigo)">
+<div class="spin-it prodslide" id="p-astra" style="--c:var(--indigo)">
   <div class="wrap prod">
     <div class="col" style="max-width:none">
       <div class="meta reveal"><span class="label">Learn · Education</span></div>
@@ -732,9 +782,9 @@ body.menu-open{overflow:hidden}
     </div>
     </div>
   </div>
-</section>
+</div>
 
-<section class="ch" id="fuelflow" data-stage="5" data-core=".3" style="--c:var(--ember)">
+<div class="spin-it prodslide" id="p-fuelflow" style="--c:var(--ember)">
   <div class="wrap prod">
     <div class="col" style="max-width:none">
       <div class="meta reveal"><span class="label">Live · Wellbeing</span></div>
@@ -761,6 +811,10 @@ body.menu-open{overflow:hidden}
       <div class="alert" style="background:rgba(242,137,90,.08);border-color:rgba(242,137,90,.25);color:#f6d8c9"><i style="background:var(--ember)"></i><span><b style="font-weight:600">Sizzle:</b> you sleep about 40 minutes longer on days you walk after lunch. Try it today?</span></div>
     </div>
     </div>
+  </div>
+</div>
+    </div></div>
+    <div class="more"><a class="btn line" href="products.html">See all our products <span class="ar">→</span></a></div>
   </div>
 </section>
 
@@ -797,6 +851,7 @@ body.menu-open{overflow:hidden}
     <div class="lv-foot"><span>Answers your phone at 2 AM: books, takes orders, flags emergencies.</span><span class="go">Talk to it live <span class="ar">→</span></span></div>
   </a>
 </div>
+<p class="swipe-hint">Swipe for more →</p>
 <div class="lv-more reveal"><span>More live demos:</span><a href="demos/decision.html">Decision Desk</a><a href="demos/realestate.html">Real estate leads</a><a href="demos/dental.html">Clinic front desk</a><a href="demos/gym.html">Gym members</a><a href="demos/interiors.html">Interior studio</a><a href="demos/d2c.html">D2C orders</a></div>
 
     <div style="display:flex;justify-content:center;margin-top:34px"><a class="btn line" href="automations.html#demos">See all nine live demos <span class="ar">→</span></a></div>
@@ -805,8 +860,8 @@ body.menu-open{overflow:hidden}
 
 <section id="work" data-stage="8" data-core=".3">
   <div class="wrap">
-    <div class="head"><div><p class="label reveal">Our work · Websites</p><h2 class="d h2 reveal" style="margin-top:16px;max-width:12ch">Six worlds. <em>Step inside.</em></h2></div><p class="lede reveal" style="max-width:40ch">Each one was designed, filmed and built by SEVORA. They are live: open any of them and scroll.</p></div>
-    <div class="stack" id="stack" data-limit="3"></div>
+    <div class="head"><div><p class="label reveal">Our work · Websites</p><h2 class="d h2 reveal" style="margin-top:16px;max-width:12ch">Six worlds. <em>Step inside.</em></h2></div><p class="lede reveal" style="max-width:40ch">Each one was designed, filmed and built by SEVORA. Swipe through all six, then open any of them and scroll.</p></div>
+    <div class="spin cover wide" data-auto="7000" aria-label="Our websites"><div class="spin-track" id="stack" data-mode="spin"></div></div>
     <div style="display:flex;justify-content:center;margin-top:44px"><a class="btn line" href="work.html">See all our work <span class="ar">→</span></a></div>
   </div>
 </section>
@@ -933,7 +988,8 @@ const WORK=[
  {s:'aligna',n:'Aligna Dental',c:'#7fc4c0',ind:'Dental clinic',url:'aligna.dental',p:'Clear aligners, explained beautifully and booked in a tap.',f:['Aligners tumbling through ice and mint on scroll','The 26-tray journey, week by week','A smile reveal patients remember','Consultation booking']},
  {s:'halcyon',n:'Halcyon H1',c:'#d9b27a',ind:'Consumer tech',url:'halcyon.audio',p:'Headphones that take themselves apart as you scroll.',f:['Exploded-view film of every component','Noise cancelling shown as a live graph','Specs revealed part by part','Pre-order capture']}];
 const stack=$('#stack');
-if(stack){const lim=+(stack.dataset.limit||WORK.length);stack.innerHTML=WORK.slice(0,lim).map((w,i)=>`<article class="wc" style="--i:${i};--c:${w.c}">
+if(stack&&stack.dataset.mode==='spin'){stack.innerHTML=WORK.map(w=>`<div class="spin-it"><article class="wsl" style="--c:${w.c}"><div class="screen"><div class="bar"><i></i><i></i><i></i><span>${w.url}</span></div><video muted loop playsinline preload="none" poster="media/${w.s}.webp" data-src="media/${w.s}.mp4" aria-label="${w.n} website, scrolling"></video></div><div class="info"><div class="ind"><span class="chip" style="--c:${w.c}"><i></i>${w.ind}</span><span class="chip">Live demo</span></div><h3>${w.n}</h3><p class="pitch">${w.p}</p><a class="btn" href="${LIVE?'work/'+w.s+'/':PREVIEW[w.s]}" target="_blank" rel="noopener">Open the live site <span class="ar">↗</span></a></div></article></div>`).join('')}
+else if(stack){const lim=+(stack.dataset.limit||WORK.length);stack.innerHTML=WORK.slice(0,lim).map((w,i)=>`<article class="wc" style="--i:${i};--c:${w.c}">
  <div class="in2">
   <div class="screen"><div class="bar"><i></i><i></i><i></i><span>${w.url}</span></div>
    <video muted loop playsinline preload="none" poster="media/${w.s}.webp" data-src="media/${w.s}.mp4" aria-label="${w.n} website, scrolling"></video></div>
@@ -945,7 +1001,7 @@ if(stack){const lim=+(stack.dataset.limit||WORK.length);stack.innerHTML=WORK.sli
   </div>
  </div></article>`).join('')}
 const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){if(!v.src)v.src=v.dataset.src;v.play().catch(()=>{})}else v.pause()}),{threshold:.25});
-$$('video[data-src]').forEach(v=>vio.observe(v));
+$$('video[data-src]').forEach(v=>{if(!v.closest('.spin'))vio.observe(v)});
 const cards=$$('.wc');
 
 /* automation flow diagrams: <svg class="flowsvg" data-steps="Enquiry|WhatsApp · 10:02;Qualify|…"> */
@@ -1097,6 +1153,39 @@ async function voiceLoop(){const w=$('lvWave');w.innerHTML='<i></i>'.repeat(22);
     for(const [who,s] of lines){await until();w.classList.toggle('c',who==='c');cap.style.color=who==='c'?'#f2dfbf':'#d6e6df';cap.textContent=s;cap.style.animation='none';void cap.offsetWidth;cap.style.animation='';await wait(2900)}await wait(1500)}}
 apLoop();chatLoop();voiceLoop();
 })();
+
+/* carousels: <div class="spin cover|turn" data-auto="ms" data-stages="3,4,5" data-tabs="#ptabs"> .spin-track > .spin-it */
+(()=>{const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+document.querySelectorAll('.spin').forEach(sp=>{
+  const track=sp.querySelector('.spin-track'),its=[...track.children],n=its.length;if(!n)return;
+  const turn=sp.classList.contains('turn'),auto=+(sp.dataset.auto||0);let cur=0,vis=false,held=false,touched=false,acc=0;
+  const nav=document.createElement('div');nav.className='spin-nav';nav.innerHTML='<button type="button" aria-label="Previous">←</button><div class="spin-dots"></div><button type="button" aria-label="Next">→</button>';sp.append(nav);
+  const dots=nav.querySelector('.spin-dots');its.forEach((_,i)=>{const d=document.createElement('i');d.title=`Show ${i+1} of ${n}`;d.onclick=()=>{touched=true;go(i)};dots.append(d)});
+  let bar=null;if(auto&&!RM){bar=document.createElement('div');bar.className='spin-time';bar.innerHTML='<i></i>';nav.prepend(bar);nav.style.position='relative'}
+  const stages=(sp.dataset.stages||'').split(',').filter(Boolean),sec=sp.closest('[data-stage]');
+  const tabs=sp.dataset.spintabs?[...document.querySelectorAll(sp.dataset.spintabs+' [data-i]')]:[];
+  tabs.forEach(b=>b.addEventListener('click',()=>{touched=true;go(+b.dataset.i)}));
+  const wrapD=d=>{d=((d%n)+n)%n;return d>n/2?d-n:d};
+  function layout(){const w=sp.clientWidth,step=Math.min(300,w*.30);
+    its.forEach((it,i)=>{const d=wrapD(i-cur),a=Math.abs(d);it.classList.toggle('on',d===0);it.setAttribute('aria-hidden',d!==0);
+      if(turn){it.style.zIndex=d===0?2:1;it.style.opacity=d===0?1:0;it.style.transform=RM?'none':d===0?'none':`rotateY(${d<0?24:-24}deg) translateX(${d<0?-8:8}%) scale(.94)`;it.style.filter=d===0?'none':'blur(2px)'}
+      else{const show=a<=2;it.style.zIndex=10-a;it.style.opacity=show?(a===0?1:a===1?.38:.1):0;
+        it.style.transform=RM?`translateX(${d*step}px) scale(${a?0.86:1})`:`translateX(${d*step}px) translateZ(${-a*180}px) rotateY(${-d*32}deg) scale(${a?0.9:1})`;it.style.filter=a?'brightness(.5) blur(1.5px)':'none'}});
+    const h=Math.max(...(turn?[its[cur]]:its).map(it=>it.scrollHeight));track.style.height=h+'px';
+    [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===cur));tabs.forEach((b,i)=>b.setAttribute('aria-selected',i===cur));
+    its.forEach((it,i)=>it.querySelectorAll('video').forEach(v=>{if(i===cur&&vis){if(!v.src&&v.dataset.src)v.src=v.dataset.src;v.play().catch(()=>{})}else v.pause()}));
+    if(sec&&stages.length)sec.dataset.stage=stages[cur%stages.length]}
+  function go(i){cur=((i%n)+n)%n;acc=0;layout()}
+  nav.firstChild.onclick=()=>{touched=true;go(cur-1)};nav.lastChild.onclick=()=>{touched=true;go(cur+1)};
+  its.forEach((it,i)=>it.addEventListener('click',e=>{if(i!==cur){e.preventDefault();touched=true;go(i)}}));
+  let sx=null,sy=0;track.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY},{passive:true});
+  track.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){touched=true;go(cur+(dx<0?1:-1))}});
+  sp.tabIndex=0;sp.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){touched=true;go(cur+1)}if(e.key==='ArrowLeft'){touched=true;go(cur-1)}});
+  sp.addEventListener('pointerenter',()=>held=true);sp.addEventListener('pointerleave',()=>held=false);
+  new IntersectionObserver(es=>es.forEach(en=>{vis=en.isIntersecting;layout()}),{threshold:.2}).observe(sp);
+  addEventListener('resize',layout);addEventListener('load',layout);setTimeout(layout,600);
+  let last=performance.now();if(auto&&!RM){(function tick(now){const dt=now-last;last=now;if(vis&&!held&&!touched)acc+=dt;const k=touched?0:Math.min(1,acc/auto);if(bar)bar.firstChild.style.width=(k*100)+'%';if(k>=1){acc=0;go(cur+1)}requestAnimationFrame(tick)})(last)}
+  go(0)})})();
 </script>
 <script type="module">
 /* ---------- the world: a still core inside a field that keeps re-forming ---------- */
@@ -1277,6 +1366,7 @@ const secs=ENT.map(e=>e.el);
 const STG=secs.map(s=>+s.dataset.stage),CORE=secs.map(s=>+(s.dataset.core||1)),CEN=secs.map(s=>+(s.dataset.center||0));let intro=reduce?1:0;const introEl=document.getElementById('intro');
 function posAt(){const mid=innerHeight*.5,cs=ENT.map(e=>{const r=e.el.getBoundingClientRect();return e.pos==='start'?r.top+innerHeight*.5:e.pos==='end'?r.bottom-innerHeight*.5:r.top+Math.min(r.height,innerHeight*1.4)/2});
   if(mid<=cs[0])return 0;for(let i=1;i<cs.length;i++)if(mid<cs[i])return i-1+(mid-cs[i-1])/(cs[i]-cs[i-1]);return cs.length-1}
+const SCH=secs.map(()=>null);function refreshStages(t){for(let k=0;k<secs.length;k++){const v=+secs[k].dataset.stage;if(v!==STG[k]){SCH[k]={from:STG[k],t0:t};STG[k]=v}}}
 let fpos=posAt(),cur={a:0,b:0,t:0},mx=0,my=0,tmx=0,tmy=0;
 let pmx=-9,pmy=-9,lastMove=-9;addEventListener('pointermove',e=>{tmx=e.clientX/innerWidth-.5;tmy=e.clientY/innerHeight-.5;pmx=e.clientX;pmy=e.clientY;lastMove=performance.now()},{passive:true});
 const ray=new THREE.Raycaster(),plane=new THREE.Plane(new THREE.Vector3(0,0,1),0),hit=new THREE.Vector3(),ndc=new THREE.Vector2();
@@ -1284,9 +1374,9 @@ function size(){renderer.setSize(innerWidth,innerHeight,false);cam.aspect=innerW
 const cA=new THREE.Color(),cB=new THREE.Color(),tmp=new THREE.Color();
 const clock=new THREE.Clock();let shown=0;
 function frame(){
-  const t=clock.getElapsedTime(),target=posAt();
+  const t=clock.getElapsedTime(),target=posAt();refreshStages(t);
   const dt=Math.min(.1,t-(frame.last||t));frame.last=t;fpos+=reduce?target-fpos:Math.max(-3*dt,Math.min(3*dt,(target-fpos)*(1-Math.exp(-dt*4.5))));
-  const i0=Math.floor(fpos),i1=Math.min(STG.length-1,i0+1),fr=fpos-i0;cur={a:STG[i0],b:STG[i1],t:i0===i1?0:fr};const ff=i0===i1?0:fr,coreS=CORE[i0]+(CORE[i1]-CORE[i0])*ff,cen=CEN[i0]+(CEN[i1]-CEN[i0])*ff;
+  const i0=Math.floor(fpos),i1=Math.min(STG.length-1,i0+1),fr=fpos-i0;cur={a:STG[i0],b:STG[i1],t:i0===i1?0:fr};{const d=fr<.5?i0:i1,sc=SCH[d];if(sc&&(fr<.2||fr>.8)){const k=Math.min(1,(t-sc.t0)/1.4);if(k<1){const e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;cur={a:sc.from,b:STG[d],t:e}}else SCH[d]=null}}const ff=i0===i1?0:fr,coreS=CORE[i0]+(CORE[i1]-CORE[i0])*ff,cen=CEN[i0]+(CEN[i1]-CEN[i0])*ff;
   if(intro<1){intro=Math.min(1,intro+dt/(introEl?6:2.4));if(introEl&&intro>.8)introEl.classList.add('ready');const e=intro<.5?4*intro*intro*intro:1-Math.pow(-2*intro+2,3)/2;if(fpos<.05){cur={a:introEl?0:8,b:introEl?10:STG[0],t:introEl?e:1-Math.pow(1-intro,2.2)}}else intro=1}
   const u=pmat.uniforms;u.uA.value=cur.a;u.uB.value=cur.b;u.uT.value=Math.max(0,Math.min(1,cur.t));u.uTime.value=reduce?0:t;
   cA.set(COLS[cur.a]);cB.set(COLS[cur.b]);u.uColA.value.copy(cA);u.uColB.value.copy(cB);
