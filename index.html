@@ -649,6 +649,53 @@ body.menu-open{overflow:hidden}
   .swipe-hint{display:block!important}
 }
 .swipe-hint{display:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:10px}
+
+/* ---------- photos on the first cards ---------- */
+.dph,.fph{display:block;margin:-26px -24px 4px;height:150px;background:#141210 center/cover;border-radius:20px 20px 0 0;position:relative}
+.dph::after,.fph::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(transparent 45%,rgba(14,13,12,.9))}
+.fph{margin:-18px -16px 4px;height:120px;border-radius:18px 18px 0 0}
+.door,.fv{overflow:hidden}
+/* ---------- scroll-driven carousels ---------- */
+.spin-run{position:relative}
+.spin-pin{position:sticky}
+.spin[data-scroll]:not(.noscroll) .spin-nav button{display:none}
+.spin[data-scroll] .spin-time{display:none}
+.spin-count{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+.hs-run{position:relative}
+.hs-pin{position:sticky;overflow:hidden}
+.hs-pin [data-hscroll]{overflow:visible!important;scroll-snap-type:none!important;transition:transform .15s linear;margin-right:0!important}
+/* product showcase: compact enough to pin on one screen */
+.prodslide .visual,.prodslide .visual *{--vp:1!important;--mp:1!important}
+.spin-pinbox .ptabs{margin-top:0;margin-bottom:6px}
+.spin-pinbox .spin{margin-top:14px}
+@media(min-width:901px){
+  .prodslide .prod{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+  .prodslide h2.d{font-size:clamp(30px,3.1vw,46px)}
+  .prodslide .lede{font-size:15px;line-height:1.55}
+  .prodslide .col>*+*{margin-top:14px}
+  .prodslide .caps{grid-template-columns:1fr 1fr;gap:8px 22px}
+  .prodslide .caps li{font-size:13.5px;line-height:1.45}
+  .prodslide .visual>img{aspect-ratio:auto;height:min(36vh,340px)}
+  .prodslide .visual .mock{width:68%;margin:-20% 0 0 -5%;padding:15px;zoom:.86}
+}
+@media(max-width:900px){
+  .prodslide .visual{display:none}
+  .prodslide h2.d{font-size:28px}
+  .prodslide .lede{font-size:14px;line-height:1.5}
+  .prodslide .caps{gap:6px}.prodslide .caps li{font-size:13.5px;line-height:1.45}
+  .prodslide .col>*+*{margin-top:11px}
+  .prodslide .meta .chip+.chip{display:none}
+}
+@media(max-height:820px){.ptabs button .s{display:none}.ptabs button{padding:9px 14px}}
+.spin-pinbox .spin-nav{margin-top:10px}
+@media(max-height:820px) and (min-width:901px){.prodslide .visual>img{height:min(30vh,280px)}.prodslide .visual .mock{zoom:.78}.prodslide .lede{font-size:14.5px}}
+@media(max-width:900px){
+  .prodslide h2.d{font-size:25px}
+  .prodslide .lede{font-size:13.5px}
+  .prodslide .caps li{font-size:13px}
+  .spin-pinbox .ptabs button{padding:7px 12px}.spin-pinbox .ptabs button .p{font-size:16px}
+  .spin-pinbox .spin{margin-top:8px}
+}
 </style>
 </head>
 <body data-world="home">
@@ -709,35 +756,35 @@ body.menu-open{overflow:hidden}
 <section class="ch" id="doors" data-stage="6" data-core=".5">
   <div class="wrap" style="width:100%">
     <div class="sec-h"><div><p class="label reveal">Where should we start?</p><h2 class="d h2 reveal" style="max-width:14ch">Tell us what you need. <em>We'll show you the way.</em></h2></div><p class="lede reveal" style="max-width:38ch">Whether you're curious about AI or ready to build, there's a page made for you.</p></div>
-    <div class="spin cover" data-auto="6000" aria-label="Where to start"><div class="spin-track">
-      <div class="spin-it"><a class="door" href="ai-for-business.html"><span class="label">New to AI</span><span class="q">What can AI actually do for my business?</span><span class="a">Plain-language answers for your industry. No jargon, no pressure.</span><span class="go">Explore <i>→</i></span></a></div>
-      <div class="spin-it"><a class="door" href="automations.html"><span class="label">Save time</span><span class="q">I want repetitive work to run itself.</span><span class="a">Automations and AI agents for enquiries, bookings, follow-ups and documents.</span><span class="go">See automations <i>→</i></span></a></div>
-      <div class="spin-it"><a class="door" href="custom.html"><span class="label">Build something</span><span class="q">I need a system built around how we work.</span><span class="a">Custom AI systems and software, from first sketch to ongoing support.</span><span class="go">Custom systems <i>→</i></span></a></div>
-      <div class="spin-it"><a class="door" href="websites.html"><span class="label">Be seen</span><span class="q">I want a website people remember.</span><span class="a">Immersive, scroll-driven sites with booking and enquiries built in.</span><span class="go">Websites <i>→</i></span></a></div>
-      <div class="spin-it"><a class="door" href="products.html"><span class="label">Our products</span><span class="q">Show me what SEVORA has built.</span><span class="a">ClinicFlow, Astra, FuelFlow and the projects in our lab.</span><span class="go">Products <i>→</i></span></a></div>
-      <div class="spin-it"><a class="door" href="contact.html"><span class="label">Not sure yet</span><span class="q">I just want to talk to someone.</span><span class="a">Tell us what's slowing you down. A person replies within one working day.</span><span class="go">Start a conversation <i>→</i></span></a></div>
+    <div class="spin cover" data-scroll data-title="Where to start" aria-label="Where to start"><div class="spin-track">
+      <div class="spin-it"><a class="door" href="ai-for-business.html"><span class="dph" style="background-image:url(media/together.webp)"></span><span class="label">New to AI</span><span class="q">What can AI actually do for my business?</span><span class="a">Plain-language answers for your industry. No jargon, no pressure.</span><span class="go">Explore <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="automations.html"><span class="dph" style="background-image:url(media/studio.webp)"></span><span class="label">Save time</span><span class="q">I want repetitive work to run itself.</span><span class="a">Automations and AI agents for enquiries, bookings, follow-ups and documents.</span><span class="go">See automations <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="custom.html"><span class="dph" style="background-image:url(media/forge.webp)"></span><span class="label">Build something</span><span class="q">I need a system built around how we work.</span><span class="a">Custom AI systems and software, from first sketch to ongoing support.</span><span class="go">Custom systems <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="websites.html"><span class="dph" style="background-image:url(media/atelier.webp)"></span><span class="label">Be seen</span><span class="q">I want a website people remember.</span><span class="a">Immersive, scroll-driven sites with booking and enquiries built in.</span><span class="go">Websites <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="products.html"><span class="dph" style="background-image:url(media/stocksage.webp)"></span><span class="label">Our products</span><span class="q">Show me what SEVORA has built.</span><span class="a">ClinicFlow, Astra, FuelFlow and the projects in our lab.</span><span class="go">Products <i>→</i></span></a></div>
+      <div class="spin-it"><a class="door" href="contact.html"><span class="dph" style="background-image:url(media/ember.webp)"></span><span class="label">Not sure yet</span><span class="q">I just want to talk to someone.</span><span class="a">Tell us what's slowing you down. A person replies within one working day.</span><span class="go">Start a conversation <i>→</i></span></a></div>
     </div></div>
     <div class="five-h reveal"><p class="label">What SEVORA builds</p><p class="five-l">Five services, one studio. Every live one has a working demo you can try.</p></div>
-    <div class="five">
-      <a class="fv reveal" href="websites.html"><span class="st on">Live</span><b>Immersive websites</b><span>Scroll-driven 3D sites with booking and enquiries built in.</span><i>6 sites to explore →</i></a>
-      <a class="fv reveal" href="automations.html#demos"><span class="st on">Live</span><b>AI agents &amp; voice agents</b><span>WhatsApp and website chat, and phone agents that answer 24/7.</span><i>Try 7 live demos →</i></a>
-      <a class="fv reveal" href="demos/autopilot.html"><span class="st on">Live demo</span><b>Business Autopilot</b><span>A team of AI agents that runs a whole business day end to end.</span><i>Watch a full day →</i></a>
-      <a class="fv reveal" href="contact.html"><span class="st">Coming soon</span><b>AI client acquisition</b><span>Find the businesses that need you, and reach them with the right pitch. We’re proving it on SEVORA first.</span><i>Join the early list →</i></a>
-      <a class="fv reveal" href="contact.html"><span class="st">Coming soon</span><b>Games &amp; interactive experiences</b><span>Branded games and playable 3D worlds that people remember and share.</span><i>Join the early list →</i></a>
+    <div class="five" data-hscroll>
+      <a class="fv reveal" href="websites.html"><span class="fph" style="background-image:url(media/tessera.webp)"></span><span class="st on">Live</span><b>Immersive websites</b><span>Scroll-driven 3D sites with booking and enquiries built in.</span><i>6 sites to explore →</i></a>
+      <a class="fv reveal" href="automations.html#demos"><span class="fph" style="background-image:url(media/work.webp)"></span><span class="st on">Live</span><b>AI agents &amp; voice agents</b><span>WhatsApp and website chat, and phone agents that answer 24/7.</span><i>Try 7 live demos →</i></a>
+      <a class="fv reveal" href="demos/autopilot.html"><span class="fph" style="background-image:url(media/business.webp)"></span><span class="st on">Live demo</span><b>Business Autopilot</b><span>A team of AI agents that runs a whole business day end to end.</span><i>Watch a full day →</i></a>
+      <a class="fv reveal" href="contact.html"><span class="fph" style="background-image:url(media/earth.webp)"></span><span class="st">Coming soon</span><b>AI client acquisition</b><span>Find the businesses that need you, and reach them with the right pitch. We’re proving it on SEVORA first.</span><i>Join the early list →</i></a>
+      <a class="fv reveal" href="contact.html"><span class="fph" style="background-image:url(media/halcyon.webp)"></span><span class="st">Coming soon</span><b>Games &amp; interactive experiences</b><span>Branded games and playable 3D worlds that people remember and share.</span><i>Join the early list →</i></a>
     </div>
-    <p class="swipe-hint">Swipe for more →</p>
   </div>
 </section>
 
 <section class="ch" id="products" data-stage="3" data-core=".3">
   <div class="wrap" style="width:100%;display:block">
     <div class="sec-h"><div><p class="label reveal">Our products</p><h2 class="d h2 reveal" style="max-width:15ch">Three places AI should quietly make life <em>better.</em></h2></div><p class="lede reveal" style="max-width:40ch">Products we build and run ourselves. Tap one, or let them turn.</p></div>
+    <div class="spin-pinbox" id="ppin">
     <div class="ptabs" id="ptabs" role="tablist" aria-label="Products">
       <button type="button" role="tab" data-i="0" style="--c:var(--sage)"><span class="k">Work</span><span class="p">ClinicFlow</span><span class="s">The operating system for a clinic's day.</span></button>
       <button type="button" role="tab" data-i="1" style="--c:var(--indigo)"><span class="k">Learn</span><span class="p">Astra</span><span class="s">Tutoring that adapts to every student.</span></button>
       <button type="button" role="tab" data-i="2" style="--c:var(--ember)"><span class="k">Live</span><span class="p">FuelFlow</span><span class="s">Food, mood and recovery, one habit at a time.</span></button>
     </div>
-    <div class="spin turn" data-auto="9000" data-stages="3,4,5" data-spintabs="#ptabs"><div class="spin-track">
+    <div class="spin turn" data-scroll data-pin="#ppin" data-stages="3,4,5" data-spintabs="#ptabs"><div class="spin-track">
 <div class="spin-it prodslide" id="p-clinicflow" style="--c:var(--sage)">
   <div class="wrap prod">
     <div class="col" style="max-width:none">
@@ -814,6 +861,7 @@ body.menu-open{overflow:hidden}
   </div>
 </div>
     </div></div>
+    </div>
     <div class="more"><a class="btn line" href="products.html">See all our products <span class="ar">→</span></a></div>
   </div>
 </section>
@@ -825,7 +873,7 @@ body.menu-open{overflow:hidden}
 <section class="blk" id="agents" data-stage="6" data-core=".4">
   <div class="wrap">
     <div class="head"><div><p class="label reveal">Our work · AI agents</p><h2 class="d h2 reveal" style="margin-top:16px;max-width:15ch">AI that runs the business. <em>Watch it work.</em></h2></div><p class="lede reveal" style="max-width:44ch">Chatbots that take orders on WhatsApp, voice agents that answer your phone at 2 AM, and teams of agents that run a whole day. These are running right now. Tap any of them to try it yourself.</p></div>
-<div class="lv">
+<div class="lv" data-hscroll>
   <a class="lv-card lv-ap reveal" href="demos/autopilot.html" aria-label="Business Autopilot: eight AI agents running a café's day. Open the full demo.">
     <div class="lv-top"><span class="lv-tag"><i></i>Live · Business Autopilot</span><span class="lv-clock" id="lvClock">6:30 AM</span></div>
     <svg class="lv-net" id="lvNet" viewBox="0 0 520 300" aria-hidden="true"></svg>
@@ -851,7 +899,6 @@ body.menu-open{overflow:hidden}
     <div class="lv-foot"><span>Answers your phone at 2 AM: books, takes orders, flags emergencies.</span><span class="go">Talk to it live <span class="ar">→</span></span></div>
   </a>
 </div>
-<p class="swipe-hint">Swipe for more →</p>
 <div class="lv-more reveal"><span>More live demos:</span><a href="demos/decision.html">Decision Desk</a><a href="demos/realestate.html">Real estate leads</a><a href="demos/dental.html">Clinic front desk</a><a href="demos/gym.html">Gym members</a><a href="demos/interiors.html">Interior studio</a><a href="demos/d2c.html">D2C orders</a></div>
 
     <div style="display:flex;justify-content:center;margin-top:34px"><a class="btn line" href="automations.html#demos">See all nine live demos <span class="ar">→</span></a></div>
@@ -861,7 +908,7 @@ body.menu-open{overflow:hidden}
 <section id="work" data-stage="8" data-core=".3">
   <div class="wrap">
     <div class="head"><div><p class="label reveal">Our work · Websites</p><h2 class="d h2 reveal" style="margin-top:16px;max-width:12ch">Six worlds. <em>Step inside.</em></h2></div><p class="lede reveal" style="max-width:40ch">Each one was designed, filmed and built by SEVORA. Swipe through all six, then open any of them and scroll.</p></div>
-    <div class="spin cover wide" data-auto="7000" aria-label="Our websites"><div class="spin-track" id="stack" data-mode="spin"></div></div>
+    <div class="spin cover wide" data-scroll data-title="Our websites" aria-label="Our websites"><div class="spin-track" id="stack" data-mode="spin"></div></div>
     <div style="display:flex;justify-content:center;margin-top:44px"><a class="btn line" href="work.html">See all our work <span class="ar">→</span></a></div>
   </div>
 </section>
@@ -1154,17 +1201,29 @@ async function voiceLoop(){const w=$('lvWave');w.innerHTML='<i></i>'.repeat(22);
 apLoop();chatLoop();voiceLoop();
 })();
 
-/* carousels: <div class="spin cover|turn" data-auto="ms" data-stages="3,4,5" data-tabs="#ptabs"> .spin-track > .spin-it */
+/* carousels: <div class="spin cover|turn" [data-scroll] [data-pin="#box"] [data-auto=ms] [data-stages="3,4,5"] [data-spintabs="#tabs"]>
+   With data-scroll the carousel pins in place and each card arrives as the visitor scrolls; swipe, dots and tabs still work. */
 (()=>{const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.querySelectorAll('.spin').forEach(sp=>{
   const track=sp.querySelector('.spin-track'),its=[...track.children],n=its.length;if(!n)return;
-  const turn=sp.classList.contains('turn'),auto=+(sp.dataset.auto||0);let cur=0,vis=false,held=false,touched=false,acc=0;
+  const turn=sp.classList.contains('turn'),scrollMode=sp.hasAttribute('data-scroll'),auto=scrollMode?0:+(sp.dataset.auto||0);let cur=0,vis=false,held=false,touched=false,acc=0;
   const nav=document.createElement('div');nav.className='spin-nav';nav.innerHTML='<button type="button" aria-label="Previous">←</button><div class="spin-dots"></div><button type="button" aria-label="Next">→</button>';sp.append(nav);
-  const dots=nav.querySelector('.spin-dots');its.forEach((_,i)=>{const d=document.createElement('i');d.title=`Show ${i+1} of ${n}`;d.onclick=()=>{touched=true;go(i)};dots.append(d)});
+  const dots=nav.querySelector('.spin-dots');its.forEach((_,i)=>{const d=document.createElement('i');d.title=`Show ${i+1} of ${n}`;d.onclick=()=>{touched=true;pick(i)};dots.append(d)});
+  const count=document.createElement('span');count.className='spin-count';if(scrollMode)nav.append(count);
   let bar=null;if(auto&&!RM){bar=document.createElement('div');bar.className='spin-time';bar.innerHTML='<i></i>';nav.prepend(bar);nav.style.position='relative'}
   const stages=(sp.dataset.stages||'').split(',').filter(Boolean),sec=sp.closest('[data-stage]');
   const tabs=sp.dataset.spintabs?[...document.querySelectorAll(sp.dataset.spintabs+' [data-i]')]:[];
-  tabs.forEach(b=>b.addEventListener('click',()=>{touched=true;go(+b.dataset.i)}));
+  tabs.forEach(b=>b.addEventListener('click',()=>{touched=true;pick(+b.dataset.i)}));
+  /* scroll runway */
+  let run=null,pinEl=null;
+  if(scrollMode){pinEl=sp.dataset.pin?document.querySelector(sp.dataset.pin):sp;run=document.createElement('div');run.className='spin-run';pinEl.before(run);run.append(pinEl);pinEl.classList.add('spin-pin')}
+  const STEP=()=>innerHeight*(innerWidth<760?.42:.5);
+  const pinned=()=>run&&!sp.classList.contains('noscroll');
+  function sizeRun(){if(!run)return;const ph=pinEl.offsetHeight;if(ph>innerHeight-58){sp.classList.add('noscroll');pinEl.style.position='relative';pinEl.style.top='';run.style.height='';return}
+    sp.classList.remove('noscroll');pinEl.style.position='';const top=Math.max(Math.min(70,innerHeight-ph),(innerHeight-ph)/2);pinEl.style.top=top+'px';run.style.height=(ph+(n-1)*STEP())+'px'}
+  function progressIdx(){const r=run.getBoundingClientRect(),ph=pinEl.offsetHeight,top=parseFloat(pinEl.style.top)||0,total=r.height-ph;return Math.round(Math.min(1,Math.max(0,(top-r.top)/Math.max(1,total)))*(n-1))}
+  function pick(i){i=((i%n)+n)%n;if(!pinned())return go(i);const r=run.getBoundingClientRect(),ph=pinEl.offsetHeight,top=parseFloat(pinEl.style.top)||0,total=r.height-ph;scrollTo({top:scrollY+r.top-top+total*(i/(n-1))+1,behavior:RM?'auto':'smooth'})}
+  let ticking=false;if(run)addEventListener('scroll',()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{ticking=false;if(pinned()){const i=progressIdx();if(i!==cur)go(i)}})},{passive:true});
   const wrapD=d=>{d=((d%n)+n)%n;return d>n/2?d-n:d};
   function layout(){const w=sp.clientWidth,step=Math.min(300,w*.30);
     its.forEach((it,i)=>{const d=wrapD(i-cur),a=Math.abs(d);it.classList.toggle('on',d===0);it.setAttribute('aria-hidden',d!==0);
@@ -1173,19 +1232,33 @@ document.querySelectorAll('.spin').forEach(sp=>{
         it.style.transform=RM?`translateX(${d*step}px) scale(${a?0.86:1})`:`translateX(${d*step}px) translateZ(${-a*180}px) rotateY(${-d*32}deg) scale(${a?0.9:1})`;it.style.filter=a?'brightness(.5) blur(1.5px)':'none'}});
     const h=Math.max(...(turn?[its[cur]]:its).map(it=>it.scrollHeight));track.style.height=h+'px';
     [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===cur));tabs.forEach((b,i)=>b.setAttribute('aria-selected',i===cur));
+    count.textContent=`${sp.dataset.title?sp.dataset.title+' · ':''}${cur+1} / ${n}${cur<n-1&&pinned()?' · keep scrolling':''}`;
     its.forEach((it,i)=>it.querySelectorAll('video').forEach(v=>{if(i===cur&&vis){if(!v.src&&v.dataset.src)v.src=v.dataset.src;v.play().catch(()=>{})}else v.pause()}));
     if(sec&&stages.length)sec.dataset.stage=stages[cur%stages.length]}
   function go(i){cur=((i%n)+n)%n;acc=0;layout()}
-  nav.firstChild.onclick=()=>{touched=true;go(cur-1)};nav.lastChild.onclick=()=>{touched=true;go(cur+1)};
-  its.forEach((it,i)=>it.addEventListener('click',e=>{if(i!==cur){e.preventDefault();touched=true;go(i)}}));
+  nav.firstChild.onclick=()=>{touched=true;pick(cur-1)};nav.querySelector('button:last-of-type').onclick=()=>{touched=true;pick(cur+1)};
+  its.forEach((it,i)=>it.addEventListener('click',e=>{if(i!==cur){e.preventDefault();touched=true;pick(i)}}));
   let sx=null,sy=0;track.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY},{passive:true});
-  track.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){touched=true;go(cur+(dx<0?1:-1))}});
-  sp.tabIndex=0;sp.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){touched=true;go(cur+1)}if(e.key==='ArrowLeft'){touched=true;go(cur-1)}});
+  track.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){touched=true;pick(cur+(dx<0?1:-1))}});
+  sp.tabIndex=0;sp.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){touched=true;pick(cur+1)}if(e.key==='ArrowLeft'){touched=true;pick(cur-1)}});
   sp.addEventListener('pointerenter',()=>held=true);sp.addEventListener('pointerleave',()=>held=false);
   new IntersectionObserver(es=>es.forEach(en=>{vis=en.isIntersecting;layout()}),{threshold:.2}).observe(sp);
-  addEventListener('resize',layout);addEventListener('load',layout);setTimeout(layout,600);
+  const relayout=()=>{layout();sizeRun();if(pinned())go(progressIdx())};
+  addEventListener('resize',relayout);addEventListener('load',relayout);setTimeout(relayout,600);setTimeout(relayout,2000);
   let last=performance.now();if(auto&&!RM){(function tick(now){const dt=now-last;last=now;if(vis&&!held&&!touched)acc+=dt;const k=touched?0:Math.min(1,acc/auto);if(bar)bar.firstChild.style.width=(k*100)+'%';if(k>=1){acc=0;go(cur+1)}requestAnimationFrame(tick)})(last)}
-  go(0)})})();
+  go(0);sizeRun()})})();
+
+/* phones: rows marked [data-hscroll] slide sideways as the visitor scrolls down, so no card is missed */
+(()=>{if(innerWidth>760||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+document.querySelectorAll('[data-hscroll]').forEach(row=>{
+  const run=document.createElement('div');run.className='hs-run';const pin=document.createElement('div');pin.className='hs-pin';row.before(run);run.append(pin);pin.append(row);
+  let dist=0;
+  function size(){row.style.transform='';dist=Math.max(0,row.scrollWidth-pin.clientWidth);const ph=pin.offsetHeight;
+    if(ph>innerHeight-70||!dist){run.style.height='';pin.style.position='relative';return}
+    pin.style.position='';pin.style.top=Math.max(70,(innerHeight-ph)/2)+'px';run.style.height=(ph+dist*1.15)+'px';move()}
+  function move(){if(pin.style.position==='relative')return;const r=run.getBoundingClientRect(),ph=pin.offsetHeight,top=parseFloat(pin.style.top)||0,total=r.height-ph;const p=Math.min(1,Math.max(0,(top-r.top)/Math.max(1,total)));row.style.transform=`translateX(${-p*dist}px)`}
+  let tk=false;addEventListener('scroll',()=>{if(tk)return;tk=true;requestAnimationFrame(()=>{tk=false;move()})},{passive:true});
+  addEventListener('load',size);setTimeout(size,700);setTimeout(size,2000)})})();
 </script>
 <script type="module">
 /* ---------- the world: a still core inside a field that keeps re-forming ---------- */
