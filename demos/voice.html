@@ -242,7 +242,7 @@ footer{padding-bottom:40px;font-size:12px;color:var(--dim);display:flex;justify-
       <div class="stp"><i>WEEKS 1–2</i><b>Live, and tuned</b><p>We listen to real calls with you and fix anything it got wrong, until it sounds like part of your team.</p></div>
     </div>
     <div class="price">
-      <div class="l"><p class="eyebrow">Voice Desk</p><div class="amt">₹5,999 <small>/ month</small></div><p>Plus ₹19,999 one-time setup, and call minutes at cost (roughly ₹6–12 a minute, depending on the voice and phone line). Cancel any month.</p></div>
+      <div class="l"><p class="eyebrow">Voice Desk</p><div class="amt" data-usd="$249 <small>/ month</small>">₹5,999 <small>/ month</small></div><p data-usd="Plus $699 one-time setup, and call minutes at cost (roughly $0.10–0.20 a minute, depending on the voice and phone line). Cancel any month. In India: ₹5,999 a month.">Plus ₹19,999 one-time setup, and call minutes at cost (roughly ₹6–12 a minute, depending on the voice and phone line). Cancel any month. Outside India: $249 a month.</p></div>
       <div><ul><li>Answers after hours, at lunch and on busy lines</li><li>Books, moves and cancels appointments in your calendar</li><li>Spots urgent calls and puts them through to a person</li><li>English, Hindi and Telugu</li><li>A WhatsApp summary of every call</li><li>Works with your existing number</li></ul></div>
     </div>
   </section>
@@ -266,6 +266,7 @@ footer{padding-bottom:40px;font-size:12px;color:var(--dim);display:flex;justify-
   </section>
   <footer><span>SEVORA · AI automations and agents</span><span>Demo businesses and calls. The voice here is your browser’s; the real product uses natural voices.</span></footer>
 </main>
+<script>(()=>{let intl=false;try{intl=!/^Asia\/(Kolkata|Calcutta)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone||'')}catch(e){}document.querySelectorAll('[data-usd]').forEach(e=>{if(intl)e.innerHTML=e.dataset.usd})})();</script>
 
 <script>
 window.SEV_CONTACT={whatsapp:SEVORA_WA};

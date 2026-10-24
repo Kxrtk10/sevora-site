@@ -580,6 +580,21 @@ body.menu-open{overflow:hidden}
 @media(max-width:1000px){.lv{grid-template-columns:1fr}.lv-ap{grid-row:auto}}
 @media(max-width:560px){.lv-card{padding:14px;border-radius:20px}.lv-foot{flex-direction:column;align-items:flex-start;gap:6px}.lv-k b{font-size:19px}.lv-clock{font-size:20px}}
 @media(prefers-reduced-motion:reduce){.lv-tag i,.vc-av{animation:none}}
+
+/* ---------- homepage: five services ---------- */
+.five-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px 20px;flex-wrap:wrap;margin-top:46px}
+.five-l{color:var(--mute);font-size:15px;max-width:52ch}
+.five{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px}
+.fv{display:flex;flex-direction:column;gap:8px;padding:18px 16px;border:1px solid var(--line);border-radius:18px;background:rgba(14,13,12,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);text-decoration:none;color:inherit;transition:border-color .4s,transform .4s;min-width:0}
+.fv:hover{border-color:rgba(217,168,95,.45);transform:translateY(-3px)}
+.fv .st{align-self:flex-start;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line2);color:var(--mute)}
+.fv .st.on{color:var(--sage);border-color:rgba(143,191,166,.5)}
+.fv b{font-family:var(--display);font-weight:360;font-size:21px;line-height:1.15}
+.fv>span:not(.st){font-size:14px;color:var(--mute);line-height:1.5}
+.fv i{font-style:normal;margin-top:auto;padding-top:6px;color:var(--gold);font-size:13.5px;font-weight:550}
+@media(max-width:1100px){.five{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.five{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.five{grid-template-columns:1fr}}
 </style>
 </head>
 <body data-world="home">
@@ -647,6 +662,14 @@ body.menu-open{overflow:hidden}
       <a class="door reveal" href="websites.html"><span class="label">Be seen</span><span class="q">I want a website people remember.</span><span class="a">Immersive, scroll-driven sites with booking and enquiries built in.</span><span class="go">Websites <i>→</i></span></a>
       <a class="door reveal" href="products.html"><span class="label">Our products</span><span class="q">Show me what SEVORA has built.</span><span class="a">ClinicFlow, Astra, FuelFlow and the projects in our lab.</span><span class="go">Products <i>→</i></span></a>
       <a class="door reveal" href="contact.html"><span class="label">Not sure yet</span><span class="q">I just want to talk to someone.</span><span class="a">Tell us what's slowing you down. A person replies within one working day.</span><span class="go">Start a conversation <i>→</i></span></a>
+    </div>
+    <div class="five-h reveal"><p class="label">What SEVORA builds</p><p class="five-l">Five services, one studio. Every live one has a working demo you can try.</p></div>
+    <div class="five">
+      <a class="fv reveal" href="websites.html"><span class="st on">Live</span><b>Immersive websites</b><span>Scroll-driven 3D sites with booking and enquiries built in.</span><i>6 sites to explore →</i></a>
+      <a class="fv reveal" href="automations.html#demos"><span class="st on">Live</span><b>AI agents &amp; voice agents</b><span>WhatsApp and website chat, and phone agents that answer 24/7.</span><i>Try 7 live demos →</i></a>
+      <a class="fv reveal" href="demos/autopilot.html"><span class="st on">Live demo</span><b>Business Autopilot</b><span>A team of AI agents that runs a whole business day end to end.</span><i>Watch a full day →</i></a>
+      <a class="fv reveal" href="contact.html"><span class="st">Coming soon</span><b>AI client acquisition</b><span>Find the businesses that need you, and reach them with the right pitch. We’re proving it on SEVORA first.</span><i>Join the early list →</i></a>
+      <a class="fv reveal" href="contact.html"><span class="st">Coming soon</span><b>Games &amp; interactive experiences</b><span>Branded games and playable 3D worlds that people remember and share.</span><i>Join the early list →</i></a>
     </div>
   </div>
 </section>

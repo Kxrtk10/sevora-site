@@ -298,7 +298,7 @@ footer{padding-bottom:40px;font-size:12px;color:var(--dim);display:flex;justify-
       <div class="stp"><i>WEEKS 4–8</i><b>The full network</b><p>Stock, staff, reviews and the manager agent join. You get the nightly report and approve from your phone.</p></div>
     </div>
     <div class="price">
-      <div class="l"><p class="eyebrow">Business Autopilot</p><div class="amt">Pilot first. <small>Then monthly.</small></div><p>A paid 6-week pilot with the first agents, then a monthly fee based on how many agents and systems you connect. Most businesses land between ₹15,000 and ₹40,000 a month, far less than the staff hours it frees. Quoted after a first call.</p></div>
+      <div class="l"><p class="eyebrow">Business Autopilot</p><div class="amt">Pilot first. <small>Then monthly.</small></div><p data-usd="A paid 6-week pilot with the first agents, then a monthly fee based on how many agents and systems you connect. Most businesses land between $500 and $1,500 a month, far less than the staff hours it frees. Quoted after a first call.">A paid 6-week pilot with the first agents, then a monthly fee based on how many agents and systems you connect. Most businesses land between ₹15,000 and ₹40,000 a month, far less than the staff hours it frees. Quoted after a first call.</p></div>
       <div><ul><li>Up to eight coordinated agents</li><li>Works with your POS, WhatsApp, payments, Tally or Zoho Books</li><li>Limits and approvals you control</li><li>Nightly WhatsApp report</li><li>Voice agent for your phone line, if you want one</li><li>Monthly review call with SEVORA</li></ul></div>
     </div>
   </section>
@@ -323,6 +323,7 @@ footer{padding-bottom:40px;font-size:12px;color:var(--dim);display:flex;justify-
   </section>
   <footer><span>SEVORA · AI automations and agents</span><span>Demo businesses, people and numbers.</span></footer>
 </main>
+<script>(()=>{let intl=false;try{intl=!/^Asia\/(Kolkata|Calcutta)$/.test(Intl.DateTimeFormat().resolvedOptions().timeZone||'')}catch(e){}document.querySelectorAll('[data-usd]').forEach(e=>{if(intl)e.innerHTML=e.dataset.usd})})();</script>
 
 <script>
 window.SEV_CONTACT={whatsapp:SEVORA_WA};
