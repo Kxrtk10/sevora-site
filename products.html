@@ -599,7 +599,8 @@ body.menu-open{overflow:hidden}
 /* ---------- carousels: "cover" = 3D coverflow of cards, "turn" = one big slide that turns in 3D ---------- */
 .spin{position:relative;margin-top:34px;touch-action:pan-y}
 .spin-track{position:relative;perspective:1600px;transition:height .5s cubic-bezier(.2,.7,.2,1)}
-.spin-it{transition:transform .8s cubic-bezier(.2,.75,.15,1),opacity .6s ease,filter .6s ease;will-change:transform,opacity}
+.spin-it{transition:transform .8s cubic-bezier(.2,.75,.15,1),opacity .6s ease,visibility 0s linear .6s}
+.spin-it.on{transition:transform .8s cubic-bezier(.2,.75,.15,1),opacity .6s ease,visibility 0s}
 .spin.cover .spin-it{position:absolute;top:0;left:50%;width:min(380px,78vw);margin-left:calc(min(380px,78vw) / -2);cursor:pointer}
 .spin.cover .spin-it.on{cursor:auto}
 .spin.cover .spin-it:not(.on) *{pointer-events:none}
@@ -663,7 +664,7 @@ body.menu-open{overflow:hidden}
 .spin-count{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
 .hs-run{position:relative}
 .hs-pin{position:sticky;overflow:hidden}
-.hs-pin [data-hscroll]{overflow:visible!important;scroll-snap-type:none!important;transition:transform .15s linear;margin-right:0!important}
+.hs-pin [data-hscroll]{overflow:visible!important;scroll-snap-type:none!important;margin-right:0!important;will-change:transform}
 /* product showcase: compact enough to pin on one screen */
 .prodslide .visual,.prodslide .visual *{--vp:1!important;--mp:1!important}
 .spin-pinbox .ptabs{margin-top:0;margin-bottom:6px}
@@ -696,6 +697,17 @@ body.menu-open{overflow:hidden}
   .spin-pinbox .ptabs button{padding:7px 12px}.spin-pinbox .ptabs button .p{font-size:16px}
   .spin-pinbox .spin{margin-top:8px}
 }
+
+/* performance: no live blur over the moving 3D background inside carousels and rows */
+.spin .door,.spin .wsl,.five .fv,.lv .lv-card,.ptabs button,.spin-nav button{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.spin .door,.five .fv{background:rgba(16,15,13,.94)}
+.lv .lv-card{background:linear-gradient(160deg,rgba(28,26,23,.96),rgba(14,13,12,.97))}
+.ptabs button{background:rgba(16,15,13,.92)}
+/* performance: solid panels instead of live blur over the animated background (blur kept only on the small nav bar, menu and chat bubble) */
+.wll a,.mock,.lab article,.pr div,form,.panel,.door,.use,.item,.demo,.lv-card,.fv,.wc,.step,.myth,.concept,.svc>*{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.wll a,.pr div,.panel,.door,.use,.demo,.fv{background-color:rgba(16,15,13,.94)}
+.mock{background:linear-gradient(160deg,rgba(34,31,27,.97),rgba(17,16,14,.98))}
+form,.lab article{background-color:rgba(16,15,13,.94)}
 </style>
 </head>
 <body data-world="inner">
@@ -874,7 +886,7 @@ if(!reduce){
 }
 /* the ascent: page progress drives the dawn */
 const dawn=document.createElement('div');dawn.id='dawn';dawn.setAttribute('aria-hidden','true');{const vg=document.querySelector('.vig');vg?vg.after(dawn):document.body.prepend(dawn)}
-let ascS=0;function drawAscent(){const q=Math.max(0,Math.min(1,scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)));const now=performance.now(),dt=Math.min(.25,(now-(drawAscent.t||now))/1000);drawAscent.t=now;ascS+=reduce?q-ascS:(q-ascS)*(1-Math.exp(-dt*4));document.documentElement.style.setProperty('--asc',ascS.toFixed(4));window.SEVORA_ASC=ascS}
+let ascS=0;function drawAscent(){const q=Math.max(0,Math.min(1,scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)));const now=performance.now(),dt=Math.min(.25,(now-(drawAscent.t||now))/1000);drawAscent.t=now;ascS+=reduce?q-ascS:(q-ascS)*(1-Math.exp(-dt*4));const v=ascS.toFixed(3);if(v!==drawAscent.v){drawAscent.v=v;dawn.style.setProperty('--asc',v)}window.SEVORA_ASC=ascS}
 /* reveals */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -8% 0px'});
 $$('.ch .col,.ch .prod,.ch .wrap,.blk,.reveal,.mock,.steps').forEach(el=>io.observe(el));
@@ -1064,7 +1076,7 @@ apLoop();chatLoop();voiceLoop();
 (()=>{const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.querySelectorAll('.spin').forEach(sp=>{
   const track=sp.querySelector('.spin-track'),its=[...track.children],n=its.length;if(!n)return;
-  const turn=sp.classList.contains('turn'),scrollMode=sp.hasAttribute('data-scroll'),auto=scrollMode?0:+(sp.dataset.auto||0);let cur=0,vis=false,held=false,touched=false,acc=0;
+  const turn=sp.classList.contains('turn'),scrollMode=sp.hasAttribute('data-scroll'),auto=scrollMode?0:+(sp.dataset.auto||0);let cur=0,vis=false,held=false,touched=false,acc=0,HS=[];
   const nav=document.createElement('div');nav.className='spin-nav';nav.innerHTML='<button type="button" aria-label="Previous">←</button><div class="spin-dots"></div><button type="button" aria-label="Next">→</button>';sp.append(nav);
   const dots=nav.querySelector('.spin-dots');its.forEach((_,i)=>{const d=document.createElement('i');d.title=`Show ${i+1} of ${n}`;d.onclick=()=>{touched=true;pick(i)};dots.append(d)});
   const count=document.createElement('span');count.className='spin-count';if(scrollMode)nav.append(count);
@@ -1085,10 +1097,10 @@ document.querySelectorAll('.spin').forEach(sp=>{
   const wrapD=d=>{d=((d%n)+n)%n;return d>n/2?d-n:d};
   function layout(){const w=sp.clientWidth,step=Math.min(300,w*.30);
     its.forEach((it,i)=>{const d=wrapD(i-cur),a=Math.abs(d);it.classList.toggle('on',d===0);it.setAttribute('aria-hidden',d!==0);
-      if(turn){it.style.zIndex=d===0?2:1;it.style.opacity=d===0?1:0;it.style.transform=RM?'none':d===0?'none':`rotateY(${d<0?24:-24}deg) translateX(${d<0?-8:8}%) scale(.94)`;it.style.filter=d===0?'none':'blur(2px)'}
+      if(turn){it.style.zIndex=d===0?2:1;it.style.opacity=d===0?1:0;it.style.transform=RM?'none':d===0?'none':`rotateY(${d<0?24:-24}deg) translateX(${d<0?-8:8}%) scale(.94)`;it.style.visibility=d===0?'visible':'hidden'}
       else{const show=a<=2;it.style.zIndex=10-a;it.style.opacity=show?(a===0?1:a===1?.38:.1):0;
-        it.style.transform=RM?`translateX(${d*step}px) scale(${a?0.86:1})`:`translateX(${d*step}px) translateZ(${-a*180}px) rotateY(${-d*32}deg) scale(${a?0.9:1})`;it.style.filter=a?'brightness(.5) blur(1.5px)':'none'}});
-    const h=Math.max(...(turn?[its[cur]]:its).map(it=>it.scrollHeight));track.style.height=h+'px';
+        it.style.transform=RM?`translateX(${d*step}px) scale(${a?0.86:1})`:`translateX(${d*step}px) translateZ(${-a*180}px) rotateY(${-d*32}deg) scale(${a?0.9:1})`;it.style.visibility=show?'visible':'hidden'}});
+    if(!HS.length||turn)HS=its.map(it=>it.scrollHeight);const h=turn?HS[cur]:Math.max(...HS);if(track._h!==h){track._h=h;track.style.height=h+'px'}
     [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===cur));tabs.forEach((b,i)=>b.setAttribute('aria-selected',i===cur));
     count.textContent=`${sp.dataset.title?sp.dataset.title+' · ':''}${cur+1} / ${n}${cur<n-1&&pinned()?' · keep scrolling':''}`;
     its.forEach((it,i)=>it.querySelectorAll('video').forEach(v=>{if(i===cur&&vis){if(!v.src&&v.dataset.src)v.src=v.dataset.src;v.play().catch(()=>{})}else v.pause()}));
@@ -1101,7 +1113,7 @@ document.querySelectorAll('.spin').forEach(sp=>{
   sp.tabIndex=0;sp.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){touched=true;pick(cur+1)}if(e.key==='ArrowLeft'){touched=true;pick(cur-1)}});
   sp.addEventListener('pointerenter',()=>held=true);sp.addEventListener('pointerleave',()=>held=false);
   new IntersectionObserver(es=>es.forEach(en=>{vis=en.isIntersecting;layout()}),{threshold:.2}).observe(sp);
-  const relayout=()=>{layout();sizeRun();if(pinned())go(progressIdx())};
+  const relayout=()=>{HS=[];layout();sizeRun();if(pinned())go(progressIdx())};
   addEventListener('resize',relayout);addEventListener('load',relayout);setTimeout(relayout,600);setTimeout(relayout,2000);
   let last=performance.now();if(auto&&!RM){(function tick(now){const dt=now-last;last=now;if(vis&&!held&&!touched)acc+=dt;const k=touched?0:Math.min(1,acc/auto);if(bar)bar.firstChild.style.width=(k*100)+'%';if(k>=1){acc=0;go(cur+1)}requestAnimationFrame(tick)})(last)}
   go(0);sizeRun()})})();
@@ -1114,7 +1126,7 @@ document.querySelectorAll('[data-hscroll]').forEach(row=>{
   function size(){row.style.transform='';dist=Math.max(0,row.scrollWidth-pin.clientWidth);const ph=pin.offsetHeight;
     if(ph>innerHeight-70||!dist){run.style.height='';pin.style.position='relative';return}
     pin.style.position='';pin.style.top=Math.max(70,(innerHeight-ph)/2)+'px';run.style.height=(ph+dist*1.15)+'px';move()}
-  function move(){if(pin.style.position==='relative')return;const r=run.getBoundingClientRect(),ph=pin.offsetHeight,top=parseFloat(pin.style.top)||0,total=r.height-ph;const p=Math.min(1,Math.max(0,(top-r.top)/Math.max(1,total)));row.style.transform=`translateX(${-p*dist}px)`}
+  function move(){if(pin.style.position==='relative')return;const r=run.getBoundingClientRect(),ph=pin.offsetHeight,top=parseFloat(pin.style.top)||0,total=r.height-ph;const p=Math.min(1,Math.max(0,(top-r.top)/Math.max(1,total)));const x=Math.round(-p*dist);if(row._x!==x){row._x=x;row.style.transform=`translate3d(${x}px,0,0)`}}
   let tk=false;addEventListener('scroll',()=>{if(tk)return;tk=true;requestAnimationFrame(()=>{tk=false;move()})},{passive:true});
   addEventListener('load',size);setTimeout(size,700);setTimeout(size,2000)})})();
 </script>
