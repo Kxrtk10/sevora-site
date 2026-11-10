@@ -882,8 +882,13 @@ const need=$('#need');
 if(need){const set=b=>{need.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));$('#needv').value=b.textContent};
   need.addEventListener('click',e=>{const b=e.target.closest('button');if(b)set(b)});
   const h=location.hash.slice(1);const pre=need.querySelector(`[data-need="${h}"]`);if(pre)set(pre)}
+/* each enquiry goes to Netlify Forms (backup + email) and to SEVORA Core (saved, alert, instant personal reply) */
+const CORE='https://sevora-core.onrender.com';
 $$('form[data-netlify]').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();const done=()=>f.classList.add('done');
-  if(LIVE)fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()}).then(done).catch(done);else done()}));
+  const fd=new FormData(f);
+  if(LIVE){const j=Object.fromEntries(fd);j.page=location.pathname;
+    fetch(CORE+'/leads',{method:'POST',mode:'cors',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify(j)}).catch(()=>{});
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).then(done).catch(done)}else done()}));
 
 /* earth film: frames scrubbed by scroll */
 const earth=document.getElementById('earth');let drawEarth=()=>{};
